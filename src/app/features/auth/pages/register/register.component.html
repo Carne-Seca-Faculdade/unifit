@@ -1,0 +1,43 @@
+<main class="space-y-6">
+  <div class="space-y-2">
+    <h1 class="text-2xl font-semibold tracking-tight">Criar uma conta</h1>
+    <p class="text-sm text-muted-foreground">
+      Insira seu email abaixo para criar uma conta
+    </p>
+  </div>
+
+  <form class="flex flex-col gap-2">
+    <div class="flex flex-col gap-1">
+      <mdb-form-control>
+        <input
+          mdbInput
+          name="email"
+          type="email"
+          class="form-control"
+          placeholder="Email"
+        />
+      </mdb-form-control>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <mdb-form-control>
+        <input
+          mdbInput
+          name="password"
+          type="password"
+          class="form-control"
+          placeholder="Senha"
+        />
+      </mdb-form-control>
+    </div>
+
+    <button type="submit" class="w-full btn btn-primary" mdbRipple>
+      Criar conta
+    </button>
+  </form>
+
+  <p class="text-sm text-muted-foreground">
+    Já tem uma conta?
+    <a routerLink="/auth/login" class="font-medium underline">Entrar</a>
+  </p>
+</main>
