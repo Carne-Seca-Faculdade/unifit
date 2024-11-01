@@ -7,7 +7,7 @@
     </p>
   </div>
 
-  <form class="flex flex-col gap-2 " (submit)="handleSubmit($event)">
+  <form class="flex flex-col gap-2 " >
     <div class="flex flex-col gap-1 ">
       <mdb-form-control>
         <input
@@ -16,7 +16,8 @@
           type="email"
           class="text-white form-control"
           placeholder="Email"
-          [disabled]="isSubmitting"
+          required="true"
+          [(ngModel)]="email"
         />
       </mdb-form-control>
     </div>
@@ -30,7 +31,8 @@
           type="password"
           class="text-white form-control "
           placeholder="Senha"
-          [disabled]="isSubmitting"
+          required="true"
+          [(ngModel)]="password"
         />
       </mdb-form-control>
     </div>
@@ -39,7 +41,7 @@
       type="submit"
       class="w-full btn btn-primary"
       mdbRipple
-      [disabled]="isSubmitting"
+      (click)="logar()"
     >
       Entrar
     </button>
