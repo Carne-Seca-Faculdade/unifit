@@ -9,7 +9,7 @@
     <ul class="flex flex-col w-full gap-2">
       <li>
         <a
-          routerLink="/app/dashboard"
+          routerLink="/app"
           class="flex items-center gap-4 px-4 py-2 text-sm transition-colors duration-200 border rounded-md cursor-pointer hover:bg-gray-100"
         >
           <i
@@ -21,19 +21,29 @@
 
       <li>
         <a
-          routerLink="/app/dashboard"
+          routerLink="/app/workouts"
           class="flex items-center gap-4 px-4 py-2 text-sm transition-colors duration-200 border rounded-md cursor-pointer hover:bg-gray-100"
         >
           <i
             class="flex items-center justify-center text-lg pi pi-money-bill"
           ></i>
-          Transações
+          Treinos
         </a>
       </li>
 
       <li>
         <a
-          routerLink="/app/dashboard"
+          routerLink="/app/profile"
+          class="flex items-center gap-4 px-4 py-2 text-sm transition-colors duration-200 border rounded-md cursor-pointer hover:bg-gray-100"
+        >
+          <i class="flex items-center justify-center text-lg pi pi-user"></i>
+          Perfil
+        </a>
+      </li>
+
+      <li>
+        <a
+          routerLink="/app/settings"
           class="flex items-center gap-4 px-4 py-2 text-sm transition-colors duration-200 border rounded-md cursor-pointer hover:bg-gray-100"
         >
           <i class="flex items-center justify-center text-lg pi pi-cog"></i>
@@ -43,7 +53,8 @@
     </ul>
   </nav>
 
-  <button
+  <a
+    routerLink="/app/login"
     class="flex items-center justify-between w-full gap-4 px-4 py-2 text-sm transition-colors duration-200 border rounded-md hover:bg-gray-100"
   >
     <div class="flex flex-col min-w-0 text-left">
@@ -54,5 +65,5 @@
     </div>
 
     <i class="flex items-center justify-center shrink-0 pi pi-sign-out"></i>
-  </button>
+  </a>
 </aside>
