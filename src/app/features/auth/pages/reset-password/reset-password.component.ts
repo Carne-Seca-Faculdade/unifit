@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
@@ -14,7 +14,7 @@ import { sleep } from '@shared/utils/helpers';
 export class ResetPasswordComponent {
   isSubmitting = false;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   async handleSubmit(event: SubmitEvent) {
     event.preventDefault();
@@ -26,5 +26,7 @@ export class ResetPasswordComponent {
     await sleep(2000);
 
     this.isSubmitting = false;
+
+    this.router.navigate(['/auth/login']);
   }
 }

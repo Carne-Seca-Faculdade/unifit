@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
@@ -8,13 +8,19 @@ import { sleep } from '@shared/utils/helpers';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, MdbFormsModule, ReactiveFormsModule, MdbRippleModule],
+  imports: [
+    RouterLink,
+    RouterModule,
+    MdbFormsModule,
+    ReactiveFormsModule,
+    MdbRippleModule,
+  ],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
   isSubmitting = false;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   async handleSubmit(event: SubmitEvent) {
     event.preventDefault();
@@ -26,5 +32,7 @@ export class LoginComponent {
     await sleep(2000);
 
     this.isSubmitting = false;
+
+    this.router.navigate(['/app']);
   }
 }
