@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
-import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { sleep } from '@shared/utils/helpers';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-login',
@@ -11,9 +11,10 @@ import { sleep } from '@shared/utils/helpers';
   imports: [
     RouterLink,
     RouterModule,
-    MdbFormsModule,
     ReactiveFormsModule,
-    MdbRippleModule,
+    InputTextModule,
+    ButtonModule,
+    FormsModule,
   ],
   templateUrl: './login.component.html',
 })

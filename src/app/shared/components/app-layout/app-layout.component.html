@@ -1,3 +1,6 @@
-<div>
-  <router-outlet></router-outlet>
+<div class="flex h-full overflow-hidden divide-x divide-gray-200">
+  <app-sidebar />
+  <main class="flex-1 p-6 bg-gray-100">
+    <router-outlet></router-outlet>
+  </main>
 </div>
