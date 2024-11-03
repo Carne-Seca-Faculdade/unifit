@@ -6,14 +6,19 @@
     </p>
   </div>
 
-  <form class="flex flex-col gap-2" (submit)="handleSubmit($event)">
+  <form
+    class="flex flex-col gap-2"
+    (submit)="handleSubmit($event)"
+    ngNativeValidate
+  >
     <div class="flex flex-col gap-1">
       <mdb-form-control>
         <input
           mdbInput
-          name="email"
+          required
           type="email"
-          class="form-control"
+          name="email"
+          class="form-control !w-full"
           placeholder="Email"
           [disabled]="isSubmitting"
         />

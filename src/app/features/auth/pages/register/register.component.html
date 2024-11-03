@@ -6,11 +6,12 @@
     </p>
   </div>
 
-  <form class="flex flex-col gap-2">
+  <form class="flex flex-col gap-2" ngNativeValidate>
     <div class="flex flex-col gap-1">
       <mdb-form-control>
         <input
           mdbInput
+          required
           name="email"
           type="email"
           class="form-control"
@@ -23,8 +24,9 @@
       <mdb-form-control>
         <input
           mdbInput
-          name="password"
+          required
           type="password"
+          name="password"
           class="form-control"
           placeholder="Senha"
         />
