@@ -36,6 +36,7 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
     description: '',
     sets: 1,
     reps: 1,
+    workoutId: '',
   };
   editWorkout: Workout = {
     id: '',
@@ -92,7 +93,10 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
   saveExercise(): void {
     if (!this.isValidExercise(this.newExercise)) return;
 
-    this.globalService.addExercise(this.workout.id, this.newExercise);
+    this.globalService.addExercise(this.workout.id, {
+      ...this.newExercise,
+      workoutId: this.workout.id,
+    });
     this.hideExerciseDialog();
   }
 
@@ -106,7 +110,7 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
   }
 
   resetNewExercise(): void {
-    this.newExercise = { name: '', description: '', sets: 1, reps: 1 };
+    this.newExercise = { name: '', description: '', sets: 1, reps: 1, workoutId: this.workout.id };
   }
 
   resetEditWorkout(): void {

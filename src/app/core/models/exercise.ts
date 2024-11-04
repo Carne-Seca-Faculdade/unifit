@@ -4,4 +4,5 @@ export type Exercise = {
   description?: string;
   sets: number;
   reps: number;
+  workoutId: string;
 };
