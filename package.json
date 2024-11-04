@@ -20,13 +20,8 @@
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
     "@fortawesome/fontawesome-free": "^6.0.0",
-<<<<<<< HEAD
-    "chart.js": "^3.9.1",
-    "ngx-chartjs": "^0.0.1",
-=======
     "chart.js": "^3.1.1",
     "ng2-charts": "^6.0.1",
->>>>>>> 6ae36ea8c9860a2207a6dc548b10579fe11f2963
     "primeicons": "^7.0.0",
     "primeng": "^17.18.11",
     "rxjs": "~7.8.0",
