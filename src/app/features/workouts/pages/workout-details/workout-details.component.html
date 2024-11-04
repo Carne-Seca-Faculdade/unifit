@@ -21,7 +21,7 @@
         size="small"
         icon="pi pi-trash"
         iconPos="right"
-        (click)="confirmDelete()"
+        (click)="showDeleteDialog()"
       ></p-button>
     </div>
   </div>
@@ -165,6 +165,27 @@
         (click)="hideEditDialog()"
       ></p-button>
       <p-button label="Salvar" (click)="saveWorkout()"></p-button>
+    </div>
+  </p-dialog>
+
+  <p-dialog
+    header="Confirmar Deletar"
+    [modal]="true"
+    [(visible)]="deleteDialogVisible"
+    [style]="{ width: '30rem' }"
+    draggable="false"
+  >
+    <span class="block mb-4 text-gray-600">
+      Você tem certeza que deseja deletar este treino?
+    </span>
+
+    <div class="flex justify-end gap-2 mt-4">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        (click)="hideDeleteDialog()"
+      ></p-button>
+      <p-button label="Deletar" (click)="deleteWorkout()"></p-button>
     </div>
   </p-dialog>
 </main>

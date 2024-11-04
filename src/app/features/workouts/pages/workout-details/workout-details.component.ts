@@ -43,9 +43,10 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
     description: '',
     duration: 0,
     exercises: [],
-  }
+  };
   exerciseDialogVisible = false;
   editDialogVisible = false;
+  deleteDialogVisible = false;
   confirmDialogVisible = false;
   private workoutSubscription!: Subscription;
 
@@ -58,7 +59,7 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
-      this.router.navigate(['/workouts']);
+      this.router.navigate(['/app/workouts']);
       return;
     }
 
@@ -70,7 +71,7 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
           this.workout = workout;
           this.editWorkout = { ...workout };
         } else {
-          this.router.navigate(['/workouts']);
+          this.router.navigate(['/app/workouts']);
         }
       });
   }
@@ -142,16 +143,17 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
     return !!(workout.name && workout.description && workout.duration > 0);
   }
 
-  confirmDelete(): void {
-    this.confirmDialogVisible = true;
-  }
-
   deleteWorkout(): void {
+    this.hideDeleteDialog();
     this.globalService.deleteWorkout(this.workout.id);
-    this.router.navigate(['/workouts']);
+    this.router.navigate(['/app/workouts']);
   }
 
-  onReject(): void {
-    this.confirmDialogVisible = false;
+  hideDeleteDialog(): void {
+    this.deleteDialogVisible= false;
+  }
+
+  showDeleteDialog(): void {
+    this.deleteDialogVisible = true;
   }
 }
