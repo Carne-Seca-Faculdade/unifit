@@ -3,8 +3,8 @@
     class="flex flex-col justify-between h-full max-w-sm gap-4 p-4 px-6 overflow-hidden bg-white rounded-md shadow-sm"
   >
     <div>
-      <div class="mb-2 text-xl font-semibold">{{ workout.name }}</div>
-      <p class="text-base text-gray-700">
+      <div class="mb-2 text-xl font-semibold truncate">{{ workout.name }}</div>
+      <p class="text-base text-gray-700 break-all text-wrap">
         {{ workout.description }}
       </p>
     </div>
