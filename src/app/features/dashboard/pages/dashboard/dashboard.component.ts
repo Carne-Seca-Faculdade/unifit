@@ -41,15 +41,16 @@ export class DashboardComponent implements OnInit {
       .getWeeklyExerciseLogs(userId, numberOfWeeks)
       .subscribe(weeklyCounts => {
         this.treinoData.labels = Array.from(
-          { length: numberOfWeeks },
+          { length: numberOfWeeks },  
           (_, i) => `Semana ${i + 1}`
         );
         this.treinoData.datasets[0].data = Object.values(weeklyCounts);
         this.treinoData.datasets[0].backgroundColor = [
+          'rgba(252, 186, 0.6)',
           'rgba(255, 99, 132, 0.6)',
-          'rgba(255, 99, 132, 0.6)',
-          'rgba(54, 162, 235, 0.6)',
-          'rgba(255, 206, 86, 0.6)',
+          'rgba(107,35,142)',
+          'rgba(192,217,217)',
+          'rgba(123, 176, 0.6)',
         ];
       });
   }
