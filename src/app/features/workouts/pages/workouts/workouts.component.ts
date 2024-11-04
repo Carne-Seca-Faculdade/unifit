@@ -7,8 +7,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
-import { Workout } from '../../../../core/models/workout';
-import { GlobalService } from '../../../../core/services/global.service';
+import { Workout } from '@core/models/workout';
+import { GlobalService } from '@core/services/global.service';
 import { WorkoutListComponent } from './components/workout-list/workout-list.component';
 
 @Component({
@@ -39,11 +39,11 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   constructor(private globalService: GlobalService) {}
 
   ngOnInit(): void {
-    this.workoutsSubscription = this.globalService.getWorkouts().subscribe(
-      (workouts) => {
+    this.workoutsSubscription = this.globalService
+      .getWorkouts()
+      .subscribe(workouts => {
         this.workouts = workouts;
-      }
-    );
+      });
   }
 
   ngOnDestroy(): void {

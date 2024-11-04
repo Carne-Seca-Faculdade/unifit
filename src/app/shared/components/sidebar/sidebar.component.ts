@@ -14,7 +14,7 @@ export class SidebarComponent implements OnInit {
   constructor(private globalService: GlobalService) {}
 
   ngOnInit(): void {
-    this.globalService.getUser().subscribe((user) => {
+    this.globalService.getUser().subscribe(user => {
       this.user = user;
     });
   }
