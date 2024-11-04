@@ -1,1 +1,32 @@
-<main>dashboarad</main>
+<main class="dashboard">
+  <div class="flex justify-center mb-4">
+    <div class="w-3/12">
+      <h3 class="text-xl font-semibold mb-2 text-center">IMC</h3>
+      <p-chart type="polarArea" [data]="imcData" [options]="imcChartOptions" />
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row justify-center gap-8">
+    <div class="flex-1">
+      <h3 class="text-xl font-semibold mb-2 text-center">
+        Relatório de Treinos
+      </h3>
+      <canvas
+        baseChart
+        class="w-full h-48"
+        [data]="treinoData"
+        [options]="treinoChartOptions"
+        chartType="bar"
+      ></canvas>
+    </div>
+
+    <div class="flex-1">
+      <h3 class="text-xl font-semibold mb-2 text-center">Progresso Físico</h3>
+      <p-chart
+        type="line"
+        [data]="progressoData"
+        [options]="progressoChartOptions"
+      />
+    </div>
+  </div>
+</main>
