@@ -45,7 +45,12 @@ export class GlobalService {
     const updatedWorkouts = this.workoutsSubject.value.filter(
       (workout) => workout.id !== id
     );
+
     this.workoutsSubject.next(updatedWorkouts);
+  }
+
+  deleteWorkout(id: string): void {
+    this.removeWorkout(id);
   }
 
   updateWorkout(updatedWorkout: Workout): void {
