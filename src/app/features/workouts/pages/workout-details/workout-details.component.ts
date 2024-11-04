@@ -29,7 +29,7 @@ import { TooltipModule } from 'primeng/tooltip';
     ExerciseListComponent,
     ConfirmDialogModule,
     TitleComponent,
-    TooltipModule
+    TooltipModule,
   ],
   templateUrl: './workout-details.component.html',
 })
