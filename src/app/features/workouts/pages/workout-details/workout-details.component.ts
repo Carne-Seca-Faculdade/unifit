@@ -12,7 +12,8 @@ import { Exercise } from '@core/models/exercise';
 import { GlobalService } from '@core/services/global.service';
 import { ExerciseListComponent } from './components/exercise-list/exercise-list.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { TitleComponent } from '../../../../shared/components/title/title.component';
+import { TitleComponent } from '@shared/components/title/title.component';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-workout-details',
@@ -28,6 +29,7 @@ import { TitleComponent } from '../../../../shared/components/title/title.compon
     ExerciseListComponent,
     ConfirmDialogModule,
     TitleComponent,
+    TooltipModule
   ],
   templateUrl: './workout-details.component.html',
 })
