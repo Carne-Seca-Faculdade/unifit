@@ -43,7 +43,7 @@ export class GlobalService {
 
   removeWorkout(id: string): void {
     const updatedWorkouts = this.workoutsSubject.value.filter(
-      (workout) => workout.id !== id
+      workout => workout.id !== id
     );
 
     this.workoutsSubject.next(updatedWorkouts);
@@ -54,7 +54,7 @@ export class GlobalService {
   }
 
   updateWorkout(updatedWorkout: Workout): void {
-    const updatedWorkouts = this.workoutsSubject.value.map((workout) =>
+    const updatedWorkouts = this.workoutsSubject.value.map(workout =>
       workout.id === updatedWorkout.id ? updatedWorkout : workout
     );
     this.workoutsSubject.next(updatedWorkouts);
@@ -62,7 +62,7 @@ export class GlobalService {
 
   getExercises(workoutId: string): Exercise[] {
     const workout = this.workoutsSubject.value.find(
-      (workout) => workout.id === workoutId
+      workout => workout.id === workoutId
     );
     return workout ? workout.exercises : [];
   }
@@ -72,7 +72,7 @@ export class GlobalService {
       ...exercise,
       id: this.generateId(),
     };
-    const workouts = this.workoutsSubject.value.map((workout) => {
+    const workouts = this.workoutsSubject.value.map(workout => {
       if (workout.id === workoutId) {
         return {
           ...workout,
@@ -85,12 +85,12 @@ export class GlobalService {
   }
 
   removeExercise(workoutId: string, exerciseId: string): void {
-    const workouts = this.workoutsSubject.value.map((workout) => {
+    const workouts = this.workoutsSubject.value.map(workout => {
       if (workout.id === workoutId) {
         return {
           ...workout,
           exercises: (workout.exercises || []).filter(
-            (exercise) => exercise.id !== exerciseId
+            exercise => exercise.id !== exerciseId
           ),
         };
       }
@@ -100,11 +100,11 @@ export class GlobalService {
   }
 
   updateExercise(workoutId: string, updatedExercise: Exercise): void {
-    const workouts = this.workoutsSubject.value.map((workout) => {
+    const workouts = this.workoutsSubject.value.map(workout => {
       if (workout.id === workoutId) {
         return {
           ...workout,
-          exercises: (workout.exercises || []).map((exercise) =>
+          exercises: (workout.exercises || []).map(exercise =>
             exercise.id === updatedExercise.id ? updatedExercise : exercise
           ),
         };

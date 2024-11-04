@@ -65,8 +65,8 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
 
     this.workoutSubscription = this.globalService
       .getWorkouts()
-      .subscribe((workouts) => {
-        const workout = workouts.find((w) => w.id === id);
+      .subscribe(workouts => {
+        const workout = workouts.find(w => w.id === id);
         if (workout) {
           this.workout = workout;
           this.editWorkout = { ...workout };
@@ -150,7 +150,7 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
   }
 
   hideDeleteDialog(): void {
-    this.deleteDialogVisible= false;
+    this.deleteDialogVisible = false;
   }
 
   showDeleteDialog(): void {

@@ -39,11 +39,11 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   constructor(private globalService: GlobalService) {}
 
   ngOnInit(): void {
-    this.workoutsSubscription = this.globalService.getWorkouts().subscribe(
-      (workouts) => {
+    this.workoutsSubscription = this.globalService
+      .getWorkouts()
+      .subscribe(workouts => {
         this.workouts = workouts;
-      }
-    );
+      });
   }
 
   ngOnDestroy(): void {
