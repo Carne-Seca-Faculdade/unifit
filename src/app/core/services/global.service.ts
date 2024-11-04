@@ -4,21 +4,26 @@ import { v4 as uuid } from 'uuid';
 import { User } from '../models/user';
 import { Workout } from '../models/workout';
 import { Exercise } from '../models/exercise';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GlobalService {
-  private readonly user: User = {
+  private userSubject = new BehaviorSubject<User>({
     id: 'c053135f-e915-4477-9161-1c955ece92f0',
     name: 'John Doe',
     email: 'john@example.com',
-  };
+  });
 
   private workouts: Workout[] = [...WORKOUTS];
 
-  getUser(): User {
-    return this.user;
+  getUser(): Observable<User> {
+    return this.userSubject.asObservable();
+  }
+
+  updateUser(user: User): void {
+    this.userSubject.next(user);
   }
 
   getWorkouts(): Workout[] {
