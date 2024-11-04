@@ -12,7 +12,7 @@ import { Exercise } from '@core/models/exercise';
 import { GlobalService } from '@core/services/global.service';
 import { ExerciseListComponent } from './components/exercise-list/exercise-list.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { TitleComponent } from "../../../../shared/components/title/title.component";
+import { TitleComponent } from '../../../../shared/components/title/title.component';
 
 @Component({
   selector: 'app-workout-details',
@@ -27,12 +27,13 @@ import { TitleComponent } from "../../../../shared/components/title/title.compon
     FormsModule,
     ExerciseListComponent,
     ConfirmDialogModule,
-    TitleComponent
-],
+    TitleComponent,
+  ],
   templateUrl: './workout-details.component.html',
 })
 export class WorkoutDetailsComponent implements OnInit, OnDestroy {
   workout!: Workout;
+
   newExercise: Omit<Exercise, 'id'> = {
     name: '',
     description: '',
@@ -40,6 +41,7 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
     reps: 1,
     workoutId: '',
   };
+
   editWorkout: Workout = {
     id: '',
     name: '',
@@ -47,10 +49,12 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
     duration: 0,
     exercises: [],
   };
-  exerciseDialogVisible = false;
-  editDialogVisible = false;
-  deleteDialogVisible = false;
-  confirmDialogVisible = false;
+
+  isExerciseDialogVisible = false;
+  isEditWorkoutDialogVisible = false;
+  isDeleteWorkoutVisible = false;
+  isWorkoutTimerVisible = false;
+
   private workoutSubscription!: Subscription;
 
   constructor(
@@ -84,11 +88,11 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
   }
 
   showExerciseDialog(): void {
-    this.exerciseDialogVisible = true;
+    this.isExerciseDialogVisible = true;
   }
 
   hideExerciseDialog(): void {
-    this.exerciseDialogVisible = false;
+    this.isExerciseDialogVisible = false;
     this.resetNewExercise();
   }
 
@@ -132,11 +136,11 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
   }
 
   showEditDialog(): void {
-    this.editDialogVisible = true;
+    this.isEditWorkoutDialogVisible = true;
   }
 
   hideEditDialog(): void {
-    this.editDialogVisible = false;
+    this.isEditWorkoutDialogVisible = false;
     this.resetEditWorkout();
   }
 
@@ -162,10 +166,10 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
   }
 
   hideDeleteDialog(): void {
-    this.deleteDialogVisible = false;
+    this.isDeleteWorkoutVisible = false;
   }
 
   showDeleteDialog(): void {
-    this.deleteDialogVisible = true;
+    this.isDeleteWorkoutVisible = true;
   }
 }
