@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { WorkoutListComponent } from '../../components/workout-list/workout-list.component';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
@@ -10,6 +9,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { WORKOUTS } from '../../utils/data';
 import { Workout } from '../../models/workout';
 import { v4 as uuid } from 'uuid';
+import { WorkoutListComponent } from './components/workout-list/workout-list.component';
 
 @Component({
   selector: 'app-workouts',
@@ -28,12 +28,10 @@ import { v4 as uuid } from 'uuid';
 })
 export class WorkoutsComponent {
   visible = false;
-  newWorkout: Workout = {
-    id: uuid(),
-    title: '',
+  newWorkout = {
+    name: '',
     description: '',
     duration: 0,
-    exercises: [],
   };
   workouts: Workout[] = [...WORKOUTS];
 
@@ -48,24 +46,29 @@ export class WorkoutsComponent {
 
   saveWorkout() {
     if (this.isValidWorkout(this.newWorkout)) {
-      this.workouts = [...this.workouts, { ...this.newWorkout }];
+      this.workouts = [
+        ...this.workouts,
+        { ...this.newWorkout, id: uuid(), exercises: [] },
+      ];
       this.hideDialog();
     } else {
       console.error('Invalid workout data');
     }
   }
 
-  isValidWorkout(workout: Workout): boolean {
-    return !!(workout.title && workout.description && workout.duration);
+  isValidWorkout(workout: {
+    name: string;
+    description: string;
+    duration: number;
+  }): boolean {
+    return !!(workout.name && workout.description && workout.duration);
   }
 
   resetNewWorkout() {
     this.newWorkout = {
-      id: uuid(),
-      title: '',
+      name: '',
       description: '',
       duration: 0,
-      exercises: [],
     };
   }
 }

@@ -3,7 +3,7 @@ import { Exercise } from './exercise';
 
 export type Workout = {
   id: string;
-  title: string;
+  name: string;
   description: string;
   category?: Category;
   duration: number;

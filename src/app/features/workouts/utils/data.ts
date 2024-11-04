@@ -3,7 +3,7 @@ import { Workout } from '../models/workout';
 export const WORKOUTS: Workout[] = [
   {
     id: '1',
-    title: 'Peito e Bíceps',
+    name: 'Peito e Bíceps',
     description: 'Treino completo para fortalecer o peito e bíceps.',
     duration: 50,
     exercises: [
@@ -47,7 +47,7 @@ export const WORKOUTS: Workout[] = [
   },
   {
     id: '2',
-    title: 'Costas e Tríceps',
+    name: 'Costas e Tríceps',
     description:
       'Treino para fortalecer as costas e tríceps com foco na simetria.',
     duration: 55,
@@ -92,7 +92,7 @@ export const WORKOUTS: Workout[] = [
   },
   {
     id: '3',
-    title: 'Pernas e Ombros',
+    name: 'Pernas e Ombros',
     description:
       'Treino focado em pernas e ombros, promovendo força e definição.',
     duration: 60,

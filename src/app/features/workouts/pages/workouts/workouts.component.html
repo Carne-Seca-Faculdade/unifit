@@ -2,7 +2,7 @@
   <div class="flex items-center justify-between gap-2 mb-6">
     <h1 class="text-2xl font-semibold text-gray-800">Seus Treinos</h1>
     <p-button
-      label="Novo Treino"
+      label="Adicionar Treino"
       size="small"
       icon="pi pi-plus"
       iconPos="right"
@@ -26,13 +26,13 @@
 
     <div class="space-y-4">
       <div class="flex items-center">
-        <label for="title" class="w-full font-semibold">Título</label>
+        <label for="name" class="w-full font-semibold">Nome</label>
         <input
           type="text"
           pInputText
-          id="title"
+          id="name"
           autocomplete="off"
-          [(ngModel)]="newWorkout.title"
+          [(ngModel)]="newWorkout.name"
         />
       </div>
 
