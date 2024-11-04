@@ -1,14 +1,29 @@
 <main>
   <div class="flex items-center justify-between gap-2 mb-6">
     <h1 class="text-2xl font-semibold text-gray-800">{{ workout.name }}</h1>
-    <p-button
-      label="Adicionar Exercício"
-      size="small"
-      icon="pi pi-plus"
-      iconPos="right"
-      (click)="showExerciseDialog()"
-    >
-    </p-button>
+    <div class="flex gap-2">
+      <p-button
+        label="Adicionar Exercício"
+        size="small"
+        icon="pi pi-plus"
+        iconPos="right"
+        (click)="showExerciseDialog()"
+      ></p-button>
+      <p-button
+        label="Editar Treino"
+        size="small"
+        icon="pi pi-pencil"
+        iconPos="right"
+        (click)="showEditDialog()"
+      ></p-button>
+      <p-button
+        label="Deletar Treino"
+        size="small"
+        icon="pi pi-trash"
+        iconPos="right"
+        (click)="confirmDelete()"
+      ></p-button>
+    </div>
   </div>
 
   <div class="mb-6">
@@ -90,6 +105,66 @@
         (click)="hideExerciseDialog()"
       ></p-button>
       <p-button label="Adicionar" (click)="saveExercise()"></p-button>
+    </div>
+  </p-dialog>
+
+  <p-dialog
+    header="Editar Treino"
+    [modal]="true"
+    [(visible)]="editDialogVisible"
+    [style]="{ width: '30rem' }"
+    draggable="false"
+  >
+    <span class="block mb-4 text-gray-600"
+      >Atualize as informações do treino.</span
+    >
+
+    <div class="space-y-4">
+      <div class="flex items-center">
+        <label for="editName" class="w-full font-semibold">Nome</label>
+        <input
+          type="text"
+          pInputText
+          id="editName"
+          autocomplete="off"
+          [(ngModel)]="editWorkout.name"
+        />
+      </div>
+
+      <div class="flex items-center">
+        <label for="editDescription" class="w-full font-semibold"
+          >Descrição</label
+        >
+        <input
+          type="text"
+          id="editDescription"
+          pInputText
+          autocomplete="off"
+          [(ngModel)]="editWorkout.description"
+        />
+      </div>
+
+      <div class="flex items-center">
+        <label for="editDuration" class="w-full font-semibold"
+          >Duração (min)</label
+        >
+        <p-inputNumber
+          id="editDuration"
+          mode="decimal"
+          [min]="0"
+          [(ngModel)]="editWorkout.duration"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-2 mt-4">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        (click)="hideEditDialog()"
+      ></p-button>
+      <p-button label="Salvar" (click)="saveWorkout()"></p-button>
     </div>
   </p-dialog>
 </main>
