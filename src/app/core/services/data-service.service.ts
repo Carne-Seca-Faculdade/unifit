@@ -30,7 +30,7 @@ export class DataServiceService {
 
   getWeeklyExerciseLogs(
     userId: number,
-    numberOfWeeks: number = 4
+    numberOfWeeks: number = 5
   ): Observable<{ [key: string]: number }> {
     return this.http.get<{ [key: string]: number }>(
       `${this.apiUrl}/exercicioLog/users/${userId}/weekly?numberOfWeeks=${numberOfWeeks}`
