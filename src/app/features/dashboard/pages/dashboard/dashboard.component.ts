@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
       {
         label: 'Treinos Concluídos',
         data: [],
-        backgroundColor: 'rgba(75,192,192,0.6)',
+        backgroundColor: [],
       },
     ],
   };
@@ -45,6 +45,12 @@ export class DashboardComponent implements OnInit {
           (_, i) => `Semana ${i + 1}`
         );
         this.treinoData.datasets[0].data = Object.values(weeklyCounts);
+        this.treinoData.datasets[0].backgroundColor = [
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 206, 86, 0.6)',
+        ];
       });
   }
 
@@ -74,7 +80,7 @@ export class DashboardComponent implements OnInit {
     datasets: [
       {
         label: 'Distribuição do IMC',
-        data: [10, 60, 20, 10], // Valores de exemplo; esses podem ser atualizados com dados reais
+        data: [10, 60, 20, 10],
         backgroundColor: ['#36A2EB', '#4BC0C0', '#FFCE56', '#FF6384'],
       },
     ],
