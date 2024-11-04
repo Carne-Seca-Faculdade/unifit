@@ -1,20 +1,27 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
-import { AuthService } from '../../services/auth.service';
+import { Router, RouterLink, RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { sleep } from '@shared/utils/helpers';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, MdbFormsModule, ReactiveFormsModule, MdbRippleModule],
+  imports: [
+    RouterLink,
+    RouterModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    ButtonModule,
+    FormsModule,
+  ],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
   isSubmitting = false;
 
-  constructor(private readonly authService: AuthService) {}
+  constructor(private router: Router) {}
 
   async handleSubmit(event: SubmitEvent) {
     event.preventDefault();
@@ -23,23 +30,10 @@ export class LoginComponent {
 
     this.isSubmitting = true;
 
-    try {
-      const form = event.target as HTMLFormElement;
-      const formData = new FormData(form);
-
-      const email = formData.get('email') as string;
-      const password = formData.get('password') as string;
-
-      const response = await this.authService.login({
-        email,
-        password,
-      });
-
-      console.log('response - ', response);
-    } catch (error) {
-      console.log('error - ', error);
-    }
+    await sleep(2000);
 
     this.isSubmitting = false;
+
+    this.router.navigate(['/app']);
   }
 }

@@ -1,0 +1,71 @@
+<main>
+  <div class="flex items-center justify-between gap-2 mb-6">
+    <h1 class="text-2xl font-semibold text-gray-800">Seus Treinos</h1>
+    <p-button
+      label="Novo Treino"
+      size="small"
+      icon="pi pi-plus"
+      iconPos="right"
+      (click)="showDialog()"
+    >
+    </p-button>
+  </div>
+
+  <app-workout-list [workouts]="workouts"></app-workout-list>
+
+  <p-dialog
+    header="Adicionar Novo Treino"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '30rem' }"
+    draggable="false"
+  >
+    <span class="block mb-4 text-gray-600"
+      >Preencha as informações do treino.</span
+    >
+
+    <div class="space-y-4">
+      <div class="flex items-center">
+        <label for="title" class="w-full font-semibold">Título</label>
+        <input
+          type="text"
+          pInputText
+          id="title"
+          autocomplete="off"
+          [(ngModel)]="newWorkout.title"
+        />
+      </div>
+
+      <div class="flex items-center">
+        <label for="description" class="w-full font-semibold">Descrição</label>
+        <input
+          type="text"
+          id="description"
+          pInputText
+          autocomplete="off"
+          [(ngModel)]="newWorkout.description"
+        />
+      </div>
+
+      <div class="flex items-center">
+        <label for="duration" class="w-full font-semibold">Duração (min)</label>
+        <p-inputNumber
+          id="duration"
+          mode="decimal"
+          [min]="0"
+          [(ngModel)]="newWorkout.duration"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-2 mt-4">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        (click)="hideDialog()"
+      ></p-button>
+      <p-button label="Adicionar" (click)="saveWorkout()"></p-button>
+    </div>
+  </p-dialog>
+</main>
