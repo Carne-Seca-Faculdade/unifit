@@ -7,9 +7,9 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
-import { Workout } from '../../../../core/models/workout';
-import { Exercise } from '../../../../core/models/exercise';
-import { GlobalService } from '../../../../core/services/global.service';
+import { Workout } from '@core/models/workout';
+import { Exercise } from '@core/models/exercise';
+import { GlobalService } from '@core/services/global.service';
 import { ExerciseListComponent } from './components/exercise-list/exercise-list.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 

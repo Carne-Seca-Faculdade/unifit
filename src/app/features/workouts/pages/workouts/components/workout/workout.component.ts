@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Workout } from '../../../../../../core/models/workout';
+import { Workout } from '@core/models/workout';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
