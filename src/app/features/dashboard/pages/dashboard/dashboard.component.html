@@ -11,13 +11,7 @@
       <h3 class="text-xl font-semibold mb-2 text-center">
         Relatório de Treinos
       </h3>
-      <canvas
-        baseChart
-        class="w-full h-48"
-        [data]="treinoData"
-        [options]="treinoChartOptions"
-        chartType="bar"
-      ></canvas>
+      <p-chart type="bar" [data]="treinoData" [options]="treinoChartOptions" />
     </div>
 
     <div class="flex-1">
