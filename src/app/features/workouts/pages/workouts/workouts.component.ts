@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
@@ -6,9 +6,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
-import { WORKOUTS } from '../../utils/data';
-import { Workout } from '../../models/workout';
-import { v4 as uuid } from 'uuid';
+import { Workout } from '../../../../core/models/workout';
+import { GlobalService } from '../../../../core/services/global.service';
 import { WorkoutListComponent } from './components/workout-list/workout-list.component';
 
 @Component({
@@ -26,45 +25,48 @@ import { WorkoutListComponent } from './components/workout-list/workout-list.com
   ],
   templateUrl: './workouts.component.html',
 })
-export class WorkoutsComponent {
+export class WorkoutsComponent implements OnInit {
   visible = false;
-  newWorkout = {
+  newWorkout: Omit<Workout, 'id' | 'exercises'> = {
     name: '',
     description: '',
     duration: 0,
   };
-  workouts: Workout[] = [...WORKOUTS];
+  workouts: Workout[] = [];
 
-  showDialog() {
+  constructor(private globalService: GlobalService) {}
+
+  ngOnInit(): void {
+    this.loadWorkouts();
+  }
+
+  loadWorkouts(): void {
+    this.workouts = this.globalService.getWorkouts();
+  }
+
+  showDialog(): void {
     this.visible = true;
   }
 
-  hideDialog() {
+  hideDialog(): void {
     this.visible = false;
     this.resetNewWorkout();
   }
 
-  saveWorkout() {
+  saveWorkout(): void {
     if (this.isValidWorkout(this.newWorkout)) {
-      this.workouts = [
-        ...this.workouts,
-        { ...this.newWorkout, id: uuid(), exercises: [] },
-      ];
+      this.globalService.addWorkout(this.newWorkout);
       this.hideDialog();
     } else {
       console.error('Invalid workout data');
     }
   }
 
-  isValidWorkout(workout: {
-    name: string;
-    description: string;
-    duration: number;
-  }): boolean {
-    return !!(workout.name && workout.description && workout.duration);
+  isValidWorkout(workout: Omit<Workout, 'id' | 'exercises'>): boolean {
+    return !!(workout.name && workout.description && workout.duration > 0);
   }
 
-  resetNewWorkout() {
+  resetNewWorkout(): void {
     this.newWorkout = {
       name: '',
       description: '',

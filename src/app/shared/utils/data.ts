@@ -1,4 +1,4 @@
-import { Workout } from '../models/workout';
+import { Workout } from "@app/core/models/workout";
 
 export const WORKOUTS: Workout[] = [
   {

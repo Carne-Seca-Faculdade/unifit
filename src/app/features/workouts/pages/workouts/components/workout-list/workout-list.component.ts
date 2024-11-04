@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { WorkoutComponent } from '../workout/workout.component';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Workout } from '@app/features/workouts/models/workout';
+import { Workout } from '@app/core/models/workout';
 
 @Component({
   selector: 'app-workout-list',
