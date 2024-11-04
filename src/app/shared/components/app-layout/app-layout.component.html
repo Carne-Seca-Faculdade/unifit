@@ -1,6 +1,8 @@
 <div class="flex h-full overflow-hidden divide-x divide-gray-200">
   <app-sidebar />
-  <main class="flex-1 p-8 bg-gray-100">
+  <main
+    class="flex-1 p-8 bg-gray-100 max-w-[calc(100vw-320px)] overflow-y-auto"
+  >
     <router-outlet></router-outlet>
   </main>
 </div>
