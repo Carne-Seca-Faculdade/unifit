@@ -28,6 +28,7 @@ export class ExerciseComponent {
 
   editExerciseDialogVisible = false;
   deleteExerciseDialogVisible = false;
+
   selectedExercise: Exercise = {
     id: '',
     name: '',
