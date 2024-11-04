@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { WorkoutListComponent } from '../workouts/components/workout-list/workout-list.component';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
@@ -26,10 +27,11 @@ import { ExerciseListComponent } from './components/exercise-list/exercise-list.
   ],
   templateUrl: './workout-details.component.html',
 })
-export class WorkoutDetailsComponent implements OnInit {
+export class WorkoutDetailsComponent implements OnInit, OnDestroy {
   workout!: Workout;
   newExercise: Omit<Exercise, 'id'> = { name: '', description: '', sets: 1, reps: 1 };
   exerciseDialogVisible = false;
+  private workoutSubscription!: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,24 +41,23 @@ export class WorkoutDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-
     if (!id) {
       this.router.navigate(['/workouts']);
-      return
+      return;
     }
 
-    this.loadWorkout(id);
+    this.workoutSubscription = this.globalService.getWorkouts().subscribe(workouts => {
+      const workout = workouts.find(w => w.id === id);
+      if (workout) {
+        this.workout = workout;
+      } else {
+        this.router.navigate(['/workouts']);
+      }
+    });
   }
 
-  loadWorkout(id: string): void {
-    const workout = this.globalService.getWorkouts().find(workout => workout.id === id)
-
-    if (!workout) {
-      this.router.navigate(['/workouts']);
-      return
-    }
-
-    this.workout = workout;
+  ngOnDestroy(): void {
+    this.workoutSubscription.unsubscribe();
   }
 
   showExerciseDialog(): void {

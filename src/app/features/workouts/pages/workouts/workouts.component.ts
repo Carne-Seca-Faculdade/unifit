@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
@@ -25,7 +26,7 @@ import { WorkoutListComponent } from './components/workout-list/workout-list.com
   ],
   templateUrl: './workouts.component.html',
 })
-export class WorkoutsComponent implements OnInit {
+export class WorkoutsComponent implements OnInit, OnDestroy {
   visible = false;
   newWorkout: Omit<Workout, 'id' | 'exercises'> = {
     name: '',
@@ -33,15 +34,20 @@ export class WorkoutsComponent implements OnInit {
     duration: 0,
   };
   workouts: Workout[] = [];
+  private workoutsSubscription!: Subscription;
 
   constructor(private globalService: GlobalService) {}
 
   ngOnInit(): void {
-    this.loadWorkouts();
+    this.workoutsSubscription = this.globalService.getWorkouts().subscribe(
+      (workouts) => {
+        this.workouts = workouts;
+      }
+    );
   }
 
-  loadWorkouts(): void {
-    this.workouts = this.globalService.getWorkouts();
+  ngOnDestroy(): void {
+    this.workoutsSubscription.unsubscribe();
   }
 
   showDialog(): void {

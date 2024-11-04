@@ -16,7 +16,7 @@ export class GlobalService {
     email: 'john@example.com',
   });
 
-  private workouts: Workout[] = [...WORKOUTS];
+  private workoutsSubject = new BehaviorSubject<Workout[]>([...WORKOUTS]);
 
   getUser(): Observable<User> {
     return this.userSubject.asObservable();
@@ -26,8 +26,8 @@ export class GlobalService {
     this.userSubject.next(user);
   }
 
-  getWorkouts(): Workout[] {
-    return this.workouts;
+  getWorkouts(): Observable<Workout[]> {
+    return this.workoutsSubject.asObservable();
   }
 
   addWorkout(workout: Omit<Workout, 'id' | 'exercises'>): void {
@@ -37,21 +37,28 @@ export class GlobalService {
       exercises: [],
     };
 
-    this.workouts = [...this.workouts, newWorkout];
+    const updatedWorkouts = [...this.workoutsSubject.value, newWorkout];
+    this.workoutsSubject.next(updatedWorkouts);
   }
 
   removeWorkout(id: string): void {
-    this.workouts = this.workouts.filter((workout) => workout.id !== id);
+    const updatedWorkouts = this.workoutsSubject.value.filter(
+      (workout) => workout.id !== id
+    );
+    this.workoutsSubject.next(updatedWorkouts);
   }
 
   updateWorkout(updatedWorkout: Workout): void {
-    this.workouts = this.workouts.map((workout) =>
+    const updatedWorkouts = this.workoutsSubject.value.map((workout) =>
       workout.id === updatedWorkout.id ? updatedWorkout : workout
     );
+    this.workoutsSubject.next(updatedWorkouts);
   }
 
   getExercises(workoutId: string): Exercise[] {
-    const workout = this.workouts.find((workout) => workout.id === workoutId);
+    const workout = this.workoutsSubject.value.find(
+      (workout) => workout.id === workoutId
+    );
     return workout ? workout.exercises : [];
   }
 
@@ -60,31 +67,46 @@ export class GlobalService {
       ...exercise,
       id: this.generateId(),
     };
-    const workout = this.workouts.find((workout) => workout.id === workoutId);
-
-    if (!workout) return;
-
-    workout.exercises = [...(workout.exercises || []), newExercise];
+    const workouts = this.workoutsSubject.value.map((workout) => {
+      if (workout.id === workoutId) {
+        return {
+          ...workout,
+          exercises: [...(workout.exercises || []), newExercise],
+        };
+      }
+      return workout;
+    });
+    this.workoutsSubject.next(workouts);
   }
 
   removeExercise(workoutId: string, exerciseId: string): void {
-    const workout = this.workouts.find((workout) => workout.id === workoutId);
-
-    if (!workout) return;
-
-    workout.exercises = (workout.exercises || []).filter(
-      (exercise) => exercise.id !== exerciseId
-    );
+    const workouts = this.workoutsSubject.value.map((workout) => {
+      if (workout.id === workoutId) {
+        return {
+          ...workout,
+          exercises: (workout.exercises || []).filter(
+            (exercise) => exercise.id !== exerciseId
+          ),
+        };
+      }
+      return workout;
+    });
+    this.workoutsSubject.next(workouts);
   }
 
   updateExercise(workoutId: string, updatedExercise: Exercise): void {
-    const workout = this.workouts.find((workout) => workout.id === workoutId);
-
-    if (!workout) return;
-
-    workout.exercises = (workout.exercises || []).map((exercise) =>
-      exercise.id === updatedExercise.id ? updatedExercise : exercise
-    );
+    const workouts = this.workoutsSubject.value.map((workout) => {
+      if (workout.id === workoutId) {
+        return {
+          ...workout,
+          exercises: (workout.exercises || []).map((exercise) =>
+            exercise.id === updatedExercise.id ? updatedExercise : exercise
+          ),
+        };
+      }
+      return workout;
+    });
+    this.workoutsSubject.next(workouts);
   }
 
   private generateId(): string {
