@@ -1,8 +1,7 @@
 <main>
   <div class="flex items-center justify-between gap-2 mb-6">
-    <h1 class="text-2xl font-semibold text-gray-800 truncate">
-      {{ workout.name }}
-    </h1>
+    <app-title [title]="workout.name" />
+
     <div class="flex gap-2">
       <p-button
         label="Adicionar Exercício"

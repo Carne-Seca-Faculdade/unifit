@@ -12,6 +12,7 @@ import { Exercise } from '@core/models/exercise';
 import { GlobalService } from '@core/services/global.service';
 import { ExerciseListComponent } from './components/exercise-list/exercise-list.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TitleComponent } from "../../../../shared/components/title/title.component";
 
 @Component({
   selector: 'app-workout-details',
@@ -26,7 +27,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     FormsModule,
     ExerciseListComponent,
     ConfirmDialogModule,
-  ],
+    TitleComponent
+],
   templateUrl: './workout-details.component.html',
 })
 export class WorkoutDetailsComponent implements OnInit, OnDestroy {
