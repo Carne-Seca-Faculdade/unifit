@@ -12,7 +12,15 @@ import { GlobalService } from '@core/services/global.service';
 @Component({
   selector: 'app-exercise',
   standalone: true,
-  imports: [CommonModule, RouterLink, ButtonModule, InputNumberModule, DialogModule, FormsModule, InputTextModule],
+  imports: [
+    CommonModule,
+    RouterLink,
+    ButtonModule,
+    InputNumberModule,
+    DialogModule,
+    FormsModule,
+    InputTextModule,
+  ],
   templateUrl: './exercise.component.html',
 })
 export class ExerciseComponent {
@@ -27,7 +35,7 @@ export class ExerciseComponent {
     sets: 1,
     reps: 1,
     workoutId: '',
-  }
+  };
 
   constructor(private globalService: GlobalService) {}
 
@@ -41,7 +49,9 @@ export class ExerciseComponent {
   }
 
   saveExercise() {
-    this.globalService.updateExercise(this.selectedExercise.workoutId, { ...this.selectedExercise });
+    this.globalService.updateExercise(this.selectedExercise.workoutId, {
+      ...this.selectedExercise,
+    });
     this.hideEditExerciseDialog();
   }
 
@@ -54,7 +64,10 @@ export class ExerciseComponent {
   }
 
   deleteExercise() {
-    this.globalService.removeExercise(this.exercise.workoutId, this.exercise.id);
+    this.globalService.removeExercise(
+      this.exercise.workoutId,
+      this.exercise.id
+    );
     this.hideDeleteExerciseDialog();
   }
 }

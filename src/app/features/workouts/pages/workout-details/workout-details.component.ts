@@ -110,7 +110,13 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
   }
 
   resetNewExercise(): void {
-    this.newExercise = { name: '', description: '', sets: 1, reps: 1, workoutId: this.workout.id };
+    this.newExercise = {
+      name: '',
+      description: '',
+      sets: 1,
+      reps: 1,
+      workoutId: this.workout.id,
+    };
   }
 
   resetEditWorkout(): void {

@@ -54,7 +54,8 @@ export const WORKOUTS: Workout[] = [
   {
     id: '2',
     name: 'Costas e Tríceps',
-    description: 'Treino para fortalecer as costas e tríceps com foco na simetria.',
+    description:
+      'Treino para fortalecer as costas e tríceps com foco na simetria.',
     duration: 55,
     exercises: [
       {
@@ -104,7 +105,8 @@ export const WORKOUTS: Workout[] = [
   {
     id: '3',
     name: 'Pernas e Ombros',
-    description: 'Treino focado em pernas e ombros, promovendo força e definição.',
+    description:
+      'Treino focado em pernas e ombros, promovendo força e definição.',
     duration: 60,
     exercises: [
       {
@@ -152,4 +154,3 @@ export const WORKOUTS: Workout[] = [
     ],
   },
 ];
-
