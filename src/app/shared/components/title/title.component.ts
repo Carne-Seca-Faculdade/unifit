@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
   templateUrl: './title.component.html',
 })
 export class TitleComponent {
-@Input() title = '';
+  @Input() title = '';
 }

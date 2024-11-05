@@ -10,7 +10,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { Workout } from '@core/models/workout';
 import { GlobalService } from '@core/services/global.service';
 import { WorkoutListComponent } from './components/workout-list/workout-list.component';
-import { TitleComponent } from "../../../../shared/components/title/title.component";
+import { TitleComponent } from '../../../../shared/components/title/title.component';
 
 @Component({
   selector: 'app-workouts',
@@ -24,8 +24,8 @@ import { TitleComponent } from "../../../../shared/components/title/title.compon
     InputNumberModule,
     FormsModule,
     DropdownModule,
-    TitleComponent
-],
+    TitleComponent,
+  ],
   templateUrl: './workouts.component.html',
 })
 export class WorkoutsComponent implements OnInit, OnDestroy {

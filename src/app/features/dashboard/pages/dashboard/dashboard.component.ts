@@ -1,32 +1,75 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { DataServiceService } from '@core/services/data-service.service';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
-import { BaseChartDirective } from 'ng2-charts';
 import { ChartModule } from 'primeng/chart';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [BaseChartDirective, ChartModule],
+  imports: [ChartModule],
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   treinoData: ChartConfiguration<'bar'>['data'] = {
-    labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'],
+    labels: [],
     datasets: [
       {
         label: 'Treinos Concluídos',
-        data: [5, 8, 4, 7],
-        backgroundColor: 'rgba(75,192,192,0.6)',
+        data: [],
+        backgroundColor: [],
       },
     ],
   };
 
+  public treinoChartOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+    },
+  };
+
+  constructor(private dataService: DataServiceService) {}
+
+  ngOnInit() {
+    this.loadWeeklyExerciseLogData(1, 5);
+  }
+
+  loadWeeklyExerciseLogData(userId: number, numberOfWeeks: number) {
+    this.dataService
+      .getWeeklyExerciseLogs(userId, numberOfWeeks)
+      .subscribe(weeklyCounts => {
+        this.treinoData.labels = Array.from(
+          { length: numberOfWeeks },
+          (_, i) => `Semana ${i + 1}`
+        );
+        this.treinoData.datasets[0].data = Object.values(weeklyCounts);
+        this.treinoData.datasets[0].backgroundColor = [
+          'rgba(252, 186, 0.6)',
+          'rgba(92,51,23)',
+          'rgba(107,35,142)',
+          'rgba(192,217,217)',
+          'rgba(123, 176, 0.6)',
+        ];
+      });
+  }
+
   progressoData: ChartConfiguration<'line'>['data'] = {
-    labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'],
+    labels: [
+      'Janeiro',
+      'Fevereiro',
+      'Março',
+      'Abril',
+      'Maio',
+      'Junho',
+      'Julho',
+      'Agosto',
+    ],
     datasets: [
       {
         label: 'Peso Corporal',
-        data: [70, 68, 67, 66, 65, 64],
+        data: [70, 80, 60],
         borderColor: '#42a5f5',
         fill: false,
       },
@@ -42,15 +85,6 @@ export class DashboardComponent {
         backgroundColor: ['#36A2EB', '#4BC0C0', '#FFCE56', '#FF6384'],
       },
     ],
-  };
-
-  public treinoChartOptions: ChartOptions<'bar'> = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-    },
   };
 
   public progressoChartOptions: ChartOptions<'line'> = {
