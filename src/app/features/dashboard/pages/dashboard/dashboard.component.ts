@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
       },
     },
   };
-  
+
   constructor(private dataService: DataServiceService) {}
 
   ngOnInit() {
@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
         this.treinoData.datasets[0].data = Object.values(weeklyCounts);
         this.treinoData.datasets[0].backgroundColor = [
           'rgba(252, 186, 0.6)',
-          'rgba(92,64,51)',
+          'rgba(255, 99, 132, 0.6)',
           'rgba(107,35,142)',
           'rgba(192,217,217)',
           'rgba(123, 176, 0.6)',
