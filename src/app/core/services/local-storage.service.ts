@@ -3,13 +3,17 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class LocalService {
-  constructor() {}
+export class LocalStorageService {
+  private keyPrefix: string = "@unifit:"
 
-  public save<T>(key: string, data: T): T | null {
+  private createKey(key: string): string {
+    return `${this.keyPrefix}${key}`;
+  }
+
+  public setItem<T>(key: string, data: T): T | null {
     try {
       const dataAsString = JSON.stringify(data);
-      localStorage.setItem(key, dataAsString);
+      localStorage.setItem(this.createKey("workouts"), dataAsString);
       return data;
     } catch (error) {
       console.error('Error while saving item');
@@ -19,7 +23,7 @@ export class LocalService {
 
   public getItem<T>(key: string): T | null {
     try {
-      const localStorageData = localStorage.getItem(key);
+      const localStorageData = localStorage.getItem(this.createKey(key));
 
       if (!localStorageData) return null;
 
@@ -32,7 +36,7 @@ export class LocalService {
 
   public deleteItem(key: string): void {
     try {
-      localStorage.removeItem(key);
+      localStorage.removeItem(this.createKey(key));
     } catch (error) {
       console.error('Error while deleting item');
     }

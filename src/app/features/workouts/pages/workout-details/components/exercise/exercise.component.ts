@@ -8,6 +8,7 @@ import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { GlobalService } from '@core/services/global.service';
+import { WorkoutsService } from '@core/services/workouts.service';
 
 @Component({
   selector: 'app-exercise',
@@ -38,7 +39,7 @@ export class ExerciseComponent {
     workoutId: '',
   };
 
-  constructor(private globalService: GlobalService) {}
+  constructor(private workoutsService:WorkoutsService) {}
 
   showEditExerciseDialog() {
     this.selectedExercise = { ...this.exercise };
@@ -50,7 +51,7 @@ export class ExerciseComponent {
   }
 
   saveExercise() {
-    this.globalService.updateExercise(this.selectedExercise.workoutId, {
+    this.workoutsService.updateExercise(this.selectedExercise.workoutId, {
       ...this.selectedExercise,
     });
     this.hideEditExerciseDialog();
@@ -65,7 +66,7 @@ export class ExerciseComponent {
   }
 
   deleteExercise() {
-    this.globalService.removeExercise(
+    this.workoutsService.removeExercise(
       this.exercise.workoutId,
       this.exercise.id
     );

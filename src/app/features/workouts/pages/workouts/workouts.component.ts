@@ -8,9 +8,9 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { Workout } from '@core/models/workout';
-import { GlobalService } from '@core/services/global.service';
 import { WorkoutListComponent } from './components/workout-list/workout-list.component';
 import { TitleComponent } from '../../../../shared/components/title/title.component';
+import { WorkoutsService } from '@core/services/workouts.service';
 
 @Component({
   selector: 'app-workouts',
@@ -38,10 +38,10 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   workouts: Workout[] = [];
   private workoutsSubscription!: Subscription;
 
-  constructor(private globalService: GlobalService) {}
+  constructor(private workoutsService: WorkoutsService) {}
 
   ngOnInit(): void {
-    this.workoutsSubscription = this.globalService
+    this.workoutsSubscription = this.workoutsService
       .getWorkouts()
       .subscribe(workouts => {
         this.workouts = workouts;
@@ -63,7 +63,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
 
   saveWorkout(): void {
     if (this.isValidWorkout(this.newWorkout)) {
-      this.globalService.addWorkout(this.newWorkout);
+      this.workoutsService.addWorkout(this.newWorkout);
       this.hideDialog();
     } else {
       console.error('Invalid workout data');

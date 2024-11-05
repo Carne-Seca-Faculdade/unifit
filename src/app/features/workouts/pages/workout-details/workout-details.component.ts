@@ -9,11 +9,11 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { Workout } from '@core/models/workout';
 import { Exercise } from '@core/models/exercise';
-import { GlobalService } from '@core/services/global.service';
 import { ExerciseListComponent } from './components/exercise-list/exercise-list.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TitleComponent } from '@shared/components/title/title.component';
 import { TooltipModule } from 'primeng/tooltip';
+import { WorkoutsService } from '@core/services/workouts.service';
 
 @Component({
   selector: 'app-workout-details',
@@ -62,7 +62,7 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private globalService: GlobalService
+    private workoutsService: WorkoutsService
   ) {}
 
   ngOnInit(): void {
@@ -72,7 +72,7 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.workoutSubscription = this.globalService
+    this.workoutSubscription = this.workoutsService
       .getWorkouts()
       .subscribe(workouts => {
         const workout = workouts.find(w => w.id === id);
@@ -101,7 +101,7 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
   saveExercise(): void {
     if (!this.isValidExercise(this.newExercise)) return;
 
-    this.globalService.addExercise(this.workout.id, {
+    this.workoutsService.addExercise(this.workout.id, {
       ...this.newExercise,
       workoutId: this.workout.id,
     });
@@ -151,7 +151,7 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
 
     if (!this.isValidWorkout(workout)) return;
 
-    this.globalService.updateWorkout(workout!);
+    this.workoutsService.updateWorkout(workout!);
     this.hideEditDialog();
   }
 
@@ -163,7 +163,7 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
 
   deleteWorkout(): void {
     this.hideDeleteDialog();
-    this.globalService.deleteWorkout(this.workout.id);
+    this.workoutsService.removeWorkout(this.workout.id);
     this.router.navigate(['/app/workouts']);
   }
 
