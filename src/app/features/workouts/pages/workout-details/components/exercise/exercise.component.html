@@ -3,9 +3,11 @@
     class="flex flex-col justify-between h-full max-w-sm gap-4 p-4 px-6 overflow-hidden bg-white rounded-md shadow-sm"
   >
     <div>
-      <div class="mb-2 text-xl font-semibold truncate">{{ exercise.name }}</div>
+      <div class="mb-2 text-xl font-semibold truncate">
+        {{ exercise.exerciseName }}
+      </div>
       <p class="text-base text-gray-700 break-all text-wrap">
-        {{ exercise.description || 'Sem descrição' }}
+        {{ exercise.exerciseName || 'Sem descrição' }}
       </p>
     </div>
 
@@ -13,11 +15,11 @@
       <div class="flex flex-wrap gap-2">
         <span
           class="inline-block px-3 py-1 text-sm font-semibold text-blue-700 bg-blue-200 rounded-full"
-          >{{ exercise.sets }} séries</span
+          >{{ exercise.seriesQuantity }} séries</span
         >
         <span
           class="inline-block px-3 py-1 text-sm font-semibold text-green-700 bg-green-200 rounded-full"
-          >{{ exercise.reps }} repetições</span
+          >{{ exercise.repetitionsQuantity }} repetições</span
         >
       </div>
       <div class="flex justify-between mt-6">
@@ -58,7 +60,7 @@
           pInputText
           id="editExerciseName"
           autocomplete="off"
-          [(ngModel)]="selectedExercise.name"
+          [(ngModel)]="selectedExercise.exerciseName"
         />
       </div>
       <div class="flex items-center">
@@ -70,7 +72,7 @@
           id="editExerciseDescription"
           pInputText
           autocomplete="off"
-          [(ngModel)]="selectedExercise.description"
+          [(ngModel)]="selectedExercise.exerciseDescription"
         />
       </div>
       <div class="flex items-center">
@@ -81,7 +83,7 @@
           id="editExerciseSets"
           mode="decimal"
           [min]="1"
-          [(ngModel)]="selectedExercise.sets"
+          [(ngModel)]="selectedExercise.seriesQuantity"
           autocomplete="off"
         />
       </div>
@@ -93,7 +95,7 @@
           id="editExerciseReps"
           mode="decimal"
           [min]="1"
-          [(ngModel)]="selectedExercise.reps"
+          [(ngModel)]="selectedExercise.repetitionsQuantity"
           autocomplete="off"
         />
       </div>

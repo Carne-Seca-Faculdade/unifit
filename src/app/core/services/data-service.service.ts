@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { userDTO } from '@core/models/dto/userDTO';
-import { trainingPlansDTO } from '@core/models/dto/trainingPlansDTO';
 import { ExerciseLogDTO } from '@core/models/dto/exerciseLogDTO';
 import { ExerciseDTO } from '@core/models/dto/exerciseDTO';
+import { TrainingPlansDTO } from '@core/models/dto/trainingPlansDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +18,8 @@ export class DataServiceService {
     return this.http.get<userDTO[]>(`${this.apiUrl}/usuarios`);
   }
 
-  getTrainingPlans(): Observable<trainingPlansDTO[]> {
-    return this.http.get<trainingPlansDTO[]>(`${this.apiUrl}/planos-treino`);
+  getTrainingPlans(): Observable<TrainingPlansDTO[]> {
+    return this.http.get<TrainingPlansDTO[]>(`${this.apiUrl}/planos-treino`);
   }
 
   getExerciseLogs(userId: number): Observable<ExerciseLogDTO[]> {

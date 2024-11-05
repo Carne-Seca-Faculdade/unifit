@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Exercise } from '@core/models/exercise';
 import { ExerciseComponent } from '../exercise/exercise.component';
+import { ExerciseDTO } from '@core/models/dto/exerciseDTO';
 
 @Component({
   selector: 'app-exercise-list',
@@ -11,5 +11,15 @@ import { ExerciseComponent } from '../exercise/exercise.component';
   templateUrl: './exercise-list.component.html',
 })
 export class ExerciseListComponent {
-  @Input() exercises: Exercise[] = [];
+  @Input() exercises: ExerciseDTO[] = [];
+  @Output() exerciseUpdated = new EventEmitter<ExerciseDTO>();
+  @Output() exerciseDeleted = new EventEmitter<number>();
+
+  onExerciseUpdated(updatedExercise: ExerciseDTO) {
+    this.exerciseUpdated.emit(updatedExercise);
+  }
+
+  onExerciseDeleted(exerciseId: number) {
+    this.exerciseDeleted.emit(exerciseId);
+  }
 }

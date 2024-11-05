@@ -7,10 +7,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
-import { Workout } from '@core/models/workout';
+import { TrainingPlansService } from '@core/services/training-plans.service';
+import { TrainingPlansDTO } from '@core/models/dto/trainingPlansDTO';
 import { WorkoutListComponent } from './components/workout-list/workout-list.component';
-import { TitleComponent } from '../../../../shared/components/title/title.component';
-import { WorkoutsService } from '@core/services/workouts.service';
+import { TitleComponent } from '@shared/components/title/title.component';
 
 @Component({
   selector: 'app-workouts',
@@ -30,26 +30,29 @@ import { WorkoutsService } from '@core/services/workouts.service';
 })
 export class WorkoutsComponent implements OnInit, OnDestroy {
   visible = false;
-  newWorkout: Omit<Workout, 'id' | 'exercises'> = {
-    name: '',
-    description: '',
+  newWorkout: Omit<TrainingPlansDTO, 'id'> = {
+    planName: '',
+    planDescription: '',
     duration: 0,
+    userIds: [],
+    exerciseIds: [],
+    newExercises: [],
   };
-  workouts: Workout[] = [];
-  private workoutsSubscription!: Subscription;
+  workouts: TrainingPlansDTO[] = [];
+  private trainingPlansSubscription!: Subscription;
 
-  constructor(private workoutsService: WorkoutsService) {}
+  constructor(private trainingPlansService: TrainingPlansService) {}
 
   ngOnInit(): void {
-    this.workoutsSubscription = this.workoutsService
-      .getWorkouts()
-      .subscribe(workouts => {
-        this.workouts = workouts;
+    this.trainingPlansSubscription = this.trainingPlansService
+      .getTrainingPlans()
+      .subscribe(plans => {
+        this.workouts = plans;
       });
   }
 
   ngOnDestroy(): void {
-    this.workoutsSubscription.unsubscribe();
+    this.trainingPlansSubscription.unsubscribe();
   }
 
   showDialog(): void {
@@ -58,27 +61,37 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
 
   hideDialog(): void {
     this.visible = false;
-    this.resetNewWorkout();
+    this.resetNewTrainingPlan();
   }
 
   saveWorkout(): void {
-    if (this.isValidWorkout(this.newWorkout)) {
-      this.workoutsService.addWorkout(this.newWorkout);
-      this.hideDialog();
+    if (this.isValidTrainingPlan(this.newWorkout)) {
+      this.trainingPlansService.createTrainingPlan(this.newWorkout).subscribe({
+        next: createdPlan => {
+          this.workouts.push(createdPlan);
+          this.hideDialog();
+        },
+        error: err => {
+          console.error('Error creating training plan', err);
+        },
+      });
     } else {
-      console.error('Invalid workout data');
+      console.error('Invalid training plan data');
     }
   }
 
-  isValidWorkout(workout: Omit<Workout, 'id' | 'exercises'>): boolean {
-    return !!(workout.name && workout.description && workout.duration > 0);
+  isValidTrainingPlan(trainingPlan: Omit<TrainingPlansDTO, 'id'>): boolean {
+    return !!(trainingPlan.planName && trainingPlan.duration > 0);
   }
 
-  resetNewWorkout(): void {
+  resetNewTrainingPlan(): void {
     this.newWorkout = {
-      name: '',
-      description: '',
+      planName: '',
+      planDescription: '',
       duration: 0,
+      userIds: [],
+      exerciseIds: [],
+      newExercises: [],
     };
   }
 }

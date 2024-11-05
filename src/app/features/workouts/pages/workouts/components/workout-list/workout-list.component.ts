@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { WorkoutComponent } from '../workout/workout.component';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Workout } from '@app/core/models/workout';
+import { TrainingPlansDTO } from '@core/models/dto/trainingPlansDTO';
 
 @Component({
   selector: 'app-workout-list',
@@ -11,5 +11,5 @@ import { Workout } from '@app/core/models/workout';
   templateUrl: './workout-list.component.html',
 })
 export class WorkoutListComponent {
-  @Input() workouts: Workout[] = [];
+  @Input() workouts: TrainingPlansDTO[] = [];
 }

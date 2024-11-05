@@ -1,10 +1,13 @@
+import { Category } from '../category';
 import { ExerciseDTO } from './exerciseDTO';
 
-export interface trainingPlansDTO {
+export interface TrainingPlansDTO {
   id: number;
   planName: string;
   planDescription?: string;
+  duration: number;
   exerciseIds?: number[];
   userIds?: number[];
-  exercise: ExerciseDTO[];
+  newExercises?: ExerciseDTO[];
+  category?: Category;
 }

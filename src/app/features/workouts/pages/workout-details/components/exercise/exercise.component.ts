@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { Exercise } from '@core/models/exercise';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -7,8 +6,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
-import { GlobalService } from '@core/services/global.service';
-import { WorkoutsService } from '@core/services/workouts.service';
+import { ExerciseService } from '@core/services/exercise.service';
+import { ExerciseDTO } from '@core/models/dto/exerciseDTO';
 
 @Component({
   selector: 'app-exercise',
@@ -25,21 +24,24 @@ import { WorkoutsService } from '@core/services/workouts.service';
   templateUrl: './exercise.component.html',
 })
 export class ExerciseComponent {
-  @Input() exercise!: Exercise;
+  @Input() exercise!: ExerciseDTO;
+  @Output() exerciseUpdated = new EventEmitter<ExerciseDTO>();
+  @Output() exerciseSaved = new EventEmitter<ExerciseDTO>();
+  @Output() exerciseDeleted = new EventEmitter<number>();
 
   editExerciseDialogVisible = false;
   deleteExerciseDialogVisible = false;
 
-  selectedExercise: Exercise = {
-    id: '',
-    name: '',
-    description: '',
-    sets: 1,
-    reps: 1,
-    workoutId: '',
+  selectedExercise: ExerciseDTO = {
+    id: 0,
+    exerciseName: '',
+    exerciseDescription: '',
+    seriesQuantity: 0,
+    repetitionsQuantity: 0,
+    trainingPlanId: 0,
   };
 
-  constructor(private workoutsService: WorkoutsService) {}
+  constructor(private exerciseService: ExerciseService) {}
 
   showEditExerciseDialog() {
     this.selectedExercise = { ...this.exercise };
@@ -51,10 +53,16 @@ export class ExerciseComponent {
   }
 
   saveExercise() {
-    this.workoutsService.updateExercise(this.selectedExercise.workoutId, {
-      ...this.selectedExercise,
+    this.exerciseService.updateExercise(this.selectedExercise).subscribe({
+      next: updatedExercise => {
+        console.log('Exercise updated successfully', updatedExercise);
+        this.exerciseUpdated.emit(updatedExercise);
+        this.hideEditExerciseDialog();
+      },
+      error: error => {
+        console.error('Error updating exercise', error);
+      },
     });
-    this.hideEditExerciseDialog();
   }
 
   showDeleteExerciseDialog() {
@@ -66,10 +74,15 @@ export class ExerciseComponent {
   }
 
   deleteExercise() {
-    this.workoutsService.removeExercise(
-      this.exercise.workoutId,
-      this.exercise.id
-    );
-    this.hideDeleteExerciseDialog();
+    this.exerciseService.deleteExercise(this.exercise.id).subscribe({
+      next: () => {
+        console.log('Exercise deleted successfully');
+        this.exerciseDeleted.emit(this.exercise.id);
+        this.hideDeleteExerciseDialog();
+      },
+      error: error => {
+        console.error('Error deleting exercise', error);
+      },
+    });
   }
 }
