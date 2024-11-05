@@ -1,5 +1,8 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { weightLogDTO } from '@core/models/dto/weightLogDTO';
 import { DataServiceService } from '@core/services/data-service.service';
+import { WeightService } from '@core/services/weight.service';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { ChartModule } from 'primeng/chart';
 
@@ -8,6 +11,7 @@ import { ChartModule } from 'primeng/chart';
   standalone: true,
   imports: [ChartModule],
   templateUrl: './dashboard.component.html',
+  providers: [DatePipe],
 })
 export class DashboardComponent implements OnInit {
   treinoData: ChartConfiguration<'bar'>['data'] = {
@@ -30,10 +34,31 @@ export class DashboardComponent implements OnInit {
     },
   };
 
-  constructor(private dataService: DataServiceService) {}
+  progressoData: ChartConfiguration<'line'>['data'] = {
+    labels: [],
+    datasets: [
+      {
+        label: 'Peso Corporal',
+        data: [],
+        borderColor: '#42a5f5',
+        fill: false,
+      },
+    ],
+  };
+
+  public progressoChartOptions: ChartOptions<'line'> = {
+    responsive: true,
+  };
+
+  constructor(
+    private dataService: DataServiceService,
+    private weightService: WeightService,
+    private datePipe: DatePipe
+  ) {}
 
   ngOnInit() {
     this.loadWeeklyExerciseLogData(1, 5);
+    this.loadWeightProgressData(1);
   }
 
   loadWeeklyExerciseLogData(userId: number, numberOfWeeks: number) {
@@ -55,42 +80,32 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  progressoData: ChartConfiguration<'line'>['data'] = {
-    labels: [
-      'Janeiro',
-      'Fevereiro',
-      'Março',
-      'Abril',
-      'Maio',
-      'Junho',
-      'Julho',
-      'Agosto',
-    ],
-    datasets: [
-      {
-        label: 'Peso Corporal',
-        data: [70, 80, 60],
-        borderColor: '#42a5f5',
-        fill: false,
-      },
-    ],
-  };
+  loadWeightProgressData(userId: number) {
+    this.weightService
+      .getWeightHistory(userId)
+      .subscribe((data: weightLogDTO[]) => {
+        this.progressoData.labels = data.map(entry =>
+          this.datePipe.transform(entry.dataRegistro, 'dd/MM/yy')
+        );
+        this.progressoData.datasets[0].data = data.map(entry => entry.peso);
+      });
+  }
 
   imcData: ChartConfiguration<'doughnut'>['data'] = {
-    labels: ['Baixo Peso', 'Peso Normal', 'Sobrepeso', 'Obesidade'],
+    labels: [
+      'Baixo Peso (< 18,5)',
+      'Peso Normal (18,5 - 24,9)',
+      'Sobrepeso (25 - 29,9)',
+      'Obesidade (≥ 30)',
+    ],
     datasets: [
       {
         label: 'Distribuição do IMC',
-        data: [10, 60, 20, 10],
+        data: [5, 65, 20, 10],
         backgroundColor: ['#36A2EB', '#4BC0C0', '#FFCE56', '#FF6384'],
       },
     ],
   };
-
-  public progressoChartOptions: ChartOptions<'line'> = {
-    responsive: true,
-  };
-
   public imcChartOptions: ChartOptions<'doughnut'> = {
     responsive: true,
     plugins: {

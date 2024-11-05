@@ -16,11 +16,13 @@
 
     <div class="flex-1">
       <h3 class="text-xl font-semibold mb-2 text-center">Progresso Físico</h3>
-      <p-chart
-        type="line"
-        [data]="progressoData"
-        [options]="progressoChartOptions"
-      />
+      <div class="pt-2">
+        <p-chart
+          type="line"
+          [data]="progressoData"
+          [options]="progressoChartOptions"
+        />
+      </div>
     </div>
   </div>
 </main>
