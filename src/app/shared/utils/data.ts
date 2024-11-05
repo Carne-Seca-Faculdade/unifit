@@ -157,9 +157,7 @@ export const WORKOUTS: Workout[] = [
 ];
 
 export const WEIGHt: IMC[] = [
-
-  { id: 1, date: '10/09/2021', weight: 85.00 , imc : 25.00},
-  { id: 2, date: '11/10/2021', weight: 84.00 , imc : 24.00},
-  { id: 3, date: '12/11/2021', weight: 83.00 , imc : 23.00},
-
+  { id: 1, date: '10/09/2021', weight: 85.0, imc: 25.0 },
+  { id: 2, date: '11/10/2021', weight: 84.0, imc: 24.0 },
+  { id: 3, date: '12/11/2021', weight: 83.0, imc: 23.0 },
 ];

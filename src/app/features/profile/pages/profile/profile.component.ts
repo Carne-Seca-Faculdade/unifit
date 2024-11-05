@@ -9,19 +9,25 @@ import { GlobalService } from './../../../../core/services/global.service';
 import { CommonModule } from '@angular/common';
 import { IMC } from '@core/models/imc';
 import { User } from '@core/models/user';
-import { TitleComponent } from "../../../../shared/components/title/title.component";
+import { TitleComponent } from '../../../../shared/components/title/title.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [TitleComponent, ButtonModule, InputGroupModule, InputGroupAddonModule,
-    TableModule, FormsModule, CommonModule, ],
+  imports: [
+    TitleComponent,
+    ButtonModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    TableModule,
+    FormsModule,
+    CommonModule,
+  ],
   templateUrl: './profile.component.html',
 })
 export class ProfileComponent implements OnInit {
-  user: User = { id: '', name: '', lastName: '' , height: 0 , email: '' };
-  editUser: User = { id: '', name: '', lastName: '' , height: 0, email: '' };
-
+  user: User = { id: '', name: '', lastName: '', height: 0, email: '' };
+  editUser: User = { id: '', name: '', lastName: '', height: 0, email: '' };
 
   constructor(private globalService: GlobalService) {}
 
@@ -49,27 +55,20 @@ export class ProfileComponent implements OnInit {
   }
 
   onRowEditInit(product: any): void {
-
     // Add your logic here
 
     console.log('Row edit initialized', product);
-
   }
 
   onRowEditSave(product: any): void {
-
     // Add your logic here
 
     console.log('Row edit saved', product);
-
   }
 
   onRowEditCancel(product: any, index: number): void {
-
     // Add your logic here
 
     console.log('Row edit cancelled', product, index);
-
   }
-
 }

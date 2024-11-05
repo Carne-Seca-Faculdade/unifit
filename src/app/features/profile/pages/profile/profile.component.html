@@ -1,75 +1,116 @@
 <main>
   <app-title title="Perfil" />
 
-  <div class="flex flex-col w-full mt-6 ">
+  <div class="flex flex-col w-full mt-6">
     <div
-      class="flex flex-col items-center justify-between gap-4 pb-5 border-b border-zinc-200 lg:flex-row lg:items-center dark:border-zinc-700">
+      class="flex flex-col items-center justify-between gap-4 pb-5 border-b border-zinc-200 lg:flex-row lg:items-center dark:border-zinc-700"
+    >
       <div class="space-y-1">
-
         <h1 class="text-sm text-zinc-500 dark:text-zinc-400">
           Edite e atualize seus dados pessoais aqui
         </h1>
       </div>
       <div class="flex items-center gap-2">
-        <p-button label="Cancelar" severity="secondary" (click)="resetUser()"></p-button>
+        <p-button
+          label="Cancelar"
+          severity="secondary"
+          (click)="resetUser()"
+        ></p-button>
         <p-button label="Salvar" (click)="saveUser()"></p-button>
       </div>
     </div>
 
-    <div id="settings" class="flex flex-col w-full gap-5 mt-6 divide-y divide-zinc-200 dark:divide-zinc-700">
+    <div
+      id="settings"
+      class="flex flex-col w-full gap-5 mt-6 divide-y divide-zinc-200 dark:divide-zinc-700"
+    >
       <div class="flex flex-col gap-3 lg:grid lg:grid-cols-form">
-
         <p-inputGroup>
           <p-inputGroupAddon>
             <i class="pi pi-user"></i>
           </p-inputGroupAddon>
           <div class="flex gap-1">
-            <input class="p-2" pInputText placeholder="Nome" [(ngModel)]="editUser.name"/>
-            <input class="p-2" pInputText placeholder="Sobrenome" [(ngModel)]="editUser.lastName"/>
-
+            <input
+              class="p-2"
+              pInputText
+              placeholder="Nome"
+              [(ngModel)]="editUser.name"
+            />
+            <input
+              class="p-2"
+              pInputText
+              placeholder="Sobrenome"
+              [(ngModel)]="editUser.lastName"
+            />
           </div>
         </p-inputGroup>
         <p-inputGroup>
           <p-inputGroupAddon>
             <i class="pi pi-arrows-v"></i>
           </p-inputGroupAddon>
-          <input class="p-2" pInputText placeholder="Altura" [(ngModel)]="editUser.height"/>
+          <input
+            class="p-2"
+            pInputText
+            placeholder="Altura"
+            [(ngModel)]="editUser.height"
+          />
         </p-inputGroup>
-
       </div>
 
-      <div class="flex flex-col gap-3 pt-5 lg:grid lg:grid-cols-form ">
+      <div class="flex flex-col gap-3 pt-5 lg:grid lg:grid-cols-form">
         <p-inputGroup>
           <p-inputGroupAddon>
             <i class="pi pi-at"></i>
           </p-inputGroupAddon>
-          <input class="p-2" pInputText placeholder="E-mail" [(ngModel)]="editUser.email"/>
+          <input
+            class="p-2"
+            pInputText
+            placeholder="E-mail"
+            [(ngModel)]="editUser.email"
+          />
         </p-inputGroup>
-
       </div>
 
       <div class="flex flex-col gap-3 pt-5 lg:grid lg:grid-cols-form">
-        <label htmlFor="role" class="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+        <label
+          htmlFor="role"
+          class="text-sm font-medium text-zinc-700 dark:text-zinc-300"
+        >
           Peso Corporal
         </label>
 
-        <div class="flex flex-col items-center justify-end gap-2 pt-5 lg:flex-row">
+        <div
+          class="flex flex-col items-center justify-end gap-2 pt-5 lg:flex-row"
+        >
           <p-button
-          label="Adicionar" size="small" icon="pi pi-plus" iconPos="right" (click)="saveIMC()"
+            label="Adicionar"
+            size="small"
+            icon="pi pi-plus"
+            iconPos="right"
+            (click)="saveIMC()"
           >
           </p-button>
         </div>
 
-
-        <p-table [value]="products" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}">
+        <p-table
+          [value]="products"
+          dataKey="id"
+          editMode="row"
+          [tableStyle]="{ 'min-width': '50rem' }"
+        >
           <ng-template pTemplate="header">
             <tr>
-              <th style="width:20%">Data</th>
-              <th style="width:20%">Peso</th>
-              <th style="width:20%">IMC</th>
+              <th style="width: 20%">Data</th>
+              <th style="width: 20%">Peso</th>
+              <th style="width: 20%">IMC</th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
+          <ng-template
+            pTemplate="body"
+            let-product
+            let-editing="editing"
+            let-ri="rowIndex"
+          >
             <tr [pEditableRow]="product">
               <td>
                 <p-cellEditor>
@@ -77,42 +118,75 @@
                     <input pInputText type="text" [(ngModel)]="product.data" />
                   </ng-template>
                   <ng-template pTemplate="output">
-                    {{product.data}}
+                    {{ product.data }}
                   </ng-template>
                 </p-cellEditor>
               </td>
               <td>
                 <p-cellEditor>
                   <ng-template pTemplate="input">
-                    <input pInputText type="text" [(ngModel)]="product.peso" required />
+                    <input
+                      pInputText
+                      type="text"
+                      [(ngModel)]="product.peso"
+                      required
+                    />
                   </ng-template>
                   <ng-template pTemplate="output">
-                    {{product.peso}}
+                    {{ product.peso }}
                   </ng-template>
                 </p-cellEditor>
               </td>
               <td>
                 <p-cellEditor>
                   <ng-template pTemplate="input">
-                    <input pInputText type="text" [(ngModel)]="product.imc" required />
+                    <input
+                      pInputText
+                      type="text"
+                      [(ngModel)]="product.imc"
+                      required
+                    />
                   </ng-template>
                   <ng-template pTemplate="output">
-                    {{product.imc}}
+                    {{ product.imc }}
                   </ng-template>
                 </p-cellEditor>
               </td>
 
               <td>
-                <div class="flex gap-2 align-items-center justify-content-center">
-                  <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-                    (click)="onRowEditInit(product)" class="p-button-rounded p-button-text">
-                  </button>
-                  <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
-                    (click)="onRowEditSave(product)" class="mr-2 p-button-rounded p-button-text p-button-success">
-                  </button>
-                  <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
-                    (click)="onRowEditCancel(product, ri)" class="p-button-rounded p-button-text p-button-danger">
-                  </button>
+                <div
+                  class="flex gap-2 align-items-center justify-content-center"
+                >
+                  <button
+                    *ngIf="!editing"
+                    pButton
+                    pRipple
+                    type="button"
+                    pInitEditableRow
+                    icon="pi pi-pencil"
+                    (click)="onRowEditInit(product)"
+                    class="p-button-rounded p-button-text"
+                  ></button>
+                  <button
+                    *ngIf="editing"
+                    pButton
+                    pRipple
+                    type="button"
+                    pSaveEditableRow
+                    icon="pi pi-check"
+                    (click)="onRowEditSave(product)"
+                    class="mr-2 p-button-rounded p-button-text p-button-success"
+                  ></button>
+                  <button
+                    *ngIf="editing"
+                    pButton
+                    pRipple
+                    type="button"
+                    pCancelEditableRow
+                    icon="pi pi-times"
+                    (click)="onRowEditCancel(product, ri)"
+                    class="p-button-rounded p-button-text p-button-danger"
+                  ></button>
                 </div>
               </td>
             </tr>

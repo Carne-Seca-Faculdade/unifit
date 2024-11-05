@@ -39,7 +39,7 @@ export class ExerciseComponent {
     workoutId: '',
   };
 
-  constructor(private workoutsService:WorkoutsService) {}
+  constructor(private workoutsService: WorkoutsService) {}
 
   showEditExerciseDialog() {
     this.selectedExercise = { ...this.exercise };
