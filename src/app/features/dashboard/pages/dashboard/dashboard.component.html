@@ -1,21 +1,23 @@
 <main class="dashboard">
   <div class="flex justify-center mb-4">
-    <div class="w-3/12">
-      <h3 class="text-xl font-semibold mb-2 text-center">IMC</h3>
+    <div class="w-full max-w-80">
+      <h3 class="mb-2 text-xl font-semibold text-center">IMC</h3>
       <p-chart type="polarArea" [data]="imcData" [options]="imcChartOptions" />
     </div>
   </div>
 
-  <div class="flex flex-col md:flex-row justify-center gap-8">
-    <div class="flex-1">
-      <h3 class="text-xl font-semibold mb-2 text-center">
+  <div
+    class="flex flex-col items-center justify-center w-full gap-8 xl:flex-row"
+  >
+    <div class="flex-1 max-w-xl">
+      <h3 class="mb-2 text-xl font-semibold text-center">
         Relatório de Treinos
       </h3>
       <p-chart type="bar" [data]="treinoData" [options]="treinoChartOptions" />
     </div>
 
-    <div class="flex-1">
-      <h3 class="text-xl font-semibold mb-2 text-center">Progresso Físico</h3>
+    <div class="flex-1 max-w-xl">
+      <h3 class="mb-2 text-xl font-semibold text-center">Progresso Físico</h3>
       <div class="pt-2">
         <p-chart
           type="line"
