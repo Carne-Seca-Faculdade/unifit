@@ -1,4 +1,5 @@
 import { Workout } from '@core/models/workout';
+import { IMC } from './../../core/models/imc';
 
 export const WORKOUTS: Workout[] = [
   {
@@ -153,4 +154,12 @@ export const WORKOUTS: Workout[] = [
       },
     ],
   },
+];
+
+export const WEIGHt: IMC[] = [
+
+  { id: 1, date: '10/09/2021', weight: 85.00 , imc : 25.00},
+  { id: 2, date: '11/10/2021', weight: 84.00 , imc : 24.00},
+  { id: 3, date: '12/11/2021', weight: 83.00 , imc : 23.00},
+
 ];

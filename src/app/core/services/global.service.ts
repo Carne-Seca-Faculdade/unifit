@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { IMC } from '@core/models/imc';
 import { WORKOUTS } from '@shared/utils/data';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { v4 as uuid } from 'uuid';
+import { Exercise } from '../models/exercise';
 import { User } from '../models/user';
 import { Workout } from '../models/workout';
-import { Exercise } from '../models/exercise';
-import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,17 +13,21 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class GlobalService {
   private userSubject = new BehaviorSubject<User>({
     id: 'c053135f-e915-4477-9161-1c955ece92f0',
-    name: 'John Doe',
+    name: 'John',
+    lastName: 'Doe',
+    height: 1.75,
     email: 'john@example.com',
   });
 
   private workoutsSubject = new BehaviorSubject<Workout[]>([...WORKOUTS]);
+  private imcSubject = new BehaviorSubject<IMC[]>([]);
 
   getUser(): Observable<User> {
     return this.userSubject.asObservable();
   }
 
   updateUser(user: User): void {
+
     this.userSubject.next(user);
   }
 
@@ -116,5 +121,13 @@ export class GlobalService {
 
   private generateId(): string {
     return uuid();
+  }
+
+  getIMC(): Observable<IMC[]> {
+      return this.imcSubject.asObservable();
+    }
+
+  addWeight(): void {
+
   }
 }
