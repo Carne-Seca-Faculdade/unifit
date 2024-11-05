@@ -1,9 +1,9 @@
 import { ExerciseDTO } from './exerciseDTO';
-import { userDTO } from './userDTO';
+import { UserDTO } from './userDTO';
 
 export interface ExerciseLogDTO {
   id: number;
-  user: userDTO;
+  user: UserDTO;
   exercise: ExerciseDTO;
   performedAt: number;
   series: number;

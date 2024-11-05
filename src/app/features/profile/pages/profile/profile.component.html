@@ -1,6 +1,5 @@
 <main>
   <app-title title="Perfil" />
-
   <div class="flex flex-col w-full mt-6">
     <div
       class="flex flex-col items-center justify-between gap-4 pb-5 border-b border-zinc-200 lg:flex-row lg:items-center dark:border-zinc-700"
@@ -16,7 +15,7 @@
           severity="secondary"
           (click)="resetUser()"
         ></p-button>
-        <p-button label="Salvar" (click)="saveUser()"></p-button>
+        <p-button label="Salvar" (click)="handleClick()"></p-button>
       </div>
     </div>
 
@@ -39,8 +38,8 @@
             <input
               class="p-2"
               pInputText
-              placeholder="Sobrenome"
-              [(ngModel)]="editUser.lastName"
+              placeholder="Email"
+              [(ngModel)]="editUser.email"
             />
           </div>
         </p-inputGroup>
@@ -60,138 +59,28 @@
       <div class="flex flex-col gap-3 pt-5 lg:grid lg:grid-cols-form">
         <p-inputGroup>
           <p-inputGroupAddon>
-            <i class="pi pi-at"></i>
+            <i class="pi pi-ticket"></i>
           </p-inputGroupAddon>
           <input
             class="p-2"
             pInputText
-            placeholder="E-mail"
-            [(ngModel)]="editUser.email"
+            placeholder="Peso"
+            [(ngModel)]="editUser.weight.value"
           />
         </p-inputGroup>
       </div>
-
       <div class="flex flex-col gap-3 pt-5 lg:grid lg:grid-cols-form">
-        <label
-          htmlFor="role"
-          class="text-sm font-medium text-zinc-700 dark:text-zinc-300"
-        >
-          Peso Corporal
-        </label>
-
-        <div
-          class="flex flex-col items-center justify-end gap-2 pt-5 lg:flex-row"
-        >
-          <p-button
-            label="Adicionar"
-            size="small"
-            icon="pi pi-plus"
-            iconPos="right"
-            (click)="saveIMC()"
-          >
-          </p-button>
-        </div>
-
-        <p-table
-          [value]="products"
-          dataKey="id"
-          editMode="row"
-          [tableStyle]="{ 'min-width': '50rem' }"
-        >
-          <ng-template pTemplate="header">
-            <tr>
-              <th style="width: 20%">Data</th>
-              <th style="width: 20%">Peso</th>
-              <th style="width: 20%">IMC</th>
-            </tr>
-          </ng-template>
-          <ng-template
-            pTemplate="body"
-            let-product
-            let-editing="editing"
-            let-ri="rowIndex"
-          >
-            <tr [pEditableRow]="product">
-              <td>
-                <p-cellEditor>
-                  <ng-template pTemplate="input">
-                    <input pInputText type="text" [(ngModel)]="product.data" />
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    {{ product.data }}
-                  </ng-template>
-                </p-cellEditor>
-              </td>
-              <td>
-                <p-cellEditor>
-                  <ng-template pTemplate="input">
-                    <input
-                      pInputText
-                      type="text"
-                      [(ngModel)]="product.peso"
-                      required
-                    />
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    {{ product.peso }}
-                  </ng-template>
-                </p-cellEditor>
-              </td>
-              <td>
-                <p-cellEditor>
-                  <ng-template pTemplate="input">
-                    <input
-                      pInputText
-                      type="text"
-                      [(ngModel)]="product.imc"
-                      required
-                    />
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    {{ product.imc }}
-                  </ng-template>
-                </p-cellEditor>
-              </td>
-
-              <td>
-                <div
-                  class="flex gap-2 align-items-center justify-content-center"
-                >
-                  <button
-                    *ngIf="!editing"
-                    pButton
-                    pRipple
-                    type="button"
-                    pInitEditableRow
-                    icon="pi pi-pencil"
-                    (click)="onRowEditInit(product)"
-                    class="p-button-rounded p-button-text"
-                  ></button>
-                  <button
-                    *ngIf="editing"
-                    pButton
-                    pRipple
-                    type="button"
-                    pSaveEditableRow
-                    icon="pi pi-check"
-                    (click)="onRowEditSave(product)"
-                    class="mr-2 p-button-rounded p-button-text p-button-success"
-                  ></button>
-                  <button
-                    *ngIf="editing"
-                    pButton
-                    pRipple
-                    type="button"
-                    pCancelEditableRow
-                    icon="pi pi-times"
-                    (click)="onRowEditCancel(product, ri)"
-                    class="p-button-rounded p-button-text p-button-danger"
-                  ></button>
-                </div>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
+        <p-inputGroup>
+          <p-inputGroupAddon>
+            <i class="pi pi-receipt"></i>
+          </p-inputGroupAddon>
+          <input
+            class="p-2"
+            pInputText
+            placeholder="Idade"
+            [(ngModel)]="editUser.age"
+          />
+        </p-inputGroup>
       </div>
     </div>
   </div>
