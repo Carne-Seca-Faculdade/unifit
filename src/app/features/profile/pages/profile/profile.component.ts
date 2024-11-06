@@ -88,15 +88,14 @@ export class ProfileComponent implements OnInit {
 
   attUser(): void {
     console.log(this.editUser);
-    console.log("cal")
+    console.log('cal');
     this.globalService.updateUser(this.editUser);
   }
 
-  handleClick():void {
-    this.saveUser()
-    this.attUser()
+  handleClick(): void {
+    this.saveUser();
+    this.attUser();
   }
-
 
   resetUser(): void {
     this.editUser = { ...this.user };

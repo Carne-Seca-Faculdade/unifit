@@ -14,7 +14,7 @@ export class SidebarComponent implements OnInit {
 
   user = { name: '', email: '' };
 
-  sidebarWrapperClasses = ""
+  sidebarWrapperClasses = '';
 
   constructor(private globalService: GlobalService) {}
 
@@ -24,8 +24,8 @@ export class SidebarComponent implements OnInit {
     });
 
     this.sidebarWrapperClasses = cn(
-"flex-col items-center justify-between h-full gap-8 px-8 py-4 overflow-y-auto bg-white",
-this.isMobile ? 'w-full flex' : "w-80 hidden sm:flex"
-  )
+      'flex-col items-center justify-between h-full gap-8 px-8 py-4 overflow-y-auto bg-white',
+      this.isMobile ? 'w-full flex' : 'w-80 hidden sm:flex'
+    );
   }
 }
