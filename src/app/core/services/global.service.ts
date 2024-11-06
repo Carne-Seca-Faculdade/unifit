@@ -2,32 +2,27 @@ import { Injectable } from '@angular/core';
 import { IMC } from '@core/models/imc';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user';
-import { UserDTO } from '@core/models/dto/userDTO';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GlobalService {
-  private userSubject = new BehaviorSubject<UserDTO>({
-    id: 1,
-    name: 'Xirumbinha',
-    email: 'xirumbinha@gmail.com',
-    age: 33,
-    weight: {
-      value: 77.8,
-      recordAt: '',
-    },
+  private userSubject = new BehaviorSubject<User>({
+    id: 'c053135f-e915-4477-9161-1c955ece92f0',
+    name: 'John',
+    lastName: 'Doe',
     height: 1.75,
+    email: 'john@example.com',
   });
-
-  getUser(): Observable<UserDTO> {
-    return this.userSubject.asObservable();
-  }
 
   private imcSubject = new BehaviorSubject<IMC[]>([]);
 
-  updateUser(userDTO: UserDTO): void {
-    this.userSubject.next(userDTO);
+  getUser(): Observable<User> {
+    return this.userSubject.asObservable();
+  }
+
+  updateUser(user: User): void {
+    this.userSubject.next(user);
   }
 
   getIMC(): Observable<IMC[]> {

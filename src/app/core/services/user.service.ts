@@ -7,6 +7,8 @@ import { UserDTO } from '@core/models/dto/userDTO';
   providedIn: 'root',
 })
 export class UserService {
+  private apiUrl = 'http://localhost:8080/usuarios';
+
   private userSubject = new BehaviorSubject<UserDTO>({
     id: 1,
     name: 'Xirumbinha',
@@ -22,8 +24,6 @@ export class UserService {
   getUser(): Observable<UserDTO> {
     return this.userSubject.asObservable();
   }
-
-  private apiUrl = 'http://localhost:8080/usuarios';
 
   constructor(private http: HttpClient) {}
 

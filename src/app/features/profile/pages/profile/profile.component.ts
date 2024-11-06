@@ -68,7 +68,6 @@ export class ProfileComponent implements OnInit {
     this.userService.atualizarUser(this.editUser.id, this.editUser).subscribe(
       (updatedUser: UserDTO) => {
         this.editUser = { ...updatedUser };
-        this.attUser();
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
@@ -85,18 +84,6 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
-
-  attUser(): void {
-    console.log(this.editUser);
-    console.log("cal")
-    this.globalService.updateUser(this.editUser);
-  }
-
-  handleClick():void {
-    this.saveUser()
-    this.attUser()
-  }
-
 
   resetUser(): void {
     this.editUser = { ...this.user };
