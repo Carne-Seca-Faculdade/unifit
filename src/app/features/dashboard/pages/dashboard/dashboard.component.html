@@ -9,14 +9,14 @@
   <div
     class="flex flex-col items-center justify-center w-full gap-8 xl:flex-row"
   >
-    <div class="flex-1 max-w-xl">
+    <div class="w-full xl:w-1/2 max-w-xl">
       <h3 class="mb-2 text-xl font-semibold text-center">
         Relatório de Treinos
       </h3>
       <p-chart type="bar" [data]="treinoData" [options]="treinoChartOptions" />
     </div>
 
-    <div class="flex-1 max-w-xl">
+    <div class="w-full xl:w-1/2 max-w-xl">
       <h3 class="mb-2 text-xl font-semibold text-center">Progresso Físico</h3>
       <div class="pt-2">
         <p-chart

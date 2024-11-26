@@ -5,12 +5,11 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
-import { IMC } from '@core/models/imc';
 import { UserDTO } from '@core/models/dto/userDTO';
 import { TitleComponent } from '../../../../shared/components/title/title.component';
 import { MessageService } from 'primeng/api';
 import { UserService } from '@core/services/user.service';
-import { GlobalService } from '@core/services/global.service';
+import { LoginService } from '@app/features/auth/services/login.service';
 
 @Component({
   selector: 'app-profile',
@@ -32,6 +31,8 @@ export class ProfileComponent implements OnInit {
     id: 0,
     name: '',
     email: '',
+    password: '',
+    role: '',
     age: 0,
     weight: {
       value: 0,
@@ -43,6 +44,8 @@ export class ProfileComponent implements OnInit {
     id: 0,
     name: '',
     email: '',
+    password: '',
+    role: '',
     age: 0,
     weight: {
       value: 0,
@@ -53,15 +56,36 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private globalService: GlobalService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private loginService: LoginService
   ) {}
 
   ngOnInit(): void {
-    this.userService.getUser().subscribe(user => {
-      this.user = user;
-      this.editUser = { ...user };
-    });
+    const userId = this.loginService.getUserId();
+
+    if (userId) {
+      this.userService.getUser(userId).subscribe(
+        (user: UserDTO) => {
+          this.user = user;
+          this.editUser = { ...user };
+        },
+        error => {
+          console.error('Erro ao carregar usuario', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Falha ao carregar dados do usuario.',
+          });
+        }
+      );
+    } else {
+      console.error('Usuario nao autenticado ou token invalido.');
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail: 'Usuario nao autenticado.',
+      });
+    }
   }
 
   saveUser(): void {
@@ -71,51 +95,26 @@ export class ProfileComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
-          detail: 'Usuário atualizado com sucesso!',
+          detail: 'Usuario atualizado com sucesso!',
         });
       },
       error => {
-        console.error('Erro ao atualizar usuário', error);
+        console.error('Erro ao atualizar usuario', error);
         this.messageService.add({
           severity: 'error',
           summary: 'Erro',
-          detail: 'Falha ao atualizar usuário.',
+          detail: 'Falha ao atualizar usuario.',
         });
       }
     );
   }
 
-  attUser(): void {
-    console.log(this.editUser);
-    console.log('cal');
-    this.globalService.updateUser(this.editUser);
-  }
-
-  handleClick(): void {
+  handleclick(): void {
+    this.userService.atualizarUser(this.editUser.id, this.editUser);
     this.saveUser();
-    this.attUser();
   }
 
   resetUser(): void {
     this.editUser = { ...this.user };
-  }
-
-  products: IMC[] = [];
-
-  saveIMC(): void {
-    console.log(this.products);
-    this.globalService.addWeight();
-  }
-
-  onRowEditInit(product: any): void {
-    console.log('Row edit initialized', product);
-  }
-
-  onRowEditSave(product: any): void {
-    console.log('Row edit saved', product);
-  }
-
-  onRowEditCancel(product: any, index: number): void {
-    console.log('Row edit cancelled', product, index);
   }
 }

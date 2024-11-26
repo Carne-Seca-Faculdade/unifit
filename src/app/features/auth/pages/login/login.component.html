@@ -7,8 +7,9 @@
   </div>
 
   <form
+    [formGroup]="loginForm"
     class="flex flex-col gap-2"
-    (submit)="handleSubmit($event)"
+    (submit)="handleSubmit()"
     ngNativeValidate
   >
     <div class="flex flex-col gap-1">
@@ -17,6 +18,7 @@
         required
         type="email"
         name="email"
+        formControlName="email"
         placeholder="Email"
         class="p-inputtext-sm"
         [disabled]="isSubmitting"
@@ -29,6 +31,7 @@
         required
         name="password"
         type="password"
+        formControlName="password"
         placeholder="Senha"
         class="p-inputtext-sm"
         [disabled]="isSubmitting"

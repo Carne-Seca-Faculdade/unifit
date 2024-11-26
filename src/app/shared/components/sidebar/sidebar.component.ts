@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { GlobalService } from '@core/services/global.service';
+import { LoginService } from '@app/features/auth/services/login.service';
+import { UserService } from '@core/services/user.service';
 import { cn } from '@shared/utils/helpers';
 
 @Component({
@@ -16,16 +17,23 @@ export class SidebarComponent implements OnInit {
 
   sidebarWrapperClasses = '';
 
-  constructor(private globalService: GlobalService) {}
+  constructor(
+    private userService: UserService,
+    private loginService: LoginService
+  ) {}
 
   ngOnInit(): void {
-    this.globalService.getUser().subscribe(user => {
-      this.user = user;
-    });
+    const userId = this.loginService.getUserId();
 
-    this.sidebarWrapperClasses = cn(
-      'flex-col items-center justify-between h-full gap-8 px-8 py-4 overflow-y-auto bg-white',
-      this.isMobile ? 'w-full flex' : 'w-80 hidden sm:flex'
-    );
+    if (userId) {
+      this.userService.getUser(userId).subscribe(user => {
+        this.user = user;
+      });
+
+      this.sidebarWrapperClasses = cn(
+        'flex-col items-center justify-between h-full gap-8 px-8 py-4 overflow-y-auto bg-white',
+        this.isMobile ? 'w-full flex' : 'w-80 hidden sm:flex'
+      );
+    }
   }
 }
