@@ -15,6 +15,10 @@ module.exports = {
         mb: '425px',
       },
     },
+    fontFamily: {
+      sans: ['Inter', 'sans-serif'],
+      Orbitron: ['Orbitron', 'sans-serif'],
+    },
     extend: {
       colors: {
         // Light mode colors (default)

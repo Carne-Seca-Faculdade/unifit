@@ -1,7 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { UserDTO } from '@core/models/dto/userDTO';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,14 +9,14 @@ import { UserDTO } from '@core/models/dto/userDTO';
 export class UserService {
   private userSubject = new BehaviorSubject<UserDTO>({
     id: 1,
-    name: 'Xirumbinha',
-    email: 'xirumbinha@gmail.com',
-    age: 33,
+    name: '',
+    email: 'joao@gmail.com',
+    age: 0,
     weight: {
-      value: 77.8,
+      value: 0,
       recordAt: '',
     },
-    height: 1.75,
+    height: 0,
   });
 
   getUser(): Observable<UserDTO> {

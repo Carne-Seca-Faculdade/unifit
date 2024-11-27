@@ -1,7 +1,7 @@
 <main class="space-y-6">
   <div class="space-y-2">
-    <h1 class="text-2xl font-semibold tracking-tight">Bem vindo de volta</h1>
-    <p class="text-sm text-muted-foreground">
+    <h1 class="text-2xl font-semibold tracking-tight text-white">Bem vindo de volta</h1>
+    <p class="text-sm text-slate-300">
       Insira seu email e senha para acessar sua conta
     </p>
   </div>
@@ -17,7 +17,7 @@
         required
         type="email"
         name="email"
-        placeholder="Email"
+        placeholder="E-mail"
         class="p-inputtext-sm"
         [disabled]="isSubmitting"
       />
@@ -41,22 +41,24 @@
       type="submit"
       [disabled]="isSubmitting"
       size="small"
+      label="Entrar"
+      class="!bg-emerald-500 hover:!bg-emerald-600 !border-emerald-500 hover:!border-emerald-600"
     >
-      Entrar
+
     </button>
   </form>
 
   <div class="flex flex-col gap-1">
     <a
       routerLink="/auth/reset-password"
-      class="mt-1 mr-2 text-sm font-medium underline text-muted-foreground"
+      class="mt-1 mr-2 text-sm font-medium underline text-slate-300 hover:text-slate-200"
     >
       Esqueceu sua senha?
     </a>
 
-    <p class="text-sm text-muted-foreground">
+    <p class="text-sm text-slate-300 ">
       Ainda não tem uma conta?
-      <a routerLink="/auth/register" class="font-medium underline">Criar</a>
+      <a routerLink="/auth/register" class="font-medium underline hover:text-slate-200">Criar</a>
     </p>
   </div>
 </main>

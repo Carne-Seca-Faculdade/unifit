@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
+import { UserDTO } from '@core/models/dto/userDTO';
 import { IMC } from '@core/models/imc';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from '../models/user';
-import { UserDTO } from '@core/models/dto/userDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -10,14 +9,14 @@ import { UserDTO } from '@core/models/dto/userDTO';
 export class GlobalService {
   private userSubject = new BehaviorSubject<UserDTO>({
     id: 1,
-    name: 'Xirumbinha',
-    email: 'xirumbinha@gmail.com',
-    age: 33,
+    name: '',
+    email: 'joao@email.com',
+    age: 0,
     weight: {
-      value: 77.8,
+      value: 0,
       recordAt: '',
     },
-    height: 1.75,
+    height: 0,
   });
 
   getUser(): Observable<UserDTO> {

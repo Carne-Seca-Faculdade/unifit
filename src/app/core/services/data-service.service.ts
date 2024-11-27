@@ -1,10 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { UserDTO } from '@core/models/dto/userDTO';
-import { ExerciseLogDTO } from '@core/models/dto/exerciseLogDTO';
-import { ExerciseDTO } from '@core/models/dto/exerciseDTO';
-import { TrainingPlansDTO } from '@core/models/dto/trainingPlansDTO';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +12,13 @@ export class DataServiceService {
   getWeeklyExerciseLogs(
     userId: number,
     numberOfWeeks: number = 5
-  ): Observable<{ [key: string]: number }> {
-    return this.http.get<{ [key: string]: number }>(
-      `${this.apiUrl}/exercicioLog/users/${userId}/weekly?numberOfWeeks=${numberOfWeeks}`
-    );
+  ): Record<string, number> {
+    return {
+      "2024-11-11 to 2024-11-18": 0,
+      "2024-11-04 to 2024-11-11": 0,
+      "2024-10-28 to 2024-11-04": 2,
+      "2024-10-21 to 2024-10-28": 6,
+      "2024-10-14 to 2024-10-21": 8
+  }
   }
 }
