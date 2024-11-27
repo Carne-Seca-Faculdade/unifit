@@ -1,15 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { LoginService } from '@app/features/auth/services/login.service';
+import { UserDTO } from '@core/models/dto/userDTO';
+import { UserService } from '@core/services/user.service';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { TableModule } from 'primeng/table';
-import { CommonModule } from '@angular/common';
-import { UserDTO } from '@core/models/dto/userDTO';
 import { TitleComponent } from '../../../../shared/components/title/title.component';
-import { MessageService } from 'primeng/api';
-import { UserService } from '@core/services/user.service';
-import { LoginService } from '@app/features/auth/services/login.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,11 +23,14 @@ import { LoginService } from '@app/features/auth/services/login.service';
     TableModule,
     FormsModule,
     CommonModule,
+    DialogModule,
   ],
   templateUrl: './profile.component.html',
   providers: [MessageService],
 })
 export class ProfileComponent implements OnInit {
+  visible = false;
+
   user: UserDTO = {
     id: 0,
     name: '',
@@ -116,5 +120,9 @@ export class ProfileComponent implements OnInit {
 
   resetUser(): void {
     this.editUser = { ...this.user };
+  }
+
+  showDialog(): void {
+    this.visible = true;
   }
 }

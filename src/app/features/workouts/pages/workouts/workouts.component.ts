@@ -1,16 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ButtonModule } from 'primeng/button';
-import { RouterLink } from '@angular/router';
-import { DialogModule } from 'primeng/dialog';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputNumberModule } from 'primeng/inputnumber';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DropdownModule } from 'primeng/dropdown';
-import { TrainingPlansService } from '@core/services/training-plans.service';
+import { RouterLink } from '@angular/router';
 import { TrainingPlansDTO } from '@core/models/dto/trainingPlansDTO';
-import { WorkoutListComponent } from './components/workout-list/workout-list.component';
+import { TrainingPlansService } from '@core/services/training-plans.service';
 import { TitleComponent } from '@shared/components/title/title.component';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+import { Subscription } from 'rxjs';
+import { WorkoutListComponent } from './components/workout-list/workout-list.component';
 
 @Component({
   selector: 'app-workouts',
@@ -30,6 +30,7 @@ import { TitleComponent } from '@shared/components/title/title.component';
 })
 export class WorkoutsComponent implements OnInit, OnDestroy {
   visible = false;
+
   newWorkout: Omit<TrainingPlansDTO, 'id'> = {
     planName: '',
     planDescription: '',
