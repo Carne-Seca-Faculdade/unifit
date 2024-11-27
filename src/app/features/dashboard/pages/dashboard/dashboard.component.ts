@@ -62,22 +62,20 @@ export class DashboardComponent implements OnInit {
   }
 
   loadWeeklyExerciseLogData(userId: number, numberOfWeeks: number) {
-    this.dataService
+    const data = this.dataService
       .getWeeklyExerciseLogs(userId, numberOfWeeks)
-      .subscribe(weeklyCounts => {
-        this.treinoData.labels = Array.from(
-          { length: numberOfWeeks },
-          (_, i) => `Semana ${i + 1}`
-        );
-        this.treinoData.datasets[0].data = Object.values(weeklyCounts);
-        this.treinoData.datasets[0].backgroundColor = [
-          'rgba(252, 186, 0.6)',
-          'rgba(92,51,23)',
-          'rgba(107,35,142)',
-          'rgba(192,217,217)',
-          'rgba(123, 176, 0.6)',
-        ];
-      });
+      this.treinoData.labels = Array.from(
+        { length: numberOfWeeks },
+        (_, i) => `Semana ${i + 1}`
+      );
+      this.treinoData.datasets[0].data = Object.values(data);
+      this.treinoData.datasets[0].backgroundColor = [
+        'rgba(252, 186, 0.6)',
+        'rgba(92,51,23)',
+        'rgba(107,35,142)',
+        'rgba(192,217,217)',
+        'rgba(123, 176, 0.6)',
+      ];
   }
 
   loadWeightProgressData(userId: number) {

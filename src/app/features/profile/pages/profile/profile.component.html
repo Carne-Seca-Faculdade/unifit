@@ -15,17 +15,18 @@
           severity="secondary"
           (click)="resetUser()"
         ></p-button>
-        <p-button label="Salvar" (click)="handleClick()"></p-button>
+        <p-button label="Salvar" (click)="handleclick()"></p-button>
       </div>
     </div>
 
     <div
       id="settings"
-      class="flex flex-col w-full gap-5 mt-6 divide-y divide-zinc-200 dark:divide-zinc-700"
+      class="flex flex-col w-full gap-5 mt-6 divide-y "
     >
       <div class="flex flex-col gap-2">
         <p-inputGroup>
-          <p-inputGroupAddon>
+          <p-inputGroupAddon class="w-20">
+            <p>Nome</p>
             <i class="pi pi-user"></i>
           </p-inputGroupAddon>
           <div class="flex flex-col gap-2 lg:flex-row">
@@ -35,17 +36,28 @@
               placeholder="Nome"
               [(ngModel)]="editUser.name"
             />
-            <input
-              class="p-2"
-              pInputText
-              placeholder="Email"
-              [(ngModel)]="editUser.email"
-            />
           </div>
         </p-inputGroup>
 
         <p-inputGroup>
-          <p-inputGroupAddon>
+          <p-inputGroupAddon class="w-20">
+            <p>E-mail</p>
+            <i class="pi pi-envelope"></i>
+          </p-inputGroupAddon>
+          <input
+          class="p-2"
+          pInputText
+          placeholder="Email"
+          [(ngModel)]="editUser.email"
+          />
+        </p-inputGroup>
+
+      </div>
+
+      <div class="flex flex-col gap-3 pt-5 lg:grid lg:grid-cols-form">
+        <p-inputGroup>
+          <p-inputGroupAddon class="w-20">
+            <p>Altura</p>
             <i class="pi pi-arrows-v"></i>
           </p-inputGroupAddon>
           <input
@@ -55,11 +67,10 @@
             [(ngModel)]="editUser.height"
           />
         </p-inputGroup>
-      </div>
 
-      <div class="flex flex-col gap-3 pt-5 lg:grid lg:grid-cols-form">
         <p-inputGroup>
-          <p-inputGroupAddon>
+          <p-inputGroupAddon class="w-20">
+            <p>Peso</p>
             <i class="pi pi-ticket"></i>
           </p-inputGroupAddon>
           <input
@@ -69,11 +80,10 @@
             [(ngModel)]="editUser.weight.value"
           />
         </p-inputGroup>
-      </div>
 
-      <div class="flex flex-col gap-3 pt-5 lg:grid lg:grid-cols-form">
         <p-inputGroup>
-          <p-inputGroupAddon>
+          <p-inputGroupAddon class="w-20">
+            <p>Idade</p>
             <i class="pi pi-receipt"></i>
           </p-inputGroupAddon>
           <input

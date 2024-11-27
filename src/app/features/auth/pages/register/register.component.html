@@ -1,12 +1,13 @@
 <main class="space-y-6">
   <div class="space-y-2">
-    <h1 class="text-2xl font-semibold tracking-tight">Criar uma conta</h1>
-    <p class="text-sm text-muted-foreground">
+    <h1 class="text-2xl font-semibold tracking-tight text-white">Criar uma conta</h1>
+    <p class="text-sm text-slate-300">
       Insira seu email abaixo para criar uma conta
     </p>
   </div>
 
   <form
+    [formGroup]="registerForm"
     class="flex flex-col gap-2"
     ngNativeValidate
     (submit)="handleSubmit($event)"
@@ -17,8 +18,9 @@
         required
         type="email"
         name="email"
+        formControlName="email"
         placeholder="Email"
-        class="p-inputtext-sm"
+        class="p-inputtext-sm hover:!border-emerald-500 focus-within:!border-emerald-500"
         [disabled]="isSubmitting"
       />
     </div>
@@ -29,8 +31,9 @@
         required
         name="password"
         type="password"
+        formControlName="password"
         placeholder="Senha"
-        class="p-inputtext-sm"
+        class="p-inputtext-sm hover:!border-emerald-500 focus-within:!border-emerald-500"
         [disabled]="isSubmitting"
       />
     </div>
@@ -41,13 +44,14 @@
       type="submit"
       [disabled]="isSubmitting"
       size="small"
+      label="Criar conta"
+      class="!bg-emerald-500 hover:!bg-emerald-600 !border-emerald-500 hover:!border-emerald-600"
     >
-      Criar conta
     </button>
   </form>
 
-  <p class="text-sm text-muted-foreground">
+  <p class="text-sm text-slate-300">
     Já tem uma conta?
-    <a routerLink="/auth/login" class="font-medium underline">Entrar</a>
+    <a routerLink="/auth/login" class="font-medium underline hover:text-slate-200">Entrar</a>
   </p>
 </main>
