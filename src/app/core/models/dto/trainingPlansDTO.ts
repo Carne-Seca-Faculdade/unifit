@@ -1,4 +1,3 @@
-import { Category } from '../category';
 import { ExerciseDTO } from './exerciseDTO';
 
 export interface TrainingPlansDTO {
@@ -9,5 +8,4 @@ export interface TrainingPlansDTO {
   exerciseIds?: number[];
   userIds?: number[];
   newExercises?: ExerciseDTO[];
-  category?: Category;
 }

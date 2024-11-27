@@ -9,14 +9,14 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class UserService {
   private userSubject = new BehaviorSubject<UserDTO>({
     id: 1,
-    name: '',
-    email: 'joao@gmail.com',
-    age: 0,
+    name: 'Xirumbinha',
+    email: 'xirumbinha@gmail.com',
+    age: 33,
     weight: {
-      value: 0,
+      value: 77.8,
       recordAt: '',
     },
-    height: 0,
+    height: 1.75,
   });
 
   getUser(): Observable<UserDTO> {
@@ -31,8 +31,8 @@ export class UserService {
     return this.http.post<UserDTO>(`${this.apiUrl}/save`, user);
   }
 
-  listarUsers(): Observable<UserDTO[]> {
-    return this.http.get<UserDTO[]>(this.apiUrl);
+  getUser(userId: number): Observable<UserDTO> {
+    return this.http.get<UserDTO>(`${this.apiUrl}/${userId}`);
   }
 
   calcularIMC(userId: number): Observable<{ IMC: string }> {

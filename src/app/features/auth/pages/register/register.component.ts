@@ -1,9 +1,16 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { sleep } from '@shared/utils/helpers';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { RegisterService } from '../../services/register.service';
+import { UserDTO } from '@core/models/dto/userDTO';
 
 @Component({
   selector: 'app-register',
@@ -19,21 +26,43 @@ import { ButtonModule } from 'primeng/button';
   templateUrl: './register.component.html',
 })
 export class RegisterComponent {
+  registerForm: FormGroup;
   isSubmitting = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private registerService: RegisterService,
+    private fb: FormBuilder
+  ) {
+    this.registerForm = this.fb.group({
+      email: [''],
+      password: [''],
+    });
+  }
 
   async handleSubmit(event: SubmitEvent) {
     event.preventDefault();
 
-    if (this.isSubmitting) return;
+    if (this.isSubmitting || this.registerForm.invalid) return;
 
     this.isSubmitting = true;
 
-    await sleep(2000);
+    console.log(this.registerForm.value);
 
-    this.isSubmitting = false;
+    try {
+      const user: UserDTO = this.registerForm.value;
+      const response = await this.registerService.register(user).toPromise();
+      console.log('Usuario registrado com sucesso:', response);
 
-    this.router.navigate(['/app']);
+      this.router.navigate(['/auth/login']);
+    } catch (error) {
+      console.error('Erro ao registrar usuario:', error);
+    } finally {
+      this.isSubmitting = false;
+    }
+  }
+
+  get formControls() {
+    return this.registerForm.controls;
   }
 }
