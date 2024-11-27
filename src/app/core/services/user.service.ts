@@ -1,28 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserDTO } from '@core/models/dto/userDTO';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private userSubject = new BehaviorSubject<UserDTO>({
-    id: 1,
-    name: 'Xirumbinha',
-    email: 'xirumbinha@gmail.com',
-    age: 33,
-    weight: {
-      value: 77.8,
-      recordAt: '',
-    },
-    height: 1.75,
-  });
-
-  getUser(): Observable<UserDTO> {
-    return this.userSubject.asObservable();
-  }
-
   private apiUrl = 'http://localhost:8080/usuarios';
 
   constructor(private http: HttpClient) {}
