@@ -1,47 +1,54 @@
-<main class="flex items-center justify-center min-h-screen bg-gray-900">
-  <div class="w-full max-w-3xl p-6 rounded-lg shadow-lg bg-emerald-400">
+<main class="flex items-center justify-center w-screen h-screen bg-center bg-cover bg-profile-bg bg-opacity-40">
+  <div class="w-full max-w-3xl p-6 bg-white rounded-lg shadow-lg opacity-90">
     <app-title title="Perfil" />
     <div class="flex flex-col w-full mt-6">
       <div
         class="flex flex-col items-center justify-between gap-4 pb-5 border-b border-zinc-200 lg:flex-row lg:items-center dark:border-zinc-700">
         <div class="space-y-1 text-center">
-          <h1 class="text-sm text-white dark:text-zinc-400">
+          <h1 class="text-lg text-emerald-600 dark:text-zinc-400">
             Edite e atualize seus dados pessoais aqui
           </h1>
         </div>
         <div class="flex items-center gap-2">
 
-          <p-button label="Editar" icon="pi pi-pencil" (click)="showDialog()">
-          </p-button>
+          <button
+            pButton
+            label="Editar"
+            icon="pi pi-pencil"
+            (click)="showDialog()"
+            class="!text-white !bg-emerald-500 hover:!bg-emerald-600 !border-emerald-500 hover:!border-emerald-600 !opacity-100"
+          >
+          </button>
+
 
           <p-dialog header="Editar Perfil" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem' }"
             draggable="false">
-            <span class="block mb-4 text-gray-600">Edite suas informações.</span>
+
 
             <div class="space-y-4">
               <div class="flex items-center">
-                <label for="name" class="w-full font-semibold">Nome</label>
-                <input type="text" pInputText id="name" autocomplete="off" [(ngModel)]="editUser.name"/>
+                <label for="name" class="flex justify-center w-full font-semibold">Nome:</label>
+                <input type="text" pInputText id="name" autocomplete="off" [(ngModel)]="editUser.name" class="p-2 border-b-2 border-gray-300 focus:outline-none focus:border-emerald-500"/>
               </div>
 
               <div class="flex items-center">
-                <label for="email" class="w-full font-semibold">E-mail</label>
-                <input type="text" id="email" pInputText autocomplete="off" [(ngModel)]="editUser.email"/>
+                <label for="email" class="flex justify-center w-full font-semibold">E-mail:</label>
+                <input type="text" id="email" pInputText autocomplete="off" [(ngModel)]="editUser.email" class="p-2 border-b-2 border-gray-300 focus:outline-none focus:border-emerald-500"/>
               </div>
 
               <div class="flex items-center">
-                <label for="height" class="w-full font-semibold">Altura</label>
-                <input type="text" id="height" pInputText autocomplete="off" [(ngModel)]="editUser.height"/>
+                <label for="height" class="flex justify-center w-full font-semibold">Altura:</label>
+                <input type="text" id="height" pInputText autocomplete="off" [(ngModel)]="editUser.height" class="p-2 border-b-2 border-gray-300 focus:outline-none focus:border-emerald-500"/>
               </div>
 
               <div class="flex items-center">
-                <label for="weight" class="w-full font-semibold">Peso</label>
-                <input type="text" id="weight" pInputText autocomplete="off" [(ngModel)]="editUser.weight.value"/>
+                <label for="weight" class="flex justify-center w-full font-semibold">Peso:</label>
+                <input type="text" id="weight" pInputText autocomplete="off" [(ngModel)]="editUser.weight" class="p-2 border-b-2 border-gray-300 focus:outline-none focus:border-emerald-500"/>
               </div>
 
               <div class="flex items-center">
-                <label for="age" class="w-full font-semibold">Idade</label>
-                <input type="text" id="age" pInputText autocomplete="off" [(ngModel)]="editUser.age" />
+                <label for="age" class="flex justify-center w-full font-semibold">Idade:</label>
+                <input type="text" id="age" pInputText autocomplete="off" [(ngModel)]="editUser.age" class="p-2 border-b-2 border-gray-300 focus:outline-none focus:border-emerald-500"/>
               </div>
 
 
@@ -49,7 +56,14 @@
 
             <div class="flex justify-end gap-2 mt-4">
               <p-button label="Cancelar" severity="secondary" (click)="resetUser()"></p-button>
-              <p-button label="Salvar" (click)="handleclick()"></p-button>
+              <button
+                pButton
+                label="Salvar"
+                (click)="handleclick()"
+                class="!text-white !bg-emerald-500 hover:!bg-emerald-600 !border-emerald-500 hover:!border-emerald-600 !bg-opacity-100"
+              >
+              </button>
+
             </div>
           </p-dialog>
 
@@ -58,9 +72,9 @@
 
 
       <div id="settings" class="flex flex-col items-center w-full gap-5 mt-6 divide-y">
-        <!-- Inputs alinhados ao centro -->
+
         <div class="flex flex-col w-full max-w-md gap-2">
-          <p-inputGroup>
+          <p-inputGroup class="[&_.p-inputgroup]:flex [&_.p-inputgroup]:gap-3 [&_.p-inputgroup]:justify-center">
             <p-inputGroupAddon class="w-32">
               <p>
                 <i class="pi pi-user"></i>
@@ -68,11 +82,11 @@
               </p>
             </p-inputGroupAddon>
             <div class="flex flex-col gap-2 lg:flex-row">
-              <input class="w-full p-2" pInputText placeholder="Nome" />
+              <input disabled class="w-full p-2 text-gray-500 disabled:bg-gray-100" pInputText placeholder="Nome" [(ngModel)]="editUser.name"/>
             </div>
           </p-inputGroup>
 
-          <p-inputGroup>
+          <p-inputGroup class="[&_.p-inputgroup]:flex [&_.p-inputgroup]:gap-3 [&_.p-inputgroup]:justify-center">
             <p-inputGroupAddon class="w-32">
               <p>
                 <i class="pi pi-envelope"></i>
@@ -80,14 +94,14 @@
               </p>
             </p-inputGroupAddon>
             <div class="flex flex-col gap-2 lg:flex-row">
-              <input class="w-full p-2" pInputText placeholder="Email" [(ngModel)]="editUser.email"/>
+              <input disabled class="w-full p-2 text-gray-500 disabled:bg-gray-100" pInputText placeholder="Email" [(ngModel)]="editUser.email"/>
             </div>
 
           </p-inputGroup>
         </div>
 
         <div class="flex flex-col w-full max-w-md gap-3 pt-5">
-          <p-inputGroup>
+          <p-inputGroup class="[&_.p-inputgroup]:flex [&_.p-inputgroup]:gap-3 [&_.p-inputgroup]:justify-center">
             <p-inputGroupAddon class="w-32">
               <p>
                 <i class="pi pi-arrows-v"></i>
@@ -95,11 +109,11 @@
               </p>
             </p-inputGroupAddon>
             <div class="flex flex-col gap-2 lg:flex-row">
-              <input class="w-full p-2" pInputText placeholder="Altura" />
+              <input disabled class="w-full p-2 text-gray-500 disabled:bg-gray-100" pInputText placeholder="-" [(ngModel)]="editUser.height"/>
             </div>
           </p-inputGroup>
 
-          <p-inputGroup>
+          <p-inputGroup class="[&_.p-inputgroup]:flex [&_.p-inputgroup]:gap-3 [&_.p-inputgroup]:justify-center">
             <p-inputGroupAddon class="w-32">
               <p>
                 <i class="pi pi-ticket"></i>
@@ -107,10 +121,10 @@
               </p>
             </p-inputGroupAddon>
             <div class="flex flex-col gap-2 lg:flex-row">
-              <input class="w-full p-2" pInputText placeholder="Peso" />
+              <input disabled class="w-full p-2 text-gray-500 disabled:bg-gray-100" pInputText placeholder="-" [(ngModel)]="editUser.weight"/>
             </div>
           </p-inputGroup>
-          <p-inputGroup>
+          <p-inputGroup class="[&_.p-inputgroup]:flex [&_.p-inputgroup]:gap-3 [&_.p-inputgroup]:justify-center">
             <p-inputGroupAddon class="w-32">
               <p>
                 <i class="pi pi-receipt"></i>
@@ -118,7 +132,7 @@
               </p>
             </p-inputGroupAddon>
             <div class="flex flex-col gap-2 lg:flex-row">
-              <input class="w-full p-2" pInputText placeholder="Idade" />
+              <input disabled class="w-full p-2 text-gray-500 disabled:bg-gray-100" pInputText placeholder="-" [(ngModel)]="editUser.age"/>
             </div>
           </p-inputGroup>
         </div>

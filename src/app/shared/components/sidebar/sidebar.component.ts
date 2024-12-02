@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { LoginService } from '@app/features/auth/services/login.service';
 import { UserService } from '@core/services/user.service';
 import { cn } from '@shared/utils/helpers';
@@ -7,7 +7,7 @@ import { cn } from '@shared/utils/helpers';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, RouterModule],
   templateUrl: './sidebar.component.html',
 })
 export class SidebarComponent implements OnInit {

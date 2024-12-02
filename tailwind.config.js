@@ -20,6 +20,10 @@ module.exports = {
       Orbitron: ['Orbitron', 'sans-serif'],
     },
     extend: {
+      backgroundImage: {
+        'profile-bg': "url('/assets/img_profile.jpeg')",
+        'workout-bg': "url('/assets/img_workout.jpg')",
+      },
       colors: {
         // Light mode colors (default)
         background: 'hsl(0 0% 100%)',

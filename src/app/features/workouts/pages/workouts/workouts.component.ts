@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { TrainingPlansDTO } from '@core/models/dto/trainingPlansDTO';
 import { TrainingPlansService } from '@core/services/training-plans.service';
 import { TitleComponent } from '@shared/components/title/title.component';
@@ -25,6 +25,7 @@ import { WorkoutListComponent } from './components/workout-list/workout-list.com
     FormsModule,
     DropdownModule,
     TitleComponent,
+    RouterModule,
   ],
   templateUrl: './workouts.component.html',
 })
