@@ -71,7 +71,10 @@ export class ProfileComponent implements OnInit {
       this.userService.getUser(userId).subscribe(
         (user: UserDTO) => {
           this.user = user;
-          this.editUser = { ...user };
+          this.editUser = {
+            ...user,
+            weight: user.weight || { value: 0, recordAt: '' },
+          };
         },
         error => {
           console.error('Erro ao carregar usuario', error);
