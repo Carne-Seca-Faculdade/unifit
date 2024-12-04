@@ -1,12 +1,13 @@
 <main
-  class="flex items-center justify-center w-screen h-screen bg-center bg-cover bg-profile-bg bg-opacity-40"
+  class="flex items-center justify-center h-screen bg-center bg-cover bg-profile-bg"
 >
-  <div class="w-full max-w-3xl p-6 bg-white rounded-lg shadow-lg opacity-90">
+  <div class="w-full max-w-3xl p-6 bg-white rounded-lg shadow-lg">
     <app-title title="Perfil" />
     <div class="flex flex-col w-full mt-6">
       <div
         class="flex flex-col items-center justify-between gap-4 pb-5 border-b border-zinc-200 lg:flex-row lg:items-center dark:border-zinc-700"
       >
+        <p-toast position="bottom-right"></p-toast>
         <div class="space-y-1 text-center">
           <h1 class="text-lg text-emerald-600 dark:text-zinc-400">
             Edite e atualize seus dados pessoais aqui
@@ -18,7 +19,7 @@
             label="Editar"
             icon="pi pi-pencil"
             (click)="showDialog()"
-            class="!text-white !bg-emerald-500 hover:!bg-emerald-600 !border-emerald-500 hover:!border-emerald-600 !opacity-100"
+            class="!text-white !bg-emerald-500 hover:!bg-emerald-600 !border-emerald-500 hover:!border-emerald-600"
           ></button>
 
           <p-dialog
@@ -125,7 +126,6 @@
           </p-dialog>
         </div>
       </div>
-
       <div
         id="settings"
         class="flex flex-col items-center w-full gap-5 mt-6 divide-y"

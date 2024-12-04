@@ -11,6 +11,7 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { TableModule } from 'primeng/table';
 import { TitleComponent } from '../../../../shared/components/title/title.component';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-profile',
@@ -24,6 +25,7 @@ import { TitleComponent } from '../../../../shared/components/title/title.compon
     FormsModule,
     CommonModule,
     DialogModule,
+    ToastModule,
   ],
   templateUrl: './profile.component.html',
   providers: [MessageService],
@@ -104,6 +106,7 @@ export class ProfileComponent implements OnInit {
           summary: 'Sucesso',
           detail: 'Usuario atualizado com sucesso!',
         });
+        this.hideDialog();
       },
       error => {
         console.error('Erro ao atualizar usuario', error);
@@ -123,6 +126,10 @@ export class ProfileComponent implements OnInit {
 
   resetUser(): void {
     this.editUser = { ...this.user };
+  }
+
+  hideDialog(): void {
+    this.visible = false;
   }
 
   showDialog(): void {
