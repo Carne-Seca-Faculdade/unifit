@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class LocalStorageService {
+class LocalStorageService {
   private keyPrefix: string = '@unifit:';
 
   private createKey(key: string): string {
@@ -13,7 +13,7 @@ export class LocalStorageService {
   public setItem<T>(key: string, data: T): T | null {
     try {
       const dataAsString = JSON.stringify(data);
-      localStorage.setItem(this.createKey('workouts'), dataAsString);
+      localStorage.setItem(this.createKey(key), dataAsString);
       return data;
     } catch (error) {
       console.error('Error while saving item');
@@ -50,3 +50,5 @@ export class LocalStorageService {
     }
   }
 }
+
+export const localStorageService = new LocalStorageService();

@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LoginService } from '@app/features/auth/services/login.service';
-import { UserDTO } from '@core/models/dto/userDTO';
 import { UserService } from '@core/services/user.service';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -33,7 +32,7 @@ import { ToastModule } from 'primeng/toast';
 export class ProfileComponent implements OnInit {
   visible = false;
 
-  user: UserDTO = {
+  user: any = {
     id: 0,
     name: '',
     email: '',
@@ -46,7 +45,7 @@ export class ProfileComponent implements OnInit {
     },
     height: 0,
   };
-  editUser: UserDTO = {
+  editUser: any = {
     id: 0,
     name: '',
     email: '',
@@ -71,7 +70,7 @@ export class ProfileComponent implements OnInit {
 
     if (userId) {
       this.userService.getUser(userId).subscribe(
-        (user: UserDTO) => {
+        (user: any) => {
           this.user = user;
           this.editUser = {
             ...user,
@@ -99,7 +98,7 @@ export class ProfileComponent implements OnInit {
 
   saveUser(): void {
     this.userService.atualizarUser(this.editUser.id, this.editUser).subscribe(
-      (updatedUser: UserDTO) => {
+      (updatedUser: any) => {
         this.editUser = { ...updatedUser };
         this.messageService.add({
           severity: 'success',
