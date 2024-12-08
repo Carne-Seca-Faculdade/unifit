@@ -18,7 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch(), withInterceptors([httpInterceptor])),
     provideToastr({
       toastClass: 'ngx-toastr custom-ngx-toastr',
-      positionClass: 'toast-top-right',
+      positionClass: 'toast-bottom-right',
       progressBar: true,
     }),
   ],

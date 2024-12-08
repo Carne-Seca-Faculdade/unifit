@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LoginService } from '@app/features/auth/services/login.service';
+import { LoginService } from '@auth/services/login.service';
 import { UserService } from '@core/services/user.service';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -9,7 +9,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { TableModule } from 'primeng/table';
-import { TitleComponent } from '../../../../shared/components/title/title.component';
+import { TitleComponent } from '@shared/components/title/title.component';
 import { ToastModule } from 'primeng/toast';
 
 @Component({

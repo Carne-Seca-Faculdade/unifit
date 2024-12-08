@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { TrainingPlansDTO } from '@core/models/dto/trainingPlansDTO';
+import { TrainingPlanModel } from '@workouts/domain/interfaces';
 
 @Component({
   selector: 'app-workout',
@@ -10,5 +10,5 @@ import { TrainingPlansDTO } from '@core/models/dto/trainingPlansDTO';
   templateUrl: './workout.component.html',
 })
 export class WorkoutComponent {
-  @Input() workout!: TrainingPlansDTO;
+  @Input() workout!: TrainingPlanModel;
 }

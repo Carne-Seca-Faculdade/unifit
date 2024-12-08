@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
-import { LoginService } from '@app/features/auth/services/login.service';
-import { UserModel } from '@core/domain/interfaces';
+import { UserModel } from '@auth/domain/interfaces';
+import { LoginService } from '@auth/services/login.service';
 import { UserService } from '@core/services/user.service';
 import { cn } from '@shared/utils/helpers';
 
