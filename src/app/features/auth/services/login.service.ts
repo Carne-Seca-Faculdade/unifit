@@ -1,11 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import { jwtDecode } from 'jwt-decode';
 import { createENV } from '@shared/utils/helpers';
-import { LoginRequest, LoginResponse, UserModel } from '../domain/interfaces';
+import { LoginRequest, LoginResponse } from '../domain/interfaces';
 import { AuthTokenService } from './auth-token.service';
-import { UserRole } from '../domain/enums';
 
 @Injectable({
   providedIn: 'root',
@@ -33,25 +31,5 @@ export class LoginService {
 
   logout() {
     this.authTokenService.removeToken();
-  }
-
-  jwtDecode(): UserModel | null {
-    const token = this.authTokenService.getToken();
-
-    if (!token) return null;
-
-    return jwtDecode<UserModel>(token);
-  }
-
-  getUserId(): number | null {
-    const user = this.jwtDecode();
-
-    return user?.id ?? null;
-  }
-
-  hasPermission(role: UserRole) {
-    const user = this.jwtDecode();
-
-    return user?.role === role;
   }
 }

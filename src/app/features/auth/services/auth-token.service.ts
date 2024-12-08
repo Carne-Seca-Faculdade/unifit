@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
-import { localStorageService } from '@core/services/local-storage.service';
+import { LocalStorageService } from '@core/services/local-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthTokenService {
+  constructor(private localStorageService: LocalStorageService) {}
+
   setToken(token: string): void {
-    localStorageService.setItem('authToken', token);
+    this.localStorageService.setItem('authToken', token);
   }
 
   getToken(): string | null {
-    return localStorageService.getItem<string>('authToken');
+    return this.localStorageService.getItem<string>('authToken');
   }
 
   removeToken(): void {
-    localStorageService.deleteItem('authToken');
+    this.localStorageService.deleteItem('authToken');
   }
 }

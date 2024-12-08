@@ -1,14 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
+import { UserRole } from '@auth/domain/enums';
 import { UserModel } from '@auth/domain/interfaces';
 import { LoginService } from '@auth/services/login.service';
-import { UserService } from '@core/services/user.service';
+import { GlobalStateService } from '@core/services/global-state.service';
 import { cn } from '@shared/utils/helpers';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterLink, RouterModule],
+  imports: [RouterLink, RouterModule, CommonModule],
   templateUrl: './sidebar.component.html',
 })
 export class SidebarComponent implements OnInit {
@@ -17,10 +19,11 @@ export class SidebarComponent implements OnInit {
 
   user: UserModel | null = null;
   sidebarWrapperClasses = '';
+  isUserAdmin = false;
 
   constructor(
     private router: Router,
-    private userService: UserService,
+    private globalStateService: GlobalStateService,
     private loginService: LoginService
   ) {}
 
@@ -30,13 +33,10 @@ export class SidebarComponent implements OnInit {
       this.isMobile ? 'w-full flex' : 'w-64 hidden sm:flex'
     );
 
-    const userId = this.loginService.getUserId();
+    const currentUser = this.globalStateService.getCurrentUser();
 
-    if (!userId) return;
-
-    this.userService.getUser(userId).subscribe(user => {
-      this.user = user;
-    });
+    this.user = currentUser;
+    this.isUserAdmin = currentUser.role === UserRole.ADMIN;
   }
 
   handleLogout() {

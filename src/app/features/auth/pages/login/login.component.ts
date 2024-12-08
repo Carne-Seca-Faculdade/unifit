@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { LoginService } from '../../services/login.service';
 import { catchError, finalize, of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { GlobalStateService } from '@core/services/global-state.service';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +34,8 @@ export class LoginComponent {
     private router: Router,
     private loginService: LoginService,
     private formBuilder: FormBuilder,
-    private toastService: ToastrService
+    private toastService: ToastrService,
+    private globalStateService: GlobalStateService
   ) {
     this.loginForm = this.createForm();
   }
@@ -66,6 +68,7 @@ export class LoginComponent {
       .subscribe(response => {
         if (!response) return;
 
+        this.globalStateService.loadCurrentUser();
         this.router.navigate(['/app']);
       });
   }
