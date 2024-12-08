@@ -23,7 +23,6 @@ export class LoginService {
       })
       .pipe(
         map((token: LoginResponse) => {
-          console.log('token', token);
           this.authTokenService.setToken(token);
           return token;
         }),
@@ -31,6 +30,10 @@ export class LoginService {
           return throwError(() => new Error(error.message));
         })
       );
+  }
+
+  logout() {
+    this.authTokenService.removeToken();
   }
 
   jwtDecode(): UserModel | null {

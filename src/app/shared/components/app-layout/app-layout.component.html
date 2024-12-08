@@ -1,4 +1,4 @@
-<div class="flex h-full overflow-hidden divide-x divide-gray-200 ">
+<div class="flex h-full overflow-hidden divide-x divide-gray-200">
   <p-button
     (onClick)="handleOpenSidebar()"
     icon="pi pi-bars"
@@ -8,13 +8,14 @@
 
   <app-sidebar />
 
-  <main
-    class="flex-1 w-full"
-  >
+  <main class="flex-1 w-full">
     <router-outlet></router-outlet>
   </main>
 
   <p-sidebar [(visible)]="isSidebarOpen">
-    <app-sidebar [isMobile]="true"/>
+    <app-sidebar
+      [isMobile]="true"
+      [handleClose]="handleCloseSidebar.bind(this)"
+    />
   </p-sidebar>
 </div>
