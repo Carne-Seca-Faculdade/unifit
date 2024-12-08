@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LoginService } from '@auth/services/login.service';
-import { UserService } from '@core/services/user.service';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -11,6 +9,8 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { TableModule } from 'primeng/table';
 import { TitleComponent } from '@shared/components/title/title.component';
 import { ToastModule } from 'primeng/toast';
+import { GlobalStateService } from '@core/services/global-state.service';
+import { UserService } from '@profile/services/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -62,11 +62,11 @@ export class ProfileComponent implements OnInit {
   constructor(
     private userService: UserService,
     private messageService: MessageService,
-    private loginService: LoginService
+    private globalStateService: GlobalStateService
   ) {}
 
   ngOnInit(): void {
-    const userId = this.loginService.getUserId();
+    const userId = this.globalStateService.getCurrentUserId();
 
     if (userId) {
       this.userService.getUser(userId).subscribe(
@@ -97,30 +97,30 @@ export class ProfileComponent implements OnInit {
   }
 
   saveUser(): void {
-    this.userService.atualizarUser(this.editUser.id, this.editUser).subscribe(
-      (updatedUser: any) => {
-        this.editUser = { ...updatedUser };
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Sucesso',
-          detail: 'Usuario atualizado com sucesso!',
-        });
-        this.hideDialog();
-      },
-      error => {
-        console.error('Erro ao atualizar usuario', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: 'Falha ao atualizar usuario.',
-        });
-      }
-    );
+    // this.userService.atualizarUser(this.editUser.id, this.editUser).subscribe(
+    //   (updatedUser: any) => {
+    //     this.editUser = { ...updatedUser };
+    //     this.messageService.add({
+    //       severity: 'success',
+    //       summary: 'Sucesso',
+    //       detail: 'Usuario atualizado com sucesso!',
+    //     });
+    //     this.hideDialog();
+    //   },
+    //   error => {
+    //     console.error('Erro ao atualizar usuario', error);
+    //     this.messageService.add({
+    //       severity: 'error',
+    //       summary: 'Erro',
+    //       detail: 'Falha ao atualizar usuario.',
+    //     });
+    //   }
+    // );
   }
 
   handleclick(): void {
-    this.userService.atualizarUser(this.editUser.id, this.editUser);
-    this.saveUser();
+    // this.userService.atualizarUser(this.editUser.id, this.editUser);
+    // this.saveUser();
   }
 
   resetUser(): void {
