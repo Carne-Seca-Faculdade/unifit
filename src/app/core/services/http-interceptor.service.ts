@@ -2,10 +2,12 @@ import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
-import { localStorageService } from './local-storage.service';
+import { LocalStorageService } from './local-storage.service';
 
 export const httpInterceptor: HttpInterceptorFn = (request, next) => {
   const router = inject(Router);
+  const localStorageService = inject(LocalStorageService);
+
   const token = localStorageService.getItem('authToken');
   const isAuthPath = request.url.includes('/auth');
 

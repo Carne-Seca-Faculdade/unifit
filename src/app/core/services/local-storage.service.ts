@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-class LocalStorageService {
+export class LocalStorageService {
   private keyPrefix: string = '@unifit:';
 
   private createKey(key: string): string {
@@ -50,5 +50,3 @@ class LocalStorageService {
     }
   }
 }
-
-export const localStorageService = new LocalStorageService();
