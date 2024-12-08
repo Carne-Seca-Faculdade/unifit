@@ -3,10 +3,9 @@ import { Injectable, inject } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { createENV } from '@shared/utils/helpers';
-import { LoginRequest, LoginResponse } from '../domain/interfaces';
-import { UserModel } from '@core/domain/interfaces';
-import { UserRole } from '@core/domain/enums';
+import { LoginRequest, LoginResponse, UserModel } from '../domain/interfaces';
 import { AuthTokenService } from './auth-token.service';
+import { UserRole } from '../domain/enums';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +22,6 @@ export class LoginService {
       })
       .pipe(
         map((token: LoginResponse) => {
-          console.log('token', token);
           this.authTokenService.setToken(token);
           return token;
         }),
@@ -31,6 +29,10 @@ export class LoginService {
           return throwError(() => new Error(error.message));
         })
       );
+  }
+
+  logout() {
+    this.authTokenService.removeToken();
   }
 
   jwtDecode(): UserModel | null {

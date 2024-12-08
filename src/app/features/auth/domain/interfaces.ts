@@ -1,3 +1,5 @@
+import { UserRole } from './enums';
+
 export type LoginRequest = {
   username: string;
   password: string;
@@ -12,4 +14,16 @@ export type RegisterRequest = {
 
 export type RegisterResponse = {
   message: string;
+};
+
+export type UserModel = {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  role: UserRole;
+  age: number;
+  weight: any;
+  height: number;
+  trainingPlansIds?: number[];
 };

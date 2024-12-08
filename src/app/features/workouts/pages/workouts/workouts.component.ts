@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterModule } from '@angular/router';
-import { TrainingPlansDTO } from '@core/models/dto/trainingPlansDTO';
-import { TrainingPlansService } from '@core/services/training-plans.service';
 import { TitleComponent } from '@shared/components/title/title.component';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -11,6 +9,12 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { Subscription } from 'rxjs';
 import { WorkoutListComponent } from './components/workout-list/workout-list.component';
+import {
+  AddTrainingPlanModel,
+  TrainingPlanModel,
+} from '../../domain/interfaces';
+import { TrainingPlansService } from '../../services/training-plans.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-workouts',
@@ -31,63 +35,41 @@ import { WorkoutListComponent } from './components/workout-list/workout-list.com
 })
 export class WorkoutsComponent implements OnInit, OnDestroy {
   visible = false;
+  workouts: TrainingPlanModel[] = [];
+  newWorkoutForm: AddTrainingPlanModel = this.initializeWorkoutForm();
 
-  newWorkout: Omit<TrainingPlansDTO, 'id'> = {
-    planName: '',
-    planDescription: '',
-    duration: 0,
-    userIds: [],
-    exerciseIds: [],
-    newExercises: [],
-  };
-  workouts: TrainingPlansDTO[] = [];
-  private trainingPlansSubscription!: Subscription;
+  private subscriptions: Subscription = new Subscription();
 
-  constructor(private trainingPlansService: TrainingPlansService) {}
+  constructor(
+    private trainingPlansService: TrainingPlansService,
+    private toastService: ToastrService
+  ) {}
 
-  ngOnInit(): void {
-    this.trainingPlansSubscription = this.trainingPlansService
+  ngOnInit() {
+    this.loadTrainingPlans();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
+  private loadTrainingPlans() {
+    const subscriptions = this.trainingPlansService
       .getTrainingPlans()
-      .subscribe(plans => {
-        this.workouts = plans;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.trainingPlansSubscription.unsubscribe();
-  }
-
-  showDialog(): void {
-    this.visible = true;
-  }
-
-  hideDialog(): void {
-    this.visible = false;
-    this.resetNewTrainingPlan();
-  }
-
-  saveWorkout(): void {
-    if (this.isValidTrainingPlan(this.newWorkout)) {
-      this.trainingPlansService.createTrainingPlan(this.newWorkout).subscribe({
-        next: createdPlan => {
-          this.workouts.push(createdPlan);
-          this.hideDialog();
+      .subscribe({
+        next: plans => {
+          this.workouts = plans;
         },
-        error: err => {
-          console.error('Error creating training plan', err);
+        error: () => {
+          this.toastService.error('Erro ao carregar planos de treino');
         },
       });
-    } else {
-      console.error('Invalid training plan data');
-    }
+
+    this.subscriptions.add(subscriptions);
   }
 
-  isValidTrainingPlan(trainingPlan: Omit<TrainingPlansDTO, 'id'>): boolean {
-    return !!(trainingPlan.planName && trainingPlan.duration > 0);
-  }
-
-  resetNewTrainingPlan(): void {
-    this.newWorkout = {
+  private initializeWorkoutForm(): AddTrainingPlanModel {
+    return {
       planName: '',
       planDescription: '',
       duration: 0,
@@ -95,5 +77,42 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
       exerciseIds: [],
       newExercises: [],
     };
+  }
+
+  showCreateWorkoutDialog() {
+    this.visible = true;
+  }
+
+  hideCreateWorkoutDialog() {
+    this.visible = false;
+    this.newWorkoutForm = this.initializeWorkoutForm();
+  }
+
+  saveWorkout() {
+    const isFormValid = this.isValidTrainingPlan(this.newWorkoutForm);
+
+    if (!isFormValid) {
+      this.toastService.error('Preencha os campos obrigatórios');
+      return;
+    }
+
+    const createWorkoutSubscription = this.trainingPlansService
+      .createTrainingPlan(this.newWorkoutForm)
+      .subscribe({
+        next: createdPlan => {
+          this.workouts.push(createdPlan);
+          this.hideCreateWorkoutDialog();
+          this.toastService.success('Plano de treino criado com sucesso');
+        },
+        error: () => {
+          this.toastService.error('Erro ao criar plano de treino');
+        },
+      });
+
+    this.subscriptions.add(createWorkoutSubscription);
+  }
+
+  isValidTrainingPlan(trainingPlan: AddTrainingPlanModel): boolean {
+    return !!(trainingPlan.planName && trainingPlan.duration > 0);
   }
 }

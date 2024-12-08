@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RouterLink, RouterModule } from '@angular/router';
-import { LoginService } from '@app/features/auth/services/login.service';
+import { Router, RouterLink, RouterModule } from '@angular/router';
+import { UserModel } from '@auth/domain/interfaces';
+import { LoginService } from '@auth/services/login.service';
 import { UserService } from '@core/services/user.service';
 import { cn } from '@shared/utils/helpers';
 
@@ -12,28 +13,40 @@ import { cn } from '@shared/utils/helpers';
 })
 export class SidebarComponent implements OnInit {
   @Input() isMobile = false;
+  @Input() handleClose = () => {};
 
-  user = { name: '', email: '' };
-
+  user: UserModel | null = null;
   sidebarWrapperClasses = '';
 
   constructor(
+    private router: Router,
     private userService: UserService,
     private loginService: LoginService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.sidebarWrapperClasses = cn(
+      'flex-col items-center justify-between h-full gap-8 px-6 py-4 overflow-y-auto bg-white',
+      this.isMobile ? 'w-full flex' : 'w-64 hidden sm:flex'
+    );
+
     const userId = this.loginService.getUserId();
 
-    if (userId) {
-      this.userService.getUser(userId).subscribe(user => {
-        this.user = user;
-      });
+    if (!userId) return;
 
-      this.sidebarWrapperClasses = cn(
-        'flex-col items-center justify-between h-full gap-8 px-8 py-4 overflow-y-auto bg-white',
-        this.isMobile ? 'w-full flex' : 'w-80 hidden sm:flex'
-      );
-    }
+    this.userService.getUser(userId).subscribe(user => {
+      this.user = user;
+    });
+  }
+
+  handleLogout() {
+    this.loginService.logout();
+    this.router.navigate(['/auth/login']);
+  }
+
+  handleLinkClick() {
+    if (!this.isMobile) return;
+
+    this.handleClose();
   }
 }

@@ -11,9 +11,13 @@ import { ExerciseListComponent } from './components/exercise-list/exercise-list.
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TitleComponent } from '@shared/components/title/title.component';
 import { TooltipModule } from 'primeng/tooltip';
-import { TrainingPlansDTO } from '@core/models/dto/trainingPlansDTO';
-import { ExerciseDTO } from '@core/models/dto/exerciseDTO';
-import { TrainingPlansService } from '@core/services/training-plans.service';
+import {
+  AddExerciseModel,
+  ExerciseModel,
+  TrainingPlanModel,
+} from '../../domain/interfaces';
+import { TrainingPlansService } from '../../services/training-plans.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-workout-details',
@@ -34,113 +38,45 @@ import { TrainingPlansService } from '@core/services/training-plans.service';
   templateUrl: './workout-details.component.html',
 })
 export class WorkoutDetailsComponent implements OnInit, OnDestroy {
-  workout: TrainingPlansDTO = {
-    id: 0,
-    planName: '',
-    planDescription: '',
-    duration: 0,
-    exerciseIds: [],
-    newExercises: [],
-  };
-
-  newExercise: Omit<ExerciseDTO, 'id'> = {
-    exerciseName: '',
-    exerciseDescription: '',
-    seriesQuantity: 1,
-    repetitionsQuantity: 1,
-    trainingPlanId: 1,
-  };
-
-  exercises: ExerciseDTO[] = [];
-
-  editWorkout: TrainingPlansDTO = {
-    id: 0,
-    planName: '',
-    planDescription: '',
-    duration: 0,
-    exerciseIds: [],
-    newExercises: [],
-  };
+  workout: TrainingPlanModel = this.initializeWorkout();
+  newExercise: AddExerciseModel = this.initializeNewExercise();
+  exercises: ExerciseModel[] = [];
+  editWorkout: TrainingPlanModel = this.initializeWorkout();
 
   isExerciseDialogVisible = false;
   isEditWorkoutDialogVisible = false;
   isDeleteWorkoutVisible = false;
   isWorkoutTimerVisible = false;
 
-  private workoutSubscription!: Subscription;
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private workoutsService: TrainingPlansService
+    private workoutsService: TrainingPlansService,
+    private toastService: ToastrService
   ) {}
 
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (!id) {
-      this.router.navigate(['/app/workouts']);
-      return;
-    }
-
-    this.workoutSubscription = this.workoutsService
-      .getTrainingPlanWithExercisesById(+id)
-      .subscribe(
-        workout => {
-          this.workout = workout;
-          this.exercises = workout.newExercises || [];
-          this.resetEditWorkout();
-        },
-        error => {
-          console.error('Erro ao carregar o plano de treino:', error);
-          this.router.navigate(['/app/workouts']);
-        }
-      );
+  ngOnInit() {
+    this.loadWorkoutDetails();
   }
 
-  ngOnDestroy(): void {
-    this.workoutSubscription.unsubscribe();
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
-  showExerciseDialog(): void {
-    this.isExerciseDialogVisible = true;
+  private initializeWorkout(): TrainingPlanModel {
+    return {
+      id: 0,
+      planName: '',
+      planDescription: '',
+      duration: 0,
+      newExercises: [],
+    };
   }
 
-  hideExerciseDialog(): void {
-    this.isExerciseDialogVisible = false;
-    this.resetNewExercise();
-  }
-
-  saveExercise(): void {
-    if (!this.isValidExercise(this.newExercise)) return;
-
-    this.workoutsService
-      .createExercise(this.workout.id, {
-        ...this.newExercise,
-        id: this.workout.id,
-      })
-      .subscribe({
-        next: (newExercise: ExerciseDTO) => {
-          this.exercises.push(newExercise);
-          this.hideExerciseDialog();
-          this.resetNewExercise();
-        },
-        error: error => {
-          console.error('Error adding exercise:', error);
-        },
-      });
-  }
-
-  isValidExercise(exercise: Omit<ExerciseDTO, 'id'>): boolean {
-    return !!(
-      exercise.exerciseName &&
-      exercise.exerciseDescription &&
-      exercise.seriesQuantity &&
-      exercise.repetitionsQuantity
-    );
-  }
-
-  resetNewExercise(): void {
-    this.newExercise = {
+  private initializeNewExercise(): AddExerciseModel {
+    return {
       exerciseName: '',
       exerciseDescription: '',
       seriesQuantity: 1,
@@ -149,47 +85,48 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  resetEditWorkout(): void {
+  private resetEditWorkout() {
     this.editWorkout = {
-      id: this.workout.id,
-      planName: this.workout.planName,
-      planDescription: this.workout.planDescription,
-      duration: this.workout.duration,
-      exerciseIds: this.workout.exerciseIds,
+      ...this.workout,
     };
   }
 
-  showEditDialog(): void {
-    this.isEditWorkoutDialogVisible = true;
-  }
+  private loadWorkoutDetails() {
+    const id = this.route.snapshot.paramMap.get('id');
 
-  hideEditDialog(): void {
-    this.isEditWorkoutDialogVisible = false;
-    this.resetEditWorkout();
-  }
-
-  saveWorkout(): void {
-    const workout = this.editWorkout;
-
-    if (!this.isValidWorkout(workout)) {
-      console.warn('Invalid workout data:', workout);
+    if (!id) {
+      this.toastService.error('Plano de treino não encontrado');
+      this.router.navigate(['/app/workouts']);
       return;
     }
 
-    this.workoutsService.updateTrainingPlan(workout).subscribe({
-      next: (updatedWorkout: TrainingPlansDTO) => {
-        console.log('Workout updated successfully:', updatedWorkout);
-        this.workout = updatedWorkout;
-        this.hideEditDialog();
-      },
-      error: error => {
-        console.error('Error updating workout:', error);
-      },
-    });
+    const workoutSubscription = this.workoutsService
+      .getTrainingPlanById(Number(id))
+      .subscribe({
+        next: workout => {
+          this.workout = workout;
+          this.exercises = workout.newExercises || [];
+          this.resetEditWorkout();
+        },
+        error: () => {
+          this.toastService.error('Erro ao carregar o plano de treino');
+          this.router.navigate(['/app/workouts']);
+        },
+      });
+
+    this.subscription.add(workoutSubscription);
   }
 
-  isValidWorkout(workout: TrainingPlansDTO | null): boolean {
-    if (!workout) return false;
+  private isValidExercise(exercise: AddExerciseModel): boolean {
+    return !!(
+      exercise.exerciseName &&
+      exercise.exerciseDescription &&
+      exercise.seriesQuantity > 0 &&
+      exercise.repetitionsQuantity > 0
+    );
+  }
+
+  private isValidWorkout(workout: TrainingPlanModel): boolean {
     return !!(
       workout.planName &&
       workout.planDescription &&
@@ -197,38 +134,110 @@ export class WorkoutDetailsComponent implements OnInit, OnDestroy {
     );
   }
 
-  deleteWorkout(): void {
-    this.hideDeleteDialog();
-    this.workoutsService.deleteTrainingPlan(this.workout.id).subscribe({
-      next: () => {
-        this.router.navigate(['/app/workouts']);
-      },
-      error: error => {
-        console.error('Error deleting workout:', error);
-      },
-    });
+  showExerciseDialog() {
+    this.isExerciseDialogVisible = true;
   }
 
-  hideDeleteDialog(): void {
+  hideExerciseDialog() {
+    this.isExerciseDialogVisible = false;
+    this.newExercise = this.initializeNewExercise();
+  }
+
+  showEditWorkoutDialog(): void {
+    this.isEditWorkoutDialogVisible = true;
+  }
+
+  hideEditWorkoutDialog(): void {
+    this.isEditWorkoutDialogVisible = false;
+    this.resetEditWorkout();
+  }
+
+  hideDeleteWorkoutDialog(): void {
     this.isDeleteWorkoutVisible = false;
   }
 
-  showDeleteDialog(): void {
+  showDeleteWorkoutDialog(): void {
     this.isDeleteWorkoutVisible = true;
   }
 
-  onExerciseUpdated(updatedExercise: ExerciseDTO) {
-    const index = this.exercises.findIndex(
-      exercise => exercise.id === updatedExercise.id
-    );
-    if (index !== -1) {
-      this.exercises[index] = updatedExercise;
+  handleSaveExercise() {
+    const isValidExercise = this.isValidExercise(this.newExercise);
+
+    if (!isValidExercise) {
+      this.toastService.error('Preencha os campos obrigatórios');
+      return;
     }
+
+    const saveExerciseSubscription = this.workoutsService
+      .createExercise(this.workout.id, this.newExercise)
+      .subscribe({
+        next: newExercise => {
+          this.exercises.push(newExercise);
+          this.hideExerciseDialog();
+          this.newExercise = this.initializeNewExercise();
+          this.toastService.success('Exercício adicionado com sucesso');
+        },
+        error: () => {
+          this.toastService.error('Erro ao adicionar exercício');
+        },
+      });
+
+    this.subscription.add(saveExerciseSubscription);
+  }
+
+  handleSaveWorkout() {
+    const isValidWorkout = this.isValidWorkout(this.editWorkout);
+
+    if (!isValidWorkout) {
+      this.toastService.error('Plano de treino inválido');
+      return;
+    }
+
+    const saveWorkoutSubscription = this.workoutsService
+      .updateTrainingPlan(this.editWorkout)
+      .subscribe({
+        next: updatedWorkout => {
+          this.workout = updatedWorkout;
+          this.hideEditWorkoutDialog();
+        },
+        error: () => {
+          this.toastService.error('Erro ao salvar plano de treino');
+        },
+      });
+
+    this.subscription.add(saveWorkoutSubscription);
+  }
+
+  handleDeleteWorkout() {
+    this.hideDeleteWorkoutDialog();
+    const deleteWorkoutSubscription = this.workoutsService
+      .deleteTrainingPlan(this.workout.id)
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/app/workouts']);
+          this.toastService.success('Plano de treino deletado com sucesso');
+        },
+        error: () => {
+          this.toastService.error('Erro ao deletar plano de treino');
+        },
+      });
+
+    this.subscription.add(deleteWorkoutSubscription);
+  }
+
+  onExerciseUpdated(updatedExercise: ExerciseModel) {
+    const updatedExercises = this.exercises.map(exercise =>
+      exercise.id === updatedExercise.id ? updatedExercise : exercise
+    );
+
+    this.exercises = updatedExercises;
   }
 
   onExerciseDeleted(exerciseId: number) {
-    this.exercises = this.exercises.filter(
+    const updatedExercises = this.exercises.filter(
       exercise => exercise.id !== exerciseId
     );
+
+    this.exercises = updatedExercises;
   }
 }
