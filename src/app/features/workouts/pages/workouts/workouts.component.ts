@@ -16,6 +16,7 @@ import {
 import { TrainingPlansService } from '../../services/training-plans.service';
 import { ToastrService } from 'ngx-toastr';
 import { SubtitleComponent } from '@shared/components/subtitle/subtitle.component';
+import { GlobalStateService } from '@core/services/global-state.service';
 
 @Component({
   selector: 'app-workouts',
@@ -44,6 +45,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
 
   constructor(
     private trainingPlansService: TrainingPlansService,
+    private globalStateService: GlobalStateService,
     private toastService: ToastrService
   ) {}
 
@@ -56,8 +58,9 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   }
 
   private loadTrainingPlans() {
+    const currentUserId = this.globalStateService.getCurrentUserId()!;
     const subscriptions = this.trainingPlansService
-      .getTrainingPlans()
+      .getUserTrainingPlans(currentUserId)
       .subscribe({
         next: plans => {
           this.workouts = plans;
