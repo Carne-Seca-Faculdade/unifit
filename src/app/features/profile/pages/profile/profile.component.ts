@@ -1,17 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LoginService } from '@app/features/auth/services/login.service';
-import { UserDTO } from '@core/models/dto/userDTO';
-import { UserService } from '@core/services/user.service';
-import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { TableModule } from 'primeng/table';
-import { TitleComponent } from '../../../../shared/components/title/title.component';
+import { TitleComponent } from '@shared/components/title/title.component';
 import { ToastModule } from 'primeng/toast';
+import { GlobalStateService } from '@core/services/global-state.service';
+import { UserService } from '@profile/services/user.service';
+import { UserModel } from '@auth/domain/interfaces';
+import { UserRole } from '@auth/domain/enums';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile',
@@ -28,111 +29,88 @@ import { ToastModule } from 'primeng/toast';
     ToastModule,
   ],
   templateUrl: './profile.component.html',
-  providers: [MessageService],
 })
 export class ProfileComponent implements OnInit {
-  visible = false;
+  user: UserModel = this.getInitialUser();
+  editUser: UserModel = this.getInitialUser();
 
-  user: UserDTO = {
-    id: 0,
-    name: '',
-    email: '',
-    password: '',
-    role: '',
-    age: 0,
-    weight: {
-      value: 0,
-      recordAt: '',
-    },
-    height: 0,
-  };
-  editUser: UserDTO = {
-    id: 0,
-    name: '',
-    email: '',
-    password: '',
-    role: '',
-    age: 0,
-    weight: {
-      value: 0,
-      recordAt: '',
-    },
-    height: 0,
-  };
+  isEditDialogVisible = false;
 
   constructor(
     private userService: UserService,
-    private messageService: MessageService,
-    private loginService: LoginService
+    private globalStateService: GlobalStateService,
+    private toastService: ToastrService
   ) {}
 
   ngOnInit(): void {
-    const userId = this.loginService.getUserId();
-
-    if (userId) {
-      this.userService.getUser(userId).subscribe(
-        (user: UserDTO) => {
-          this.user = user;
-          this.editUser = {
-            ...user,
-            weight: user.weight || { value: 0, recordAt: '' },
-          };
-        },
-        error => {
-          console.error('Erro ao carregar usuario', error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Erro',
-            detail: 'Falha ao carregar dados do usuario.',
-          });
-        }
-      );
-    } else {
-      console.error('Usuario nao autenticado ou token invalido.');
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Erro',
-        detail: 'Usuario nao autenticado.',
-      });
-    }
+    this.loadUser();
   }
 
-  saveUser(): void {
-    this.userService.atualizarUser(this.editUser.id, this.editUser).subscribe(
-      (updatedUser: UserDTO) => {
-        this.editUser = { ...updatedUser };
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Sucesso',
-          detail: 'Usuario atualizado com sucesso!',
-        });
-        this.hideDialog();
+  private loadUser() {
+    const user = this.globalStateService.getCurrentUser();
+
+    if (!user) return;
+
+    this.user = {
+      ...user,
+      weight: user.weight ? { ...user.weight } : { value: 0, recordAt: '' },
+    };
+    this.resetEditUser();
+  }
+
+  private getInitialUser(): UserModel {
+    return {
+      id: 0,
+      name: '',
+      email: '',
+      password: '',
+      role: UserRole.USER,
+      age: 0,
+      weight: {
+        value: 0,
+        recordAt: '',
       },
-      error => {
-        console.error('Erro ao atualizar usuario', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: 'Falha ao atualizar usuario.',
-        });
-      }
-    );
+      height: 0,
+    };
   }
 
-  handleclick(): void {
-    this.userService.atualizarUser(this.editUser.id, this.editUser);
-    this.saveUser();
+  resetEditUser() {
+    this.editUser = {
+      ...this.user,
+      weight: this.user.weight
+        ? { ...this.user.weight }
+        : { value: 0, recordAt: '' },
+    };
   }
 
-  resetUser(): void {
-    this.editUser = { ...this.user };
+  showEditDialog() {
+    this.isEditDialogVisible = true;
   }
 
-  hideDialog(): void {
-    this.visible = false;
+  hideEditDialog() {
+    this.isEditDialogVisible = false;
+    this.resetEditUser();
   }
 
-  showDialog(): void {
-    this.visible = true;
+  handleSaveUser() {
+    if (!this.editUser) return;
+
+    this.userService.updateUser(this.editUser.id, this.editUser).subscribe({
+      next: (updatedUser: UserModel) => {
+        this.user = {
+          ...updatedUser,
+          weight: updatedUser.weight
+            ? { ...updatedUser.weight }
+            : { value: 0, recordAt: '' },
+        };
+        this.resetEditUser();
+        this.globalStateService.setCurrentUser(updatedUser);
+        this.toastService.success('Usuário atualizado com sucesso');
+        this.hideEditDialog();
+      },
+      error: () => {
+        this.toastService.error('Ocorreu um erro ao atualizar o usuário');
+      },
+    });
   }
 }

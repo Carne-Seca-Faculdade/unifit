@@ -1,8 +1,5 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { weightLogDTO } from '@core/models/dto/weightLogDTO';
-import { DataServiceService } from '@core/services/data-service.service';
-import { WeightService } from '@core/services/weight.service';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { ChartModule } from 'primeng/chart';
 
@@ -51,8 +48,8 @@ export class DashboardComponent implements OnInit {
   };
 
   constructor(
-    private dataService: DataServiceService,
-    private weightService: WeightService,
+    // private dataService: DataServiceService,
+    // private weightService: WeightService,
     private datePipe: DatePipe
   ) {}
 
@@ -62,31 +59,30 @@ export class DashboardComponent implements OnInit {
   }
 
   loadWeeklyExerciseLogData(userId: number, numberOfWeeks: number) {
-    const data = this.dataService
-      .getWeeklyExerciseLogs(userId, numberOfWeeks)
-      this.treinoData.labels = Array.from(
-        { length: numberOfWeeks },
-        (_, i) => `Semana ${i + 1}`
-      );
-      this.treinoData.datasets[0].data = Object.values(data);
-      this.treinoData.datasets[0].backgroundColor = [
-        'rgba(252, 186, 0.6)',
-        'rgba(92,51,23)',
-        'rgba(107,35,142)',
-        'rgba(192,217,217)',
-        'rgba(123, 176, 0.6)',
-      ];
+    // const data = this.dataService.getWeeklyExerciseLogs(userId, numberOfWeeks);
+    this.treinoData.labels = Array.from(
+      { length: numberOfWeeks },
+      (_, i) => `Semana ${i + 1}`
+    );
+    this.treinoData.datasets[0].data = Object.values({});
+    this.treinoData.datasets[0].backgroundColor = [
+      'rgba(252, 186, 0.6)',
+      'rgba(92,51,23)',
+      'rgba(107,35,142)',
+      'rgba(192,217,217)',
+      'rgba(123, 176, 0.6)',
+    ];
   }
 
   loadWeightProgressData(userId: number) {
-    this.weightService
-      .getWeightHistory(userId)
-      .subscribe((data: weightLogDTO[]) => {
-        this.progressoData.labels = data.map(entry =>
-          this.datePipe.transform(entry.dataRegistro, 'dd/MM/yy')
-        );
-        this.progressoData.datasets[0].data = data.map(entry => entry.peso);
-      });
+    // this.weightService
+    //   .getWeightHistory(userId)
+    //   .subscribe((data: weightLogDTO[]) => {
+    //     this.progressoData.labels = data.map(entry =>
+    //       this.datePipe.transform(entry.dataRegistro, 'dd/MM/yy')
+    //     );
+    //     this.progressoData.datasets[0].data = data.map(entry => entry.peso);
+    //   });
   }
 
   imcData: ChartConfiguration<'doughnut'>['data'] = {

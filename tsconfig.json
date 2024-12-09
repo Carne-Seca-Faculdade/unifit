@@ -22,12 +22,14 @@
     "lib": ["ES2022", "dom"],
     "baseUrl": "./",
     "paths": {
+      "@auth/*": ["./src/app/features/auth/*"],
+      "@dashboard/*": ["./src/app/features/dashboard/*"],
+      "@workouts/*": ["./src/app/features/workouts/*"],
+      "@profile/*": ["./src/app/features/profile/*"],
       "@shared/*": ["./src/app/shared/*"],
       "@core/*": ["./src/app/core/*"],
       "@env/*": ["./src/environments/*"],
-      "@assets/*": ["./src/assets/*"],
-      "@features/*": ["./src/features/*"],
-      "@app/*": ["./src/app/*"]
+      "@assets/*": ["./src/assets/*"]
     }
   },
   "angularCompilerOptions": {

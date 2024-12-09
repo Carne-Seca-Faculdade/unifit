@@ -10,7 +10,8 @@ import {
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { RegisterService } from '../../services/register.service';
-import { UserDTO } from '@core/models/dto/userDTO';
+import { catchError, finalize, of } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -32,37 +33,44 @@ export class RegisterComponent {
   constructor(
     private router: Router,
     private registerService: RegisterService,
-    private fb: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastService: ToastrService
   ) {
-    this.registerForm = this.fb.group({
+    this.registerForm = this.createForm();
+  }
+
+  private createForm(): FormGroup {
+    return this.formBuilder.group({
       email: [''],
       password: [''],
     });
   }
 
-  async handleSubmit(event: SubmitEvent) {
-    event.preventDefault();
-
+  async handleSubmit() {
     if (this.isSubmitting || this.registerForm.invalid) return;
 
     this.isSubmitting = true;
+    this.registerForm.disable();
 
-    console.log(this.registerForm.value);
+    this.registerService
+      .register(this.registerForm.value)
+      .pipe(
+        finalize(() => {
+          this.isSubmitting = false;
+          this.registerForm.enable();
+        }),
+        catchError(() => {
+          this.toastService.error('Ocorreu um erro ao criar a conta');
+          return of(null);
+        })
+      )
+      .subscribe(response => {
+        if (!response) return;
 
-    try {
-      const user: UserDTO = this.registerForm.value;
-      const response = await this.registerService.register(user).toPromise();
-      console.log('Usuario registrado com sucesso:', response);
-
-      this.router.navigate(['/auth/login']);
-    } catch (error) {
-      console.error('Erro ao registrar usuario:', error);
-    } finally {
-      this.isSubmitting = false;
-    }
-  }
-
-  get formControls() {
-    return this.registerForm.controls;
+        this.toastService.success(
+          'Conta criada com sucesso! Faça login para continuar'
+        );
+        this.router.navigate(['/auth/login']);
+      });
   }
 }

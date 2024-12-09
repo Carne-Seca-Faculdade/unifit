@@ -6,10 +6,12 @@ import {
   FormBuilder,
   FormGroup,
 } from '@angular/forms';
-import { sleep } from '@shared/utils/helpers';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { LoginService } from '../../services/login.service';
+import { catchError, finalize, of } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { GlobalStateService } from '@core/services/global-state.service';
 
 @Component({
   selector: 'app-login',
@@ -31,9 +33,15 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private loginService: LoginService,
-    private fb: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastService: ToastrService,
+    private globalStateService: GlobalStateService
   ) {
-    this.loginForm = this.fb.group({
+    this.loginForm = this.createForm();
+  }
+
+  private createForm(): FormGroup {
+    return this.formBuilder.group({
       email: [''],
       password: [''],
     });
@@ -43,20 +51,25 @@ export class LoginComponent {
     if (this.isSubmitting || this.loginForm.invalid) return;
 
     this.isSubmitting = true;
+    this.loginForm.disable();
 
-    try {
-      const token = await this.loginService
-        .logar(this.loginForm.value)
-        .toPromise();
-      if (token) {
-        this.loginService.addToken(token);
-        await sleep(2000);
-        this.router.navigate(['/app']);
-      }
-    } catch (error) {
-      console.log('Login error:', error);
-    } finally {
-      this.isSubmitting = false;
-    }
+    this.loginService
+      .login(this.loginForm.value)
+      .pipe(
+        finalize(() => {
+          this.isSubmitting = false;
+          this.loginForm.enable();
+        }),
+        catchError(() => {
+          this.toastService.error('Credenciais inválidas');
+          return of(null);
+        })
+      )
+      .subscribe(response => {
+        if (!response) return;
+
+        this.globalStateService.loadCurrentUser();
+        this.router.navigate(['/app/workouts']);
+      });
   }
 }

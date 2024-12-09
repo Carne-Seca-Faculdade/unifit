@@ -13,7 +13,7 @@ export class LocalStorageService {
   public setItem<T>(key: string, data: T): T | null {
     try {
       const dataAsString = JSON.stringify(data);
-      localStorage.setItem(this.createKey('workouts'), dataAsString);
+      localStorage.setItem(this.createKey(key), dataAsString);
       return data;
     } catch (error) {
       console.error('Error while saving item');

@@ -1,51 +1,35 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { jwtDecode, JwtPayload } from 'jwt-decode';
-import { Login } from '@core/models/dto/login';
-import { UserDTO } from '@core/models/dto/userDTO';
+import { catchError, map, Observable, throwError } from 'rxjs';
+import { createENV } from '@shared/utils/helpers';
+import { LoginRequest, LoginResponse } from '../domain/interfaces';
+import { AuthTokenService } from './auth-token.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  http = inject(HttpClient);
-  API = 'http://localhost:8080/auth/login';
+  private readonly API_URL: string = createENV('/auth/login');
+  private readonly http = inject(HttpClient);
+  private readonly authTokenService = inject(AuthTokenService);
 
-  logar(login: Login): Observable<string> {
-    return this.http.post<string>(this.API, login, {
-      responseType: 'text' as 'json',
-    });
+  login(data: LoginRequest): Observable<LoginResponse> {
+    return this.http
+      .post<LoginResponse>(this.API_URL, data, {
+        responseType: 'text' as 'json',
+      })
+      .pipe(
+        map((token: LoginResponse) => {
+          this.authTokenService.setToken(token);
+          return token;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return throwError(() => new Error(error.message));
+        })
+      );
   }
 
-  addToken(token: string) {
-    localStorage.setItem('token', token);
-  }
-
-  removerToken() {
-    localStorage.removeItem('token');
-  }
-
-  getToken() {
-    return localStorage.getItem('token');
-  }
-
-  jwtDecode(): UserDTO | null {
-    let token = this.getToken();
-    if (token) {
-      return jwtDecode<UserDTO>(token);
-    }
-    return null;
-  }
-
-  getUserId(): number | null {
-    const user = this.jwtDecode();
-    return user?.id || null;
-  }
-
-  hasPermission(role: string) {
-    let user = this.jwtDecode() as UserDTO;
-    if (user.role == role) return true;
-    else return false;
+  logout() {
+    this.authTokenService.removeToken();
   }
 }

@@ -1,12 +1,17 @@
-<main class="">
-  <div class="flex flex-wrap items-center justify-between gap-2 mb-6">
-    <app-title title="Seus Treinos" />
+<main>
+  <div class="flex flex-wrap justify-between gap-2 mb-4">
+    <div class="flex flex-col gap-2">
+      <app-title title="Seus Treinos" />
+      <app-subtitle
+        subtitle="Aqui você pode visualizar e adicionar novos treinos"
+      />
+    </div>
     <p-button
       label="Adicionar Treino"
       size="small"
       icon="pi pi-plus"
       iconPos="right"
-      (click)="showDialog()"
+      (click)="showCreateWorkoutDialog()"
     >
     </p-button>
   </div>
@@ -32,7 +37,7 @@
           pInputText
           id="name"
           autocomplete="off"
-          [(ngModel)]="newWorkout.planName"
+          [(ngModel)]="newWorkoutForm.planName"
         />
       </div>
 
@@ -43,7 +48,7 @@
           id="description"
           pInputText
           autocomplete="off"
-          [(ngModel)]="newWorkout.planDescription"
+          [(ngModel)]="newWorkoutForm.planDescription"
         />
       </div>
 
@@ -53,7 +58,7 @@
           id="duration"
           mode="decimal"
           [min]="0"
-          [(ngModel)]="newWorkout.duration"
+          [(ngModel)]="newWorkoutForm.duration"
           autocomplete="off"
         />
       </div>
@@ -63,7 +68,7 @@
       <p-button
         label="Cancelar"
         severity="secondary"
-        (click)="hideDialog()"
+        (click)="hideCreateWorkoutDialog()"
       ></p-button>
       <p-button label="Adicionar" (click)="saveWorkout()"></p-button>
     </div>
