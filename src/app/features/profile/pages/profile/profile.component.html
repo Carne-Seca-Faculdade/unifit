@@ -1,13 +1,10 @@
-<main
-  class="flex items-center justify-center h-screen bg-center bg-cover bg-profile-bg"
->
-  <div class="w-full max-w-3xl p-6 bg-white rounded-lg shadow-lg">
+<main class="flex items-center justify-center h-full">
+  <div class="w-full max-w-3xl p-6 bg-white border rounded-md">
     <app-title title="Perfil" />
     <div class="flex flex-col w-full mt-6">
       <div
         class="flex flex-col items-center justify-between gap-4 pb-5 border-b border-zinc-200 lg:flex-row lg:items-center dark:border-zinc-700"
       >
-        <p-toast position="bottom-right"></p-toast>
         <div class="space-y-1 text-center">
           <h1 class="text-lg text-emerald-600 dark:text-zinc-400">
             Edite e atualize seus dados pessoais aqui
@@ -18,14 +15,14 @@
             pButton
             label="Editar"
             icon="pi pi-pencil"
-            (click)="showDialog()"
+            (click)="showEditDialog()"
             class="!text-white !bg-emerald-500 hover:!bg-emerald-600 !border-emerald-500 hover:!border-emerald-600"
           ></button>
 
           <p-dialog
             header="Editar Perfil"
             [modal]="true"
-            [(visible)]="visible"
+            [(visible)]="isEditDialogVisible"
             [style]="{ width: '30rem' }"
             draggable="false"
           >
@@ -42,22 +39,6 @@
                   id="name"
                   autocomplete="off"
                   [(ngModel)]="editUser.name"
-                  class="p-2 border-b-2 border-gray-300 focus:outline-none focus:border-emerald-500"
-                />
-              </div>
-
-              <div class="flex items-center">
-                <label
-                  for="email"
-                  class="flex justify-center w-full font-semibold"
-                  >E-mail:</label
-                >
-                <input
-                  type="text"
-                  id="email"
-                  pInputText
-                  autocomplete="off"
-                  [(ngModel)]="editUser.email"
                   class="p-2 border-b-2 border-gray-300 focus:outline-none focus:border-emerald-500"
                 />
               </div>
@@ -114,12 +95,12 @@
               <p-button
                 label="Cancelar"
                 severity="secondary"
-                (click)="resetUser()"
+                (click)="hideEditDialog()"
               ></p-button>
               <button
                 pButton
                 label="Salvar"
-                (click)="handleclick()"
+                (click)="handleSaveUser()"
                 class="!text-white !bg-emerald-500 hover:!bg-emerald-600 !border-emerald-500 hover:!border-emerald-600 !bg-opacity-100"
               ></button>
             </div>
@@ -146,7 +127,7 @@
                 class="w-full p-2 text-gray-500 disabled:bg-gray-100"
                 pInputText
                 placeholder="Nome"
-                [(ngModel)]="editUser.name"
+                [(ngModel)]="user.name"
               />
             </div>
           </p-inputGroup>
@@ -166,7 +147,7 @@
                 class="w-full p-2 text-gray-500 disabled:bg-gray-100"
                 pInputText
                 placeholder="Email"
-                [(ngModel)]="editUser.email"
+                [(ngModel)]="user.email"
               />
             </div>
           </p-inputGroup>
@@ -188,7 +169,7 @@
                 class="w-full p-2 text-gray-500 disabled:bg-gray-100"
                 pInputText
                 placeholder="Altura"
-                [(ngModel)]="editUser.height"
+                [(ngModel)]="user.height"
               />
             </div>
           </p-inputGroup>
@@ -208,7 +189,7 @@
                 disabled
                 placeholder="Peso"
                 class="w-full p-2 text-gray-500 disabled:bg-gray-100"
-                [(ngModel)]="editUser.weight.value"
+                [(ngModel)]="user.weight.value"
               />
             </div>
           </p-inputGroup>
@@ -227,7 +208,7 @@
                 class="w-full p-2 text-gray-500 disabled:bg-gray-100"
                 pInputText
                 placeholder="Idade"
-                [(ngModel)]="editUser.age"
+                [(ngModel)]="user.age"
               />
             </div>
           </p-inputGroup>

@@ -15,6 +15,7 @@ import {
 } from '../../domain/interfaces';
 import { TrainingPlansService } from '../../services/training-plans.service';
 import { ToastrService } from 'ngx-toastr';
+import { SubtitleComponent } from '@shared/components/subtitle/subtitle.component';
 
 @Component({
   selector: 'app-workouts',
@@ -29,6 +30,7 @@ import { ToastrService } from 'ngx-toastr';
     FormsModule,
     DropdownModule,
     TitleComponent,
+    SubtitleComponent,
     RouterModule,
   ],
   templateUrl: './workouts.component.html',
