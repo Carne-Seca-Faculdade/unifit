@@ -5,7 +5,7 @@
 
   <nav class="flex-1 w-full">
     <ul class="flex flex-col w-full gap-2">
-      <li>
+      <!-- <li>
         <a
           (click)="handleLinkClick()"
           routerLink="/app"
@@ -18,13 +18,14 @@
           ></i>
           Home
         </a>
-      </li>
+      </li> -->
 
       <li>
         <a
           (click)="handleLinkClick()"
-          routerLink="/app/workouts"
+          routerLink="/app"
           routerLinkActive="!bg-gray-100"
+          [routerLinkActiveOptions]="{ exact: true }"
           class="flex items-center gap-4 px-4 py-2 text-sm transition-colors duration-200 border rounded-md cursor-pointer hover:bg-gray-50"
         >
           <i class="flex items-center justify-center text-lg pi pi-list"></i>

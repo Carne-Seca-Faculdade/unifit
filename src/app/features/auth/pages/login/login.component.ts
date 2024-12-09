@@ -69,7 +69,7 @@ export class LoginComponent {
         if (!response) return;
 
         this.globalStateService.loadCurrentUser();
-        this.router.navigate(['/app']);
+        this.router.navigate(['/app/workouts']);
       });
   }
 }

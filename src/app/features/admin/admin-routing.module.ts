@@ -5,6 +5,7 @@ import { UsersComponent } from './pages/users/users.component';
 const routes: Routes = [
   {
     path: 'users',
+    title: 'Usuários - Unifit',
     component: UsersComponent,
   },
 ];

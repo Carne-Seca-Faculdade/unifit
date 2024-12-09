@@ -9,8 +9,12 @@ const routes: Routes = [
     path: '',
     component: AuthLayoutComponent,
     children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
+      { path: 'login', title: 'Login - Unifit', component: LoginComponent },
+      {
+        path: 'register',
+        title: 'Criar conta - Unifit',
+        component: RegisterComponent,
+      },
     ],
   },
 ];

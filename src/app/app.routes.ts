@@ -19,15 +19,21 @@ export const routes: Routes = [
       user: userResolver,
     },
     children: [
+      // {
+      //   path: '',
+      //   loadChildren: () =>
+      //     import('./features/dashboard/dashboard.module').then(
+      //       m => m.DashboardModule
+      //     ),
+      // },
       {
         path: '',
-        loadChildren: () =>
-          import('./features/dashboard/dashboard.module').then(
-            m => m.DashboardModule
-          ),
+        redirectTo: 'workouts',
+        pathMatch: 'full',
       },
       {
         path: 'profile',
+        title: 'Perfil - Unifit',
         loadChildren: () =>
           import('./features/profile/profile.module').then(
             m => m.ProfileModule
@@ -35,6 +41,7 @@ export const routes: Routes = [
       },
       {
         path: 'workouts',
+        title: 'Treinos - Unifit',
         loadChildren: () =>
           import('./features/workouts/workouts.module').then(
             m => m.WorkoutsModule
@@ -42,6 +49,7 @@ export const routes: Routes = [
       },
       {
         path: 'admin',
+        title: 'Admin - Unifit',
         loadChildren: () =>
           import('./features/admin/admin.module').then(m => m.AdminModule),
         canActivate: [adminGuard],
