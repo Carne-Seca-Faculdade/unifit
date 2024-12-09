@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserRole } from '@auth/domain/enums';
 import { UserModel } from '@auth/domain/interfaces';
 import { JWTService } from '@auth/services/jwt.service';
@@ -7,30 +8,34 @@ import { JWTService } from '@auth/services/jwt.service';
   providedIn: 'root',
 })
 export class GlobalStateService {
-  private currentUser: UserModel | null = null;
+  private currentUserSubject = new BehaviorSubject<UserModel | null>(null);
+  currentUser$: Observable<UserModel | null> =
+    this.currentUserSubject.asObservable();
 
   constructor(private jwtService: JWTService) {
     this.loadCurrentUser();
   }
 
   loadCurrentUser() {
-    this.currentUser = this.jwtService.jwtDecode();
+    const user = this.jwtService.jwtDecode();
+    this.currentUserSubject.next(user);
   }
 
-  getCurrentUser(): UserModel {
-    return this.currentUser!;
+  getCurrentUser(): UserModel | null {
+    return this.currentUserSubject.value;
   }
 
   setCurrentUser(user: UserModel) {
-    this.currentUser = user;
+    this.currentUserSubject.next(user);
   }
 
   getCurrentUserId(): number | null {
-    const id = this.currentUser?.id;
-    return id ? Number(id) : null;
+    const currentUser = this.currentUserSubject.value;
+    return currentUser ? Number(currentUser.id) : null;
   }
 
   getCurrentUserRole(): string {
-    return this.currentUser?.role || UserRole.USER;
+    const currentUser = this.currentUserSubject.value;
+    return currentUser ? currentUser.role : UserRole.USER;
   }
 }
