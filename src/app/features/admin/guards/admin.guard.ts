@@ -16,7 +16,7 @@ export const adminGuard: CanActivateFn = () => {
   }
 
   if (!isAdmin) {
-    router.navigate(['/app']);
+    router.navigate(['/app/workouts']);
     return false;
   }
 
