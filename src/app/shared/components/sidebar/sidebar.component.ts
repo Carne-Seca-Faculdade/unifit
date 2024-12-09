@@ -6,6 +6,7 @@ import { UserModel } from '@auth/domain/interfaces';
 import { LoginService } from '@auth/services/login.service';
 import { GlobalStateService } from '@core/services/global-state.service';
 import { cn } from '@shared/utils/helpers';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,6 +22,8 @@ export class SidebarComponent implements OnInit {
   sidebarWrapperClasses = '';
   isUserAdmin = false;
 
+  private subscription: Subscription = new Subscription();
+
   constructor(
     private router: Router,
     private globalStateService: GlobalStateService,
@@ -33,10 +36,20 @@ export class SidebarComponent implements OnInit {
       this.isMobile ? 'w-full flex' : 'w-64 hidden sm:flex'
     );
 
-    const currentUser = this.globalStateService.getCurrentUser();
+    const userSubscription = this.globalStateService.currentUser$.subscribe(
+      currentUser => {
+        if (!currentUser) return;
 
-    this.user = currentUser;
-    this.isUserAdmin = currentUser.role === UserRole.ADMIN;
+        this.user = currentUser;
+        this.isUserAdmin = currentUser.role === UserRole.ADMIN;
+      }
+    );
+
+    this.subscription.add(userSubscription);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   handleLogout() {

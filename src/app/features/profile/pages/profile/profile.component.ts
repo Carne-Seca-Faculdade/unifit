@@ -48,6 +48,9 @@ export class ProfileComponent implements OnInit {
 
   private loadUser() {
     const user = this.globalStateService.getCurrentUser();
+
+    if (!user) return;
+
     this.user = {
       ...user,
       weight: user.weight ? { ...user.weight } : { value: 0, recordAt: '' },
