@@ -27,11 +27,9 @@ export class TrainingPlansService {
       .pipe(catchError(this.errorHandler.handle));
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getUserTrainingPlans(userId: number): Observable<TrainingPlanModel[]> {
-    // TODO: call correct endpoint for getting the user's plans
     return this.http
-      .get<TrainingPlanModel[]>(this.API_URL)
+      .get<TrainingPlanModel[]>(`${this.API_URL}/user/${userId}`)
       .pipe(catchError(this.errorHandler.handle));
   }
 
