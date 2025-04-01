@@ -101,8 +101,12 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const currentUserId = this.globalStateService.getCurrentUserId()!;
     const createWorkoutSubscription = this.trainingPlansService
-      .createTrainingPlan(this.newWorkoutForm)
+      .createTrainingPlan({
+        ...this.newWorkoutForm,
+        userIds: [currentUserId],
+      })
       .subscribe({
         next: createdPlan => {
           this.workouts.push(createdPlan);
