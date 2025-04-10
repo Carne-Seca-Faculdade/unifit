@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ErrorHandlerService } from '@core/services/error-handler.service';
+import { createENV } from '@shared/utils/helpers';
 import { catchError, Observable } from 'rxjs';
 import { AddExerciseModel, ExerciseModel } from '../domain/interfaces';
-import { createENV } from '@shared/utils/helpers';
-import { ErrorHandlerService } from '@core/services/error-handler.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExerciseService {
-  private API_URL: string = createENV('exercicios');
+  private API_URL: string = createENV('/exercicios');
 
   constructor(
     private http: HttpClient,
