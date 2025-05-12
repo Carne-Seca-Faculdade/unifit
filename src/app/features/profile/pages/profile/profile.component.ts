@@ -63,7 +63,6 @@ export class ProfileComponent implements OnInit {
       id: 0,
       name: '',
       email: '',
-      password: '',
       role: UserRole.USER,
       age: 0,
       weight: {
@@ -71,6 +70,7 @@ export class ProfileComponent implements OnInit {
         recordAt: '',
       },
       height: 0,
+      userIdentifier: '',
     };
   }
 

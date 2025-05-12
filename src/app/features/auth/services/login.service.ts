@@ -14,22 +14,19 @@ export class LoginService {
   private readonly authTokenService = inject(AuthTokenService);
 
   login(data: LoginRequest): Observable<LoginResponse> {
-    return this.http
-      .post<LoginResponse>(this.API_URL, data, {
-        responseType: 'text' as 'json',
+    return this.http.post<LoginResponse>(this.API_URL, data).pipe(
+      map((response: LoginResponse) => {
+        this.authTokenService.setToken(response.access_token);
+        return response;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => new Error(error.message));
       })
-      .pipe(
-        map((token: LoginResponse) => {
-          this.authTokenService.setToken(token);
-          return token;
-        }),
-        catchError((error: HttpErrorResponse) => {
-          return throwError(() => new Error(error.message));
-        })
-      );
+    );
   }
 
   logout() {
+    console.log("LOGOUT REALIZADO")
     this.authTokenService.removeToken();
   }
 }

@@ -58,9 +58,9 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
   }
 
   private loadTrainingPlans() {
-    const currentUserId = this.globalStateService.getCurrentUserId()!;
+    this.globalStateService.getCurrentUserId()!;
     const subscriptions = this.trainingPlansService
-      .getUserTrainingPlans(currentUserId)
+      .getUserTrainingPlans()
       .subscribe({
         next: plans => {
           this.workouts = plans;
@@ -78,7 +78,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
       planName: '',
       planDescription: '',
       duration: 0,
-      userIds: [],
+      userId: 0,
       exerciseIds: [],
       newExercises: [],
     };
@@ -105,7 +105,7 @@ export class WorkoutsComponent implements OnInit, OnDestroy {
     const createWorkoutSubscription = this.trainingPlansService
       .createTrainingPlan({
         ...this.newWorkoutForm,
-        userIds: [currentUserId],
+        userId: currentUserId,
       })
       .subscribe({
         next: createdPlan => {

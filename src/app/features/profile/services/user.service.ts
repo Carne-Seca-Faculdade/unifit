@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { UserModel } from '@auth/domain/interfaces';
+import { AuthTokenService } from '@auth/services/auth-token.service';
 import { ErrorHandlerService } from '@core/services/error-handler.service';
 import { createENV } from '@shared/utils/helpers';
-import { catchError, Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,12 +12,24 @@ import { catchError, Observable } from 'rxjs';
 export class UserService {
   private readonly API_URL: string = createENV('/usuarios');
   private readonly http = inject(HttpClient);
+  private readonly authTokenService = inject(AuthTokenService);
 
   constructor(private errorHandler: ErrorHandlerService) {}
 
-  getUser(userId: number): Observable<UserModel> {
+  getUser(): Observable<UserModel> {
+    const token = this.authTokenService.getToken();
+    console.log('Token antes da requisição:', token); 
+
+    if (!token) {
+      console.error('Token não encontrado, fazendo logout...');
+      this.authTokenService.removeToken();
+      return throwError(() => new Error('Token não encontrado'));
+    }
+
     return this.http
-      .get<UserModel>(`${this.API_URL}/${userId}`)
+      .get<UserModel>(`${this.API_URL}/profile`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .pipe(catchError(this.errorHandler.handle));
   }
 

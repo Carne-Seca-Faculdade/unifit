@@ -29,7 +29,7 @@ export type TrainingPlanModel = {
   planDescription?: string;
   duration: number;
   exerciseIds?: number[];
-  userIds?: number[];
+  userId?: number;
   newExercises?: ExerciseModel[];
 };
 

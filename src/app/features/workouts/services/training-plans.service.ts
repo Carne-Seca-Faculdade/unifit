@@ -27,15 +27,9 @@ export class TrainingPlansService {
       .pipe(catchError(this.errorHandler.handle));
   }
 
-  getUserTrainingPlans(userId: number): Observable<TrainingPlanModel[]> {
+  getUserTrainingPlans(): Observable<TrainingPlanModel[]> {
     return this.http
-      .get<TrainingPlanModel[]>(`${this.API_URL}/user/${userId}`)
-      .pipe(catchError(this.errorHandler.handle));
-  }
-
-  getTrainingPlans(): Observable<TrainingPlanModel[]> {
-    return this.http
-      .get<TrainingPlanModel[]>(this.API_URL)
+      .get<TrainingPlanModel[]>(`${this.API_URL}`)
       .pipe(catchError(this.errorHandler.handle));
   }
 

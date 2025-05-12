@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { UserRole } from '@auth/domain/enums';
 import { UserModel } from '@auth/domain/interfaces';
 import { GlobalStateService } from '@core/services/global-state.service';
 import { UserService } from '@profile/services/user.service';
@@ -47,8 +46,8 @@ export class UsersTableComponent implements OnInit {
     });
   }
 
-  getRoleDisplay(role: UserRole) {
-    return role === UserRole.ADMIN ? 'Administrador' : 'Usuário';
+  getRoleDisplay(role: string) {
+    return role === 'ADMIN' ? 'Administrador' : 'Usuário';
   }
 
   handleDeleteUser(userId: number) {

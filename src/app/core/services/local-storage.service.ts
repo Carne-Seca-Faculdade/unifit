@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 })
 export class LocalStorageService {
   private keyPrefix: string = '@unifit:';
-
   private createKey(key: string): string {
     return `${this.keyPrefix}${key}`;
   }
@@ -14,6 +13,7 @@ export class LocalStorageService {
     try {
       const dataAsString = JSON.stringify(data);
       localStorage.setItem(this.createKey(key), dataAsString);
+
       return data;
     } catch (error) {
       console.error('Error while saving item');

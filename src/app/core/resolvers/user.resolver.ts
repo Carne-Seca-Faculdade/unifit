@@ -10,21 +10,13 @@ export const userResolver: ResolveFn<boolean> = () => {
   const globalStateService = inject(GlobalStateService);
   const loginService = inject(LoginService);
 
-  const currentUserId = globalStateService.getCurrentUserId();
-
-  if (!currentUserId) {
-    loginService.logout();
-    return of(false);
-  }
-
-  return userService.getUser(currentUserId).pipe(
+  return userService.getUser().pipe(
     tap(user => {
       if (!user) {
         loginService.logout();
         return;
       }
-
-      globalStateService.setCurrentUser(user);
+      globalStateService.setCurrentUser(user); 
     }),
     map(user => !!user),
     catchError(() => {
