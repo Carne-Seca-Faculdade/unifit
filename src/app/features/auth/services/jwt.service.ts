@@ -14,6 +14,21 @@ export class JWTService {
 
     if (!token) return null;
 
-    return jwtDecode<UserModel>(token);
+    try {
+      const decode: any = jwtDecode(token);
+      return {
+        id: 1,
+        name: decode.preferred_username,
+        age: 0,
+        weight: null,
+        height: 0,
+        email: decode.email,
+        role: decode.realm_access?.roles?.includes('ADMIN') ? 'ADMIN' : 'USER',
+        userIdentifier: decode.sub,
+      };
+    } catch (error) {
+      console.error('Erro em decodificar o token', error);
+    }
+    return null;
   }
 }
