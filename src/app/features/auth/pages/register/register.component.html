@@ -14,29 +14,35 @@
     (submit)="handleSubmit()"
     ngNativeValidate
   >
-    <div class="flex flex-col gap-1">
-      <input
-        pInputText
-        required
-        type="email"
-        name="email"
-        formControlName="email"
-        placeholder="Email"
-        class="p-inputtext-sm hover:!border-emerald-500 focus-within:!border-emerald-500"
-      />
-    </div>
+    <input
+      pInputText
+      required
+      type="text"
+      name="username"
+      formControlName="username"
+      placeholder="Username"
+      class="p-inputtext-sm hover:!border-emerald-500 focus-within:!border-emerald-500"
+    />
 
-    <div class="flex flex-col gap-1">
-      <input
-        pInputText
-        required
-        name="password"
-        type="password"
-        formControlName="password"
-        placeholder="Senha"
-        class="p-inputtext-sm hover:!border-emerald-500 focus-within:!border-emerald-500"
-      />
-    </div>
+    <input
+      pInputText
+      required
+      type="email"
+      name="email"
+      formControlName="email"
+      placeholder="Email"
+      class="p-inputtext-sm hover:!border-emerald-500 focus-within:!border-emerald-500"
+    />
+
+    <input
+      pInputText
+      required
+      name="password"
+      type="password"
+      formControlName="password"
+      placeholder="Senha"
+      class="p-inputtext-sm hover:!border-emerald-500 focus-within:!border-emerald-500"
+    />
 
     <button
       pButton

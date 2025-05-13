@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterModule } from '@angular/router';
 import {
-  FormsModule,
-  ReactiveFormsModule,
   FormBuilder,
   FormGroup,
-  Validators,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { RegisterService } from '../../services/register.service';
-import { catchError, finalize, of } from 'rxjs';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { catchError, finalize, of } from 'rxjs';
+import { RegisterService } from '../../services/register.service';
 
 @Component({
   selector: 'app-register',
@@ -41,6 +40,7 @@ export class RegisterComponent {
 
   private createForm(): FormGroup {
     return this.formBuilder.group({
+      username: [''],
       email: [''],
       password: [''],
     });
@@ -64,9 +64,7 @@ export class RegisterComponent {
           return of(null);
         })
       )
-      .subscribe(response => {
-        if (!response) return;
-
+      .subscribe(() => {
         this.toastService.success(
           'Conta criada com sucesso! Faça login para continuar'
         );
