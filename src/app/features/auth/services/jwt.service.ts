@@ -3,6 +3,15 @@ import { UserModel } from '@auth/domain/interfaces';
 import { AuthTokenService } from '@auth/services/auth-token.service';
 import { jwtDecode } from 'jwt-decode';
 
+type JWTPayload = {
+  preferred_username: string;
+  email: string;
+  sub: string;
+  realm_access?: {
+    roles?: string[];
+  };
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -15,7 +24,7 @@ export class JWTService {
     if (!token) return null;
 
     try {
-      const decode: any = jwtDecode(token);
+      const decode = jwtDecode<JWTPayload>(token);
       return {
         id: 1,
         name: decode.preferred_username,

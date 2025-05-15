@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
 import { createENV } from '@shared/utils/helpers';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { LoginRequest, LoginResponse } from '../domain/interfaces';
 import { AuthTokenService } from './auth-token.service';
 
@@ -26,7 +26,6 @@ export class LoginService {
   }
 
   logout() {
-    console.log("LOGOUT REALIZADO")
     this.authTokenService.removeToken();
   }
 }

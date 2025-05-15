@@ -18,10 +18,8 @@ export class UserService {
 
   getUser(): Observable<UserModel> {
     const token = this.authTokenService.getToken();
-    console.log('Token antes da requisição:', token); 
 
     if (!token) {
-      console.error('Token não encontrado, fazendo logout...');
       this.authTokenService.removeToken();
       return throwError(() => new Error('Token não encontrado'));
     }

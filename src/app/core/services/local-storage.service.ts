@@ -15,7 +15,7 @@ export class LocalStorageService {
       localStorage.setItem(this.createKey(key), dataAsString);
 
       return data;
-    } catch (error) {
+    } catch {
       console.error('Error while saving item');
       return null;
     }
@@ -28,7 +28,7 @@ export class LocalStorageService {
       if (!localStorageData) return null;
 
       return JSON.parse(localStorageData);
-    } catch (error) {
+    } catch {
       console.error('Error while getting item');
       return null;
     }
@@ -37,7 +37,7 @@ export class LocalStorageService {
   public deleteItem(key: string): void {
     try {
       localStorage.removeItem(this.createKey(key));
-    } catch (error) {
+    } catch {
       console.error('Error while deleting item');
     }
   }
@@ -45,7 +45,7 @@ export class LocalStorageService {
   public clearData(): void {
     try {
       localStorage.clear();
-    } catch (error) {
+    } catch {
       console.error('Error while delete all data');
     }
   }
