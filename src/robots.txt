@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /app/admin/
+Disallow: /auth/
+Allow: /app/profile
+Allow: /app/workouts
+Sitemap: https://unifit.com.br/sitemap.xml
