@@ -1,8 +1,17 @@
 import { inject, Injectable } from '@angular/core';
 import { UserModel } from '@auth/domain/interfaces';
 import { AuthTokenService } from '@auth/services/auth-token.service';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { UserRole } from '@auth/domain/enums';
+
+interface KeycloakJwtPayload extends JwtPayload {
+  preferred_username: string;
+  email: string;
+  sub: string;
+  realm_access?: {
+    roles?: string[];
+  };
+}
 
 @Injectable({
   providedIn: 'root',
@@ -12,21 +21,16 @@ export class JWTService {
 
   jwtDecode(): UserModel | null {
     const token = this.authTokenService.getToken();
-
     if (!token) return null;
 
     try {
-<<<<<<< Updated upstream
-      const decode: any = jwtDecode(token);
-=======
-      const decode = jwtDecode<JWTPayload>(token);
+      const decode = jwtDecode<KeycloakJwtPayload>(token);
 
       const jwtRoles = decode.realm_access?.roles ?? [];
       const roles = jwtRoles.filter((role): role is UserRole =>
         Object.values(UserRole).includes(role as UserRole)
       );
 
->>>>>>> Stashed changes
       return {
         id: 0,
         name: decode.preferred_username,
